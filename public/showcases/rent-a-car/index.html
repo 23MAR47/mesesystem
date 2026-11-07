@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a151d">
+  <meta name="description" content="Rota — Lüks araç kiralama, filo seçkisi ve rezervasyon akışını sergileyen Türkçe demo vitrini.">
+  <title>Rota — Lüks Araç Kiralama & Filo Rezervasyon Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --mist: #091218;
+      --panel: #101e28;
+      --panel-hover: #162936;
+      --panel-border: rgba(56, 189, 248, 0.2);
+      --white: #ffffff;
+      --ink: #f0f6f8;
+      --muted: #8b9ea8;
+      --blue: #0284c7;
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.25);
+      --sky: #172d3c;
+      --coral: #e0603a;
+      --coral-glow: rgba(224, 96, 58, 0.3);
+      --line: rgba(255, 255, 255, 0.09);
+      --serif: Georgia, "Times New Roman", Garamond, serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      margin: 0;
+      background: var(--mist);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--cyan); color: #000; }
+    a { color: inherit; text-decoration: none; text-underline-offset: .2em; }
+    button, input, select { font: inherit; }
+    :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+    .demo {
+      padding: .65rem 1rem;
+      background: #060d12;
+      color: #d1e2e8;
+      text-align: center;
+      font-size: .78rem;
+      letter-spacing: .04em;
+      border-bottom: 1px solid var(--line);
+    }
+    .demo strong { color: var(--cyan); font-weight: 750; }
+
+    .wrap {
+      width: min(1200px, calc(100% - 3rem));
+      margin-inline: auto;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(9, 18, 24, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+    .nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-size: 1.7rem;
+      font-weight: 850;
+      letter-spacing: -.05em;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .brand span { color: var(--coral); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: .84rem;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links .nav-button {
+      padding: .65rem 1.25rem;
+      background: linear-gradient(135deg, var(--coral), #c24b29);
+      color: #fff;
+      border-radius: 6px;
+      font-weight: 750;
+      box-shadow: 0 4px 14px var(--coral-glow);
+      transition: all .2s;
+    }
+    .nav-links .nav-button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* Hero */
+    h1, h2, h3, p { margin-top: 0; }
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3.5rem;
+      padding: 4.5rem 0 3.5rem;
+    }
+    .hero-copy { padding: 1rem 0; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.2rem;
+      color: var(--cyan);
+      font-size: .76rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 750;
+      padding: 4px 12px;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 999px;
+    }
+    h1 {
+      margin-bottom: 1.2rem;
+      font-size: clamp(3.2rem, 6.8vw, 5.8rem);
+      line-height: .95;
+      letter-spacing: -.06em;
+      color: #fff;
+    }
+    h1 em {
+      color: var(--cyan);
+      font-style: normal;
+    }
+    .hero-copy > p:not(.eyebrow) {
+      max-width: 44ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+    .hero-art {
+      position: relative;
+      min-height: 380px;
+      background: #11232e;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .hero-art img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .hero-art:hover img {
+      transform: scale(1.04);
+    }
+    .hero-art:after {
+      content: "";
+      position: absolute;
+      inset: 40% 0 0;
+      background: linear-gradient(transparent, rgba(10, 21, 29, 0.9));
+    }
+    .image-caption {
+      position: absolute;
+      z-index: 2;
+      left: 1.5rem;
+      bottom: 1.5rem;
+      color: white;
+    }
+    .image-caption strong {
+      display: block;
+      font: italic 1.4rem var(--serif);
+    }
+    .image-caption span {
+      display: block;
+      color: var(--cyan);
+      font-size: .78rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* Search Panel */
+    .search-panel {
+      position: relative;
+      z-index: 10;
+      margin-top: -1rem;
+      padding: 1.6rem 2rem;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr .9fr .9fr .9fr auto;
+      gap: 1rem;
+      align-items: end;
+    }
+    .field {
+      display: block;
+      min-width: 0;
+    }
+    .field span {
+      display: block;
+      margin-bottom: .4rem;
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .field input, .field select {
+      width: 100%;
+      min-width: 0;
+      min-height: 46px;
+      padding: .65rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #091218;
+      color: var(--ink);
+      font-size: .88rem;
+      transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus {
+      border-color: var(--cyan);
+      outline: none;
+    }
+    .button {
+      min-height: 46px;
+      padding: .7rem 1.4rem;
+      border: 0;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--coral), #c24b29);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 750;
+      font-size: .88rem;
+      box-shadow: 0 4px 14px var(--coral-glow);
+      transition: all .2s;
+    }
+    .button:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    .search-status {
+      min-height: 1.4rem;
+      margin: .8rem 0 0;
+      color: var(--cyan);
+      font-size: .84rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Fleet Section */
+    .fleet {
+      padding: 4.5rem 0 4rem;
+    }
+    .fleet-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      margin-bottom: .4rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -.05em;
+      color: #fff;
+    }
+    .fleet-head p {
+      max-width: 38ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .car {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      min-width: 0;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      transition: all .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .car:hover {
+      border-color: var(--panel-border);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px var(--cyan-glow);
+    }
+    .car[hidden] { display: none; }
+    .car-image {
+      height: 220px;
+      position: relative;
+      background: var(--sky);
+      overflow: hidden;
+    }
+    .car-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .car:hover .car-image img {
+      transform: scale(1.05);
+    }
+    .type-tag {
+      position: absolute;
+      left: .9rem;
+      top: .9rem;
+      padding: .35rem .7rem;
+      background: rgba(9, 18, 24, 0.85);
+      border: 1px solid var(--panel-border);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      color: var(--cyan);
+      font-size: .7rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+    }
+    .car-body {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .car h3 {
+      margin-bottom: .2rem;
+      font-size: 1.35rem;
+      color: #fff;
+    }
+    .car-type {
+      margin: 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+    .car-details {
+      display: flex;
+      gap: 1rem;
+      margin: 1.1rem 0;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+    .car-details span {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+    }
+    .car-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: .7rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      margin-top: auto;
+    }
+    .rate {
+      font-weight: 850;
+      font-size: 1.25rem;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .rate small {
+      display: block;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 400;
+    }
+    .request-button {
+      padding: .6rem 1.1rem;
+      border: 1px solid var(--cyan);
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--cyan);
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 750;
+      transition: all .2s;
+    }
+    .request-button:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 4px 14px var(--cyan-glow);
+    }
+    .empty {
+      display: none;
+      padding: 3rem 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    .empty.show { display: block; }
+
+    /* How it works */
+    .how {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 2.5rem;
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .how h2 {
+      max-width: 12ch;
+      font-size: 2.2rem;
+    }
+    .how p {
+      max-width: 60ch;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    /* Booking Dialog */
+    dialog {
+      width: min(560px, calc(100% - 2rem));
+      max-height: 90vh;
+      padding: 0;
+      border: 1px solid var(--cyan);
+      border-radius: 12px;
+      background: var(--panel);
+      color: var(--ink);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+    }
+    dialog::backdrop {
+      background: rgba(9, 18, 24, 0.85);
+      backdrop-filter: blur(10px);
+    }
+    .dialog-inner {
+      padding: 2.2rem;
+    }
+    .dialog-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .6rem;
+    }
+    .dialog-head h2 {
+      font-size: 2rem;
+      margin: 0;
+      color: #fff;
+    }
+    .close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all .2s;
+    }
+    .close:hover {
+      border-color: var(--cyan);
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .dialog-car {
+      display: inline-block;
+      padding: 5px 12px;
+      background: rgba(56, 189, 248, 0.12);
+      border-radius: 999px;
+      color: var(--cyan);
+      font-size: .84rem;
+      font-weight: 750;
+      margin-bottom: 1.4rem;
+    }
+    .booking-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+    .booking-form .full { grid-column: 1 / -1; }
+    .booking-form .button { width: 100%; }
+    .booking-status {
+      min-height: 1.6rem;
+      margin: .8rem 0 0;
+      color: var(--cyan);
+      font-size: .86rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .dialog-note {
+      margin-top: 1rem;
+      padding: .8rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--coral);
+      color: var(--muted);
+      font-size: .75rem;
+      border-radius: 4px;
+    }
+
+    /* Toast Container */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(16, 30, 40, 0.95);
+      border: 1px solid var(--cyan);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: #000;
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 0; }
+      .search-grid { grid-template-columns: repeat(2, 1fr); }
+      .search-grid .button { grid-column: 1 / -1; }
+      .fleet-grid { grid-template-columns: 1fr; }
+      .how { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 1.5rem); }
+      .nav { height: 68px; }
+      .search-panel { padding: 1.2rem; }
+      .search-grid { grid-template-columns: 1fr; }
+      .dialog-inner { padding: 1.5rem; }
+      .booking-form { grid-template-columns: 1fr; }
+      .booking-form .full { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <strong>LÜKS ARAÇ KİRALAMA DEMOSU</strong> · Araçlar, ücretler ve lokasyonlar örnektir; gerçek kiralama yapılmaz.
+  </div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#" aria-label="Rota ana sayfa">rota<span>.</span></a>
+      <nav class="nav-links" aria-label="Ana menü">
+        <a href="#araclar">Örnek Araçlar</a>
+        <a href="#akıs">Nasıl İşler?</a>
+        <a class="nav-button" href="#arama">Tarih Seç</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow">✦ Premium Sürüş Deneyimi · Filo Vitrini</span>
+        <h1 id="hero-title">Şehir senin, <em>yol senin.</em></h1>
+        <p>Hafta sonu kaçamağından lüks uzun yol seyahatlerine: seçkin araç keşfi ve kiralama isteği akışını gösteren kurgusal bir otomotiv vitrini.</p>
+      </div>
+      <div class="hero-art">
+        <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Ağaçlar arasından kıvrılarak ilerleyen örnek yol görüntüsü" onerror="this.hidden=true">
+        <div class="image-caption">
+          <strong>Özgür Rotalar</strong>
+          <span>Kurgusal filo seçkisi · Yerel demo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Arama Paneli -->
+    <section class="wrap search-panel" id="arama" aria-label="Örnek kiralama araması">
+      <form class="search-grid" id="search-form">
+        <label class="field">
+          <span>Alış noktası · örnek</span>
+          <select id="pickup">
+            <option>İzmir Adnan Menderes HL</option>
+            <option>İstanbul Havalimanı (IST)</option>
+            <option>Ankara Esenboğa HL</option>
+            <option>Bodrum Milas HL</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Bırakış noktası · örnek</span>
+          <select id="dropoff">
+            <option>İzmir Adnan Menderes HL</option>
+            <option>İstanbul Havalimanı (IST)</option>
+            <option>Ankara Esenboğa HL</option>
+            <option>Bodrum Milas HL</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Alış tarihi</span>
+          <input id="pickup-date" type="date" required>
+        </label>
+        <label class="field">
+          <span>Bırakış tarihi</span>
+          <input id="dropoff-date" type="date" required>
+        </label>
+        <label class="field">
+          <span>Araç sınıfı</span>
+          <select id="car-class">
+            <option value="all">Tüm sınıflar</option>
+            <option value="city">Şehir (Kompakt)</option>
+            <option value="comfort">Konfor (Sedan & SUV)</option>
+            <option value="electric">Elektrikli & Hibrit</option>
+          </select>
+        </label>
+        <button class="button" type="submit">Araçları Göster</button>
+      </form>
+      <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Filo Kartları -->
+    <section class="wrap fleet" id="araclar" aria-labelledby="fleet-title">
+      <div class="fleet-head">
+        <div>
+          <span class="eyebrow" style="margin-bottom:.5rem">Temsili Araç Filosu</span>
+          <h2 id="fleet-title">Yoluna uygun bir araç.</h2>
+        </div>
+        <p>Modeller, fotoğraflar ve günlük örnek ücretler yalnızca bu demo vitrini için hazırlanmıştır.</p>
+      </div>
+
+      <div class="fleet-grid" id="fleet-grid">
+        <article class="car" data-class="city">
+          <div class="car-image">
+            <span class="type-tag">ŞEHİR · KOMPAKT</span>
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&amp;fit=crop&amp;w=950&amp;q=85" alt="Örnek şehir otomobili görseli" onerror="this.hidden=true">
+          </div>
+          <div class="car-body">
+            <h3>Rota Mini</h3>
+            <p class="car-type">Kompakt şehir aracı · Temsili model</p>
+            <div class="car-details">
+              <span>✦ Otomatik</span>
+              <span>✦ 4 Koltuk</span>
+              <span>✦ Bagaj: 2 Valiz</span>
+            </div>
+            <div class="car-foot">
+              <span class="rate">₺1.450 <small>günlük örnek tutar</small></span>
+              <button class="request-button" type="button" data-car="Rota Mini">İstek Oluştur</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="car" data-class="comfort">
+          <div class="car-image">
+            <span class="type-tag">KONFOR · SEDAN</span>
+            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&amp;fit=crop&amp;w=950&amp;q=85" alt="Örnek konfor sınıfı otomobil görseli" onerror="this.hidden=true">
+          </div>
+          <div class="car-body">
+            <h3>Rota Uzun Yol</h3>
+            <p class="car-type">Geniş executive sedan · Temsili model</p>
+            <div class="car-details">
+              <span>✦ Otomatik</span>
+              <span>✦ 5 Koltuk</span>
+              <span>✦ Bagaj: 3 Valiz</span>
+            </div>
+            <div class="car-foot">
+              <span class="rate">₺2.250 <small>günlük örnek tutar</small></span>
+              <button class="request-button" type="button" data-car="Rota Uzun Yol">İstek Oluştur</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="car" data-class="electric">
+          <div class="car-image">
+            <span class="type-tag">ELEKTRİKLİ · SIFIR EMİSYON</span>
+            <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&amp;fit=crop&amp;w=950&amp;q=85" alt="Örnek elektrikli otomobil görseli" onerror="this.hidden=true">
+          </div>
+          <div class="car-body">
+            <h3>Rota Sessiz</h3>
+            <p class="car-type">Elektrikli lüks kompakt · Temsili model</p>
+            <div class="car-details">
+              <span>✦ Elektrik</span>
+              <span>✦ 500 km Menzil</span>
+              <span>✦ Bagaj: 2 Valiz</span>
+            </div>
+            <div class="car-foot">
+              <span class="rate">₺2.050 <small>günlük örnek tutar</small></span>
+              <button class="request-button" type="button" data-car="Rota Sessiz">İstek Oluştur</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="empty" id="empty-state" role="status">Bu araç sınıfında örnek bulunamadı.</p>
+    </section>
+
+    <section class="wrap how" id="akıs">
+      <h2>Aramadan isteğe,<br>tek ekranda.</h2>
+      <p>Tarih ve konum seçimi arayüz deneyimini ve kullanıcı etkileşimini göstermek içindir. Bu sitede gerçek araç müsaitliği sorgulanmaz, resmi kiralama sözleşmesi veya ödeme işlemi yapılmaz; girilen bilgiler hiçbir sunucuya iletilmez.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Rota · Kurgusal araç kiralama sitesi demosu. Araç, nokta, görsel ve fiyatlar temsili içeriktir.</div>
+  </footer>
+
+  <!-- Booking Dialog -->
+  <dialog id="booking-dialog" aria-labelledby="booking-title">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <span class="eyebrow" style="margin-bottom:.4rem">Tarayıcı İçi Simülasyon</span>
+          <h2 id="booking-title">Kiralama İsteği</h2>
+        </div>
+        <button class="close" type="button" aria-label="Pencereyi kapat">×</button>
+      </div>
+
+      <div class="dialog-car" id="selected-car">Seçilen araç</div>
+
+      <form class="booking-form" id="booking-form">
+        <label class="field">
+          <span>Alış noktası · örnek</span>
+          <select id="request-pickup">
+            <option>İzmir Adnan Menderes HL</option>
+            <option>İstanbul Havalimanı (IST)</option>
+            <option>Ankara Esenboğa HL</option>
+            <option>Bodrum Milas HL</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Bırakış noktası · örnek</span>
+          <select id="request-dropoff">
+            <option>İzmir Adnan Menderes HL</option>
+            <option>İstanbul Havalimanı (IST)</option>
+            <option>Ankara Esenboğa HL</option>
+            <option>Bodrum Milas HL</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Alış tarihi</span>
+          <input id="request-pickup-date" type="date" required>
+        </label>
+        <label class="field">
+          <span>Bırakış tarihi</span>
+          <input id="request-dropoff-date" type="date" required>
+        </label>
+        <div class="full">
+          <button class="button" type="submit">Demo Talebini Tamamla</button>
+        </div>
+      </form>
+
+      <p class="booking-status" id="booking-status" role="status" aria-live="polite"></p>
+      <p class="dialog-note">Bu işlem yalnızca portfolyo örneğidir. Araç rezerve edilmez, ücret tahsil edilmez ve kişisel veri saklanmaz.</p>
+    </div>
+  </dialog>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    const searchForm = document.querySelector("#search-form");
+    const pickupDate = document.querySelector("#pickup-date");
+    const dropoffDate = document.querySelector("#dropoff-date");
+    const requestPickupDate = document.querySelector("#request-pickup-date");
+    const requestDropoffDate = document.querySelector("#request-dropoff-date");
+    const toastContainer = document.querySelector("#toast-container");
+
+    function showToast(message) {
+      if (!toastContainer) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    const today = new Date();
+    const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    const nextWeek = new Date(today.getTime() + 3 * 86400000 - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    
+    [pickupDate, dropoffDate, requestPickupDate, requestDropoffDate].forEach(input => {
+      if (input) input.min = localDate;
+    });
+
+    if (pickupDate && !pickupDate.value) pickupDate.value = localDate;
+    if (dropoffDate && !dropoffDate.value) dropoffDate.value = nextWeek;
+
+    const cars = [...document.querySelectorAll(".car")];
+    function showCars(value) {
+      let count = 0;
+      cars.forEach(car => {
+        const visible = value === "all" || car.dataset.class === value;
+        car.hidden = !visible;
+        if (visible) count++;
+      });
+      document.querySelector("#empty-state").classList.toggle("show", count === 0);
+    }
+
+    searchForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const status = document.querySelector("#search-status");
+      if (dropoffDate.value <= pickupDate.value) {
+        dropoffDate.setCustomValidity("Bırakış tarihi alış tarihinden sonra olmalı.");
+        dropoffDate.reportValidity();
+        dropoffDate.addEventListener("input", () => dropoffDate.setCustomValidity(""), { once: true });
+        return;
+      }
+      showCars(document.querySelector("#car-class").value);
+      status.textContent = "✦ Arama ölçütleri güncellendi. Bu demoda gerçek araç müsaitliği sorgulanmaz.";
+      showToast("Araç filtresi uygulandı.");
+    });
+
+    const dialog = document.querySelector("#booking-dialog");
+    document.querySelectorAll(".request-button").forEach(button => button.addEventListener("click", () => {
+      const carName = button.dataset.car;
+      document.querySelector("#selected-car").textContent = carName + " · Temsili Lüks Model";
+      document.querySelector("#request-pickup").value = document.querySelector("#pickup").value;
+      document.querySelector("#request-dropoff").value = document.querySelector("#dropoff").value;
+      requestPickupDate.value = pickupDate.value;
+      requestDropoffDate.value = dropoffDate.value;
+      document.querySelector("#booking-status").textContent = "";
+      dialog.showModal();
+      showToast(carName + " kiralama penceresi açıldı.");
+    }));
+
+    document.querySelector(".close").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
+
+    document.querySelector("#booking-form").addEventListener("submit", event => {
+      event.preventDefault();
+      if (requestDropoffDate.value <= requestPickupDate.value) {
+        requestDropoffDate.setCustomValidity("Bırakış tarihi alış tarihinden sonra olmalı.");
+        requestDropoffDate.reportValidity();
+        requestDropoffDate.addEventListener("input", () => requestDropoffDate.setCustomValidity(""), { once: true });
+        return;
+      }
+      const refNo = "ROTA-" + Math.floor(1000 + Math.random() * 9000);
+      document.querySelector("#booking-status").textContent = `✦ Kiralama talebi (#${refNo}) oluşturuldu. Bilgi gönderilmedi; demo tamamlandı.`;
+      showToast(`Rezervasyon #${refNo} hazırlandı (Demo).`);
+    });
+  </script>
+</body>
+</html>

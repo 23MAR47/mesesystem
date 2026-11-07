@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2b1d28">
+  <meta name="description" content="Nilüfer Oda — Cilt bakımı, aromaterapi ve güzellik ritüelleri için lüks Türkçe konsept demo vitrini.">
+  <title>Nilüfer Oda — Güzellik &amp; Spa Ritüelleri Demosu</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f8f3f6;
+      --paper-elevated: #ffffff;
+      --ink: #2b1d28;
+      --muted: #6f5e6b;
+      --plum: #5c3558;
+      --plum-dark: #43223f;
+      --pink: #d8a8c0;
+      --pink-glow: rgba(216, 168, 192, 0.35);
+      --line: #ded0db;
+      --serif: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    ::selection { background: var(--plum); color: white; }
+    :focus-visible { outline: 2px solid var(--plum); outline-offset: 3px; }
+
+    .skip {
+      position: absolute;
+      left: 14px;
+      top: -60px;
+      z-index: 100;
+      background: var(--plum);
+      color: white;
+      padding: 10px 16px;
+      font-weight: 700;
+      border-radius: 4px;
+      transition: top .2s ease;
+    }
+    .skip:focus { top: 14px; }
+
+    .shell {
+      width: min(1220px, calc(100% - 56px));
+      margin: auto;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(248, 243, 246, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(43, 29, 40, 0.04);
+    }
+    .logo {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font: 400 24px var(--serif);
+      color: var(--ink);
+    }
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--plum);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--plum);
+      font: italic 17px var(--serif);
+      background: rgba(92, 53, 88, 0.08);
+      box-shadow: 0 0 12px var(--pink-glow);
+    }
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+    .nav a {
+      font-size: .86rem;
+      color: var(--muted);
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav a:hover { color: var(--plum); }
+    .demo {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--plum);
+      border: 1px solid var(--pink);
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(216, 168, 192, 0.15);
+      font-weight: 700;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 8%;
+      align-items: center;
+      padding: 44px 0 76px;
+    }
+    .hero h1 {
+      margin: 0;
+      font: 400 clamp(52px, 6.8vw, 88px)/.96 var(--serif);
+      letter-spacing: -.05em;
+    }
+    .hero h1 em {
+      font-weight: 400;
+      color: var(--plum);
+      font-style: italic;
+    }
+    .hero p {
+      max-width: 460px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin: 24px 0 32px;
+    }
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      padding: 0 24px;
+      align-items: center;
+      background: var(--plum);
+      color: white;
+      text-decoration: none;
+      font-size: .86rem;
+      font-weight: 700;
+      border-radius: 999px;
+      box-shadow: 0 4px 18px var(--pink-glow);
+      transition: all .2s;
+    }
+    .button:hover {
+      background: var(--plum-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(92, 53, 88, 0.35);
+    }
+    .hero-art {
+      position: relative;
+      min-height: 460px;
+      background: #e2d2db;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(43, 29, 40, 0.12);
+    }
+    .hero-art img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .hero-art:hover img { transform: scale(1.04); }
+    .fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(140deg, #654d69, #43334a);
+      color: #fff;
+      font: italic 34px var(--serif);
+    }
+
+    /* Strip */
+    .intro-strip {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 22px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 22px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .intro-strip strong { color: var(--plum); font-weight: 700; }
+
+    /* Services Section */
+    .section {
+      padding: 72px 0;
+    }
+    .title {
+      max-width: 650px;
+      margin: 0;
+      font: 400 clamp(38px, 5.5vw, 64px)/.98 var(--serif);
+      letter-spacing: -.04em;
+    }
+    .section-lead {
+      max-width: 540px;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.75;
+      margin: 14px 0 32px;
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .service {
+      position: relative;
+      min-height: 180px;
+      padding: 24px 20px;
+      background: var(--paper-elevated);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      transition: all .2s ease;
+    }
+    .service:hover {
+      border-color: var(--plum);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(92, 53, 88, 0.1);
+    }
+    .service input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--plum);
+    }
+    .service strong {
+      font: 400 22px var(--serif);
+      display: block;
+      color: var(--ink);
+    }
+    .service small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+    .service:has(input:checked) {
+      background: #f3e6ee;
+      border-color: var(--plum);
+    }
+
+    /* Appointment */
+    .appointment {
+      background: #eee0e8;
+      border-radius: 14px;
+      padding: 56px 6%;
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 8%;
+      border: 1px solid var(--line);
+    }
+    .appointment h2 {
+      margin: 0;
+      font: 400 clamp(36px, 5vw, 56px)/1.02 var(--serif);
+    }
+    .appointment p {
+      max-width: 340px;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.75;
+      margin-top: 14px;
+    }
+    .selection-box {
+      margin-top: 24px;
+      padding: 18px 20px;
+      background: var(--paper-elevated);
+      border-radius: 8px;
+      border-left: 4px solid var(--plum);
+      border: 1px solid var(--line);
+    }
+    .selection {
+      margin: 0 !important;
+      font-size: .86rem !important;
+      color: var(--muted) !important;
+    }
+    .selection strong {
+      color: var(--plum);
+      display: block;
+      margin-top: 4px;
+      font-size: .95rem;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .field { display: grid; gap: 6px; }
+    .field.wide { grid-column: 1 / -1; }
+    .field label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #c4b5c1;
+      border-radius: 6px;
+      background: var(--paper-elevated);
+      padding: 10px 14px;
+      color: var(--ink);
+      font-size: .88rem;
+      transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--plum);
+      outline: none;
+    }
+    .field textarea { min-height: 74px; resize: vertical; }
+    .send {
+      min-height: 48px;
+      padding: 0 24px;
+      background: var(--plum);
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 750;
+      font-size: .88rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px var(--pink-glow);
+      transition: all .2s;
+    }
+    .send:hover {
+      background: var(--plum-dark);
+      transform: translateY(-1px);
+    }
+    .privacy {
+      margin: 12px 0 0 !important;
+      font-size: .74rem !important;
+      color: var(--muted) !important;
+    }
+    .status {
+      min-height: 24px;
+      color: var(--plum);
+      font-size: .84rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(43, 29, 40, 0.95);
+      border: 1px solid var(--pink);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--pink);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 26px 0 36px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 36px; padding: 36px 0; }
+      .services { grid-template-columns: repeat(2, 1fr); }
+      .appointment { grid-template-columns: 1fr; gap: 24px; padding: 36px 24px; }
+    }
+    @media (max-width: 540px) {
+      .shell { width: calc(100% - 32px); }
+      .header { height: auto; min-height: 70px; flex-wrap: wrap; padding: 12px 0; gap: 10px; }
+      .services { grid-template-columns: 1fr; }
+      .fields { grid-template-columns: 1fr; }
+      .field.wide { grid-column: auto; }
+      .footer { flex-direction: column; gap: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">İçeriğe geç</a>
+
+  <header class="shell header">
+    <a class="logo" href="#top">
+      <span class="logo-mark" aria-hidden="true">N</span>
+      <span>Nilüfer Oda</span>
+    </a>
+    <nav class="nav" aria-label="Ana gezinme">
+      <a href="#hizmetler">Bakım Ritüelleri</a>
+      <a href="#randevu">Randevu Talebi</a>
+    </nav>
+    <span class="demo">✦ Güzellik Salonu Demosu</span>
+  </header>
+
+  <main id="main" class="shell">
+    <section class="hero" id="top">
+      <div>
+        <div style="color:var(--plum);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:16px">✦ Bütünsel Cilt Bakımı & Spa</div>
+        <h1>Kendine dön.<br><em>Biraz yavaşla.</em></h1>
+        <p>Doğal arındırıcı cilt bakımı ve küçük güzellik ritüelleri için hazırlanan bu kurgusal salon arayüzünde, sana uygun hizmeti seçip örnek bir randevu talebi oluşturabilirsin.</p>
+        <a class="button" href="#hizmetler">Ritüelleri Keşfet ↓</a>
+      </div>
+      <div class="hero-art">
+        <span class="fallback" aria-hidden="true">Yumuşak bir mola</span>
+        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Cilt bakımı uygulamasından detay" fetchpriority="high" onerror="this.dataset.failed='true'">
+      </div>
+    </section>
+
+    <div class="intro-strip">
+      <span><strong>Ritüeller</strong> · Örnek servis menüsü</span>
+      <span>Bu taslakta işletme, hizmet ve iletişim bilgileri kurgusal bir portfolyo örneğidir.</span>
+    </div>
+
+    <!-- Hizmetler -->
+    <section class="section" id="hizmetler">
+      <h2 class="title">İhtiyacın olanı seç.</h2>
+      <p class="section-lead">Servis kartlarını işaretleyerek seçimlerini randevu formuna anında ekle. Süreler ve tutarlar temsilidir.</p>
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="privacy" style="margin-bottom:14px">Birden fazla hizmet seçebilirsiniz:</legend>
+        <div class="services">
+          <label class="service">
+            <input type="checkbox" name="service" value="Arındırıcı cilt bakımı" data-price="750">
+            <span>
+              <strong>Arındırıcı bakım</strong>
+              <small>Derin gözenek temizliği · yaklaşık 50 dk</small>
+            </span>
+            <span style="color:var(--plum);font-weight:750;font-size:.9rem">₺750</span>
+          </label>
+
+          <label class="service">
+            <input type="checkbox" name="service" value="Nem terapisi" data-price="600">
+            <span>
+              <strong>Nem terapisi</strong>
+              <small>Hyaluronik asit takviyesi · yaklaşık 40 dk</small>
+            </span>
+            <span style="color:var(--plum);font-weight:750;font-size:.9rem">₺600</span>
+          </label>
+
+          <label class="service">
+            <input type="checkbox" name="service" value="Kaş tasarımı" data-price="350">
+            <span>
+              <strong>Kaş tasarımı</strong>
+              <small>Altın oran şekillendirme · yaklaşık 25 dk</small>
+            </span>
+            <span style="color:var(--plum);font-weight:750;font-size:.9rem">₺350</span>
+          </label>
+
+          <label class="service">
+            <input type="checkbox" name="service" value="El bakımı" data-price="450">
+            <span>
+              <strong>El bakımı</strong>
+              <small>Sıcak parafin banyosu · yaklaşık 45 dk</small>
+            </span>
+            <span style="color:var(--plum);font-weight:750;font-size:.9rem">₺450</span>
+          </label>
+        </div>
+      </fieldset>
+    </section>
+
+    <!-- Randevu Formu -->
+    <section class="section" id="randevu">
+      <div class="appointment">
+        <div>
+          <h2>Senin için<br>bir saat ayıralım.</h2>
+          <p>Talep örneği ekranda simüle edilir; gerçek randevu veya finansal işlem oluşturulmaz.</p>
+          <div class="selection-box">
+            <p class="selection">Seçilen Hizmetler: <strong id="selection" aria-live="polite">Henüz seçim yok</strong></p>
+          </div>
+        </div>
+
+        <form id="form" novalidate>
+          <div class="fields">
+            <div class="field">
+              <label for="name">Adın Soyadın</label>
+              <input id="name" name="name" autocomplete="name" placeholder="Örn: Elif Kaya" required>
+            </div>
+            <div class="field">
+              <label for="phone">Telefon numaran</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="05XX XXX XX XX" required>
+            </div>
+            <div class="field">
+              <label for="date">Gün tercihin</label>
+              <input id="date" name="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="time">Saat aralığı</label>
+              <select id="time" name="time" required>
+                <option value="">Saat seçiniz</option>
+                <option>Sabah · 10.00 – 12.30</option>
+                <option>Öğle · 13.00 – 15.30</option>
+                <option>İkindi · 16.00 – 18.30</option>
+              </select>
+            </div>
+            <div class="field wide">
+              <label for="note">Cildinle ilgili bir not veya hassasiyet <span>(isteğe bağlı)</span></label>
+              <textarea id="note" name="note" placeholder="Hassasiyetler, alerjiler veya özel beklentiniz..."></textarea>
+            </div>
+            <div class="field wide">
+              <button type="button" class="send" id="send">Talep Simülasyonunu Tamamla</button>
+              <p class="privacy">Demo güvenliği: Form verileri tarayıcından çıkmaz, saklanmaz ve kurgusal amaçlıdır.</p>
+              <div class="status" id="status" role="status" aria-live="polite"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Nilüfer Oda · Kurgusal güzellik ve spa salonu konsepti</span>
+    <span>Gerçek işletme veya ticari hizmet değildir; temsilidir.</span>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    const form = document.querySelector('#form');
+    const boxes = [...document.querySelectorAll('input[name="service"]')];
+    const selection = document.querySelector('#selection');
+    const status = document.querySelector('#status');
+    const toastContainer = document.querySelector('#toast-container');
+
+    function showToast(message) {
+      if (!toastContainer) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    function update() {
+      const selected = boxes.filter(b => b.checked);
+      if (!selected.length) {
+        selection.textContent = 'Henüz seçim yok';
+        return;
+      }
+      const list = selected.map(b => b.value).join(' · ');
+      const total = selected.reduce((sum, el) => sum + Number(el.dataset.price || 0), 0);
+      selection.textContent = `${list} (Örnek Tutar: ₺${total})`;
+    }
+
+    boxes.forEach(b => b.addEventListener('change', () => {
+      update();
+      if (b.checked) {
+        showToast(b.value + " seçildi.");
+      } else {
+        showToast(b.value + " kaldırıldı.");
+      }
+    }));
+
+    const date = document.querySelector('#date');
+    date.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+    document.querySelector('#send').addEventListener('click', () => {
+      status.textContent = '';
+      if (!boxes.some(b => b.checked)) {
+        status.textContent = 'Önce bir hizmet seçerek devam edebilirsin.';
+        boxes[0].focus();
+        return;
+      }
+      if (!form.reportValidity()) return;
+      const ref = "NLF-" + Math.floor(1000 + Math.random() * 9000);
+      status.textContent = `✦ Talep simülasyonu (#${ref}) tamamlandı. Bilgilerin gönderilmedi; gerçek randevu oluşturulmadı.`;
+      showToast(`Randevu Talebi #${ref} oluşturuldu (Demo).`);
+      form.reset();
+      update();
+    });
+
+    form.addEventListener('submit', e => e.preventDefault());
+  </script>
+</body>
+</html>

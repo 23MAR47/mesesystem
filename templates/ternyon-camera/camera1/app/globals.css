@@ -1,0 +1,1248 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ground: #04050a;
+  --color-bone: #eef4ff;
+  --color-accent: #7fd4ff;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --bg: #04050a;
+  --fg: #eef4ff;
+  --muted: rgba(238, 244, 255, 0.62);
+  --faint: rgba(238, 244, 255, 0.38);
+  --line: rgba(150, 200, 255, 0.15);
+  /* Cold, slightly desaturated — the glass carries the chroma, so the
+     interface stays close to neutral or the two start competing. */
+  --accent: #7fd4ff;
+  --accent-deep: #3aa8e0;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --section-h: 200vh;
+  /* Width of the empty column the object occupies in a flank layout. */
+  --gutter: 44%;
+}
+
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+html {
+  background: var(--bg);
+  /* Lenis drives scrolling; native smooth would fight it. */
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Hide the native cursor only where the custom one is active. */
+body[data-cursor="on"],
+body[data-cursor="on"] * {
+  cursor: none;
+}
+
+::selection {
+  background: rgba(127, 212, 255, 0.32);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- *
+ * Cursor — a focus reticle rather than a bubble
+ * ---------------------------------------------------------------- */
+
+.cursor-reticle {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 119;
+  width: 34px;
+  height: 34px;
+  margin-left: -17px;
+  margin-top: -17px;
+  border: 1px solid rgba(180, 214, 255, 0.3);
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-reticle i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--accent);
+}
+
+.cursor-reticle i:nth-child(1) {
+  left: -2px;
+  top: -2px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.cursor-reticle i:nth-child(2) {
+  right: -2px;
+  top: -2px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.cursor-reticle i:nth-child(3) {
+  right: -2px;
+  bottom: -2px;
+  border-left: 0;
+  border-top: 0;
+}
+.cursor-reticle i:nth-child(4) {
+  left: -2px;
+  bottom: -2px;
+  border-right: 0;
+  border-top: 0;
+}
+
+/* ---------------------------------------------------------------- *
+ * Reticle — the viewfinder overlay, above the canvas, below the copy
+ * ---------------------------------------------------------------- */
+
+.reticle {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.reticle-v,
+.reticle-h {
+  position: absolute;
+  background: rgba(160, 205, 255, 0.05);
+}
+
+.reticle-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.reticle-h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.reticle-cross {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  margin: -7px 0 0 -7px;
+}
+
+.reticle-cross::before,
+.reticle-cross::after {
+  content: "";
+  position: absolute;
+  background: rgba(160, 205, 255, 0.22);
+}
+
+.reticle-cross::before {
+  left: 0;
+  right: 0;
+  top: 7px;
+  height: 1px;
+}
+
+.reticle-cross::after {
+  top: 0;
+  bottom: 0;
+  left: 7px;
+  width: 1px;
+}
+
+.reticle-bracket {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-left: 1px solid rgba(160, 205, 255, 0.2);
+  border-top: 1px solid rgba(160, 205, 255, 0.2);
+  transform-origin: top left;
+}
+
+@media (max-width: 900px) {
+  /* Too busy behind stacked copy on a narrow frame. */
+  .reticle {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- *
+ * Feature callouts
+ *
+ * Each `.anno` is a zero-size origin parked at the projected position
+ * of its part; everything visible hangs off that point. Keeping the box
+ * itself dimensionless is what lets the rig write nothing but a
+ * transform each frame.
+ * ---------------------------------------------------------------- */
+
+.anno-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.anno {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  will-change: transform, opacity;
+}
+
+.anno__dot {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 0 4px rgba(127, 212, 255, 0.12),
+    0 0 16px rgba(127, 212, 255, 0.7);
+}
+
+.anno__leader {
+  position: absolute;
+  top: 0;
+  height: 1px;
+  width: 68px;
+}
+
+.anno--right .anno__leader {
+  left: 7px;
+  background: linear-gradient(
+    90deg,
+    rgba(127, 212, 255, 0.75),
+    rgba(127, 212, 255, 0.14)
+  );
+}
+
+.anno--left .anno__leader {
+  right: 7px;
+  background: linear-gradient(
+    270deg,
+    rgba(127, 212, 255, 0.75),
+    rgba(127, 212, 255, 0.14)
+  );
+}
+
+.anno__text {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+.anno--right .anno__text {
+  left: 82px;
+  align-items: flex-start;
+}
+
+.anno--left .anno__text {
+  right: 82px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.anno__text b {
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: -0.008em;
+  color: rgba(238, 244, 255, 0.94);
+  text-shadow: 0 2px 14px rgba(4, 5, 10, 0.9);
+}
+
+.anno__text i {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(127, 212, 255, 0.72);
+}
+
+/* ---------------------------------------------------------------- *
+ * WebGL layer
+ * ---------------------------------------------------------------- */
+
+.webgl {
+  position: fixed;
+  inset: 0;
+  width: 100vw !important;
+  height: 100svh !important;
+  z-index: 0;
+  display: block;
+}
+
+/* ---------------------------------------------------------------- *
+ * Typography
+ * ---------------------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--faint);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85em;
+}
+
+.eyebrow b {
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.eyebrow i {
+  display: block;
+  width: 26px;
+  height: 1px;
+  flex: none;
+  background: rgba(170, 214, 255, 0.28);
+}
+
+.display {
+  font-weight: 300;
+  font-size: clamp(2rem, 3.3vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.038em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.display-sm {
+  font-size: clamp(1.7rem, 2.55vw, 2.95rem);
+}
+
+/* The offset layouts own half the frame, so they can carry more weight. */
+.panel--left .display,
+.panel--left .display-sm,
+.panel--right .display,
+.panel--right .display-sm {
+  font-size: clamp(1.9rem, 3.6vw, 3.65rem);
+}
+
+.lede {
+  font-size: clamp(0.92rem, 1vw, 1.03rem);
+  line-height: 1.66;
+  font-weight: 300;
+  color: var(--muted);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.note {
+  color: rgba(127, 212, 255, 0.7);
+}
+
+.rule {
+  display: block;
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), rgba(127, 212, 255, 0));
+}
+
+/* Word reveal: each word resolves out of a blur, left to right. */
+.title-line {
+  display: block;
+}
+
+.word {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  filter: blur(13px);
+  will-change: filter, opacity, transform;
+}
+
+/* ---------------------------------------------------------------- *
+ * Buttons
+ * ---------------------------------------------------------------- */
+
+.btn {
+  --btn-bg: transparent;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.72rem 0.8rem 0.72rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--btn-bg);
+  color: var(--fg);
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color 0.5s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 160% at var(--mx, 50%) var(--my, 50%),
+    rgba(127, 212, 255, 0.28),
+    rgba(127, 212, 255, 0) 62%
+  );
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn:hover {
+  border-color: rgba(150, 216, 255, 0.45);
+}
+
+.btn--primary {
+  --btn-bg: rgba(127, 212, 255, 0.12);
+  border-color: rgba(127, 212, 255, 0.32);
+}
+
+/* Arrow swaps diagonally on hover: one leaves top-right, one arrives
+   from bottom-left. Both glyphs live in the markup. */
+.btn__arrow {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(160, 216, 255, 0.28);
+  flex: none;
+  overflow: hidden;
+}
+
+.btn__arrow svg {
+  grid-area: 1 / 1;
+  width: 9px;
+  height: 9px;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.btn__arrow svg:nth-child(2) {
+  transform: translate3d(-160%, 160%, 0);
+}
+
+.btn:hover .btn__arrow svg:nth-child(1) {
+  transform: translate3d(160%, -160%, 0);
+}
+
+.btn:hover .btn__arrow svg:nth-child(2) {
+  transform: translate3d(0, 0, 0);
+}
+
+/* ---------------------------------------------------------------- *
+ * Nav — a wide rectangular bar on the panel measure
+ * ---------------------------------------------------------------- */
+
+.nav-shell {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  padding: 0.9rem 1.25rem 0;
+  pointer-events: none;
+}
+
+.nav-bar {
+  position: relative;
+  pointer-events: auto;
+  /* Same measure as .panel, so the nav's left edge and every headline's
+     left edge are the same line. */
+  width: min(100%, 1680px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 56px;
+  padding-inline: 1rem 0.5rem;
+  border: 1px solid rgba(150, 200, 255, 0.14);
+  border-radius: 3px;
+  background: linear-gradient(
+    180deg,
+    rgba(210, 232, 255, 0.06),
+    rgba(210, 232, 255, 0.018)
+  );
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 22px 60px -28px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+}
+
+/* --- brand -------------------------------------------------------- */
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  height: 100%;
+}
+
+.nav-brand__mark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border-radius: 2px;
+  background: rgba(210, 232, 255, 0.09);
+  color: var(--accent);
+  transition: background-color 0.5s var(--ease-out);
+}
+
+.nav-brand:hover .nav-brand__mark {
+  background: rgba(127, 212, 255, 0.2);
+}
+
+.nav-brand__name {
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+}
+
+.nav-brand__rule {
+  width: 1px;
+  height: 14px;
+  background: rgba(150, 200, 255, 0.2);
+}
+
+.nav-brand__model {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+@media (max-width: 560px) {
+  .nav-brand__rule,
+  .nav-brand__model {
+    display: none;
+  }
+}
+
+/* --- links -------------------------------------------------------- */
+
+.nav-links {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.95rem;
+  font-size: 12.5px;
+  color: rgba(238, 244, 255, 0.6);
+  transition: color 0.4s var(--ease-out);
+}
+
+.nav-link:hover {
+  color: var(--fg);
+}
+
+/* Underline grows from the left, matching the reveal direction of the
+   section headings. */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0.95rem;
+  right: 0.95rem;
+  bottom: 0.32rem;
+  height: 1px;
+  background: rgba(127, 212, 255, 0.65);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* --- actions ------------------------------------------------------ */
+
+.nav-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-ghost {
+  display: none;
+  font-size: 12.5px;
+  color: rgba(238, 244, 255, 0.6);
+  transition: color 0.4s var(--ease-out);
+}
+
+.nav-ghost:hover {
+  color: var(--fg);
+}
+
+.nav-div {
+  display: none;
+  width: 1px;
+  height: 16px;
+  background: rgba(150, 200, 255, 0.16);
+}
+
+@media (min-width: 640px) {
+  .nav-ghost,
+  .nav-div {
+    display: block;
+  }
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 36px;
+  padding-inline: 0.85rem 0.32rem;
+  border: 1px solid rgba(127, 212, 255, 0.34);
+  border-radius: 2px;
+  background: rgba(127, 212, 255, 0.11);
+  font-size: 12.5px;
+  white-space: nowrap;
+  transition: background-color 0.45s var(--ease-out),
+    border-color 0.45s var(--ease-out);
+}
+
+.nav-cta:hover {
+  background: rgba(127, 212, 255, 0.2);
+  border-color: rgba(150, 216, 255, 0.55);
+}
+
+.nav-cta__arrow {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border: 1px solid rgba(160, 216, 255, 0.28);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.nav-cta__arrow svg {
+  grid-area: 1 / 1;
+  width: 9px;
+  height: 9px;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.nav-cta__arrow svg:nth-child(2) {
+  transform: translate3d(-160%, 160%, 0);
+}
+
+.nav-cta:hover .nav-cta__arrow svg:nth-child(1) {
+  transform: translate3d(160%, -160%, 0);
+}
+
+.nav-cta:hover .nav-cta__arrow svg:nth-child(2) {
+  transform: translate3d(0, 0, 0);
+}
+
+/* --- progress hairline -------------------------------------------- */
+
+.nav-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(150, 200, 255, 0.1);
+}
+
+.nav-progress i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(
+    90deg,
+    rgba(127, 212, 255, 0.35),
+    var(--accent)
+  );
+}
+
+/* ---------------------------------------------------------------- *
+ * Stage
+ * ---------------------------------------------------------------- */
+
+.shell {
+  width: min(100% - 3rem, 1240px);
+  margin-inline: auto;
+}
+
+.stage-section {
+  height: var(--section-h);
+  position: relative;
+}
+
+.stage-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Only the interactive bits inside a pinned panel take pointer events. */
+.stage-pin a,
+.stage-pin button {
+  pointer-events: auto;
+}
+
+.panel {
+  width: min(100% - 2.5rem, 1680px);
+  margin-inline: auto;
+}
+
+/* Darkens the plate behind copy so text stays legible over the glass
+   without flattening the scene into a solid panel. Collapsed layouts
+   get one central pool; wide ones get a pool per column. */
+.scrim {
+  position: absolute;
+  inset: -14vh -12vw;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    54% 42% at 50% 50%,
+    rgba(4, 5, 10, 0.84),
+    rgba(4, 5, 10, 0) 74%
+  );
+}
+
+/* ---------------------------------------------------------------- *
+ * Section layouts
+ *
+ * Below the breakpoints everything collapses to one centred column and
+ * simply sits over the object, which is what the scrim is for.
+ * ---------------------------------------------------------------- */
+
+.flank,
+.offset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.6rem;
+}
+
+.flank__side,
+.offset__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 34rem;
+}
+
+.flank__gutter {
+  display: none;
+}
+
+.stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 2.25rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.metric {
+  display: block;
+  font-size: clamp(1.7rem, 2.3vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.048em;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* --- the object has moved right: copy claims the left half --------- */
+@media (min-width: 900px) {
+  .offset {
+    display: block;
+    text-align: left;
+  }
+
+  .offset__body {
+    align-items: flex-start;
+    width: min(47%, 34rem);
+    max-width: none;
+  }
+
+  .panel--left .scrim {
+    background: radial-gradient(
+      46% 46% at 25% 50%,
+      rgba(4, 5, 10, 0.86),
+      rgba(4, 5, 10, 0) 74%
+    );
+  }
+
+  /* Mirror of the above: the object has gone left, so the column and
+     its pool of shade both cross to the other side. */
+  .panel--right .offset__body {
+    margin-left: auto;
+  }
+
+  .panel--right .scrim {
+    background: radial-gradient(
+      46% 46% at 75% 50%,
+      rgba(4, 5, 10, 0.86),
+      rgba(4, 5, 10, 0) 74%
+    );
+  }
+
+  .offset .stat-row,
+  .offset .cta-row {
+    justify-content: flex-start;
+  }
+
+  .offset .stat {
+    align-items: flex-start;
+  }
+}
+
+/* --- the object is centre frame: copy splits either side of it ----- */
+@media (min-width: 1180px) {
+  .flank {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, var(--gutter))
+      minmax(0, 1fr);
+    align-items: center;
+    text-align: left;
+    gap: 0;
+  }
+
+  .flank__side {
+    align-items: flex-start;
+    max-width: 29rem;
+    gap: 1.75rem;
+  }
+
+  /* A slight vertical offset between the columns keeps the pair from
+     reading as a table. */
+  .flank__left {
+    justify-self: start;
+    margin-bottom: 2.5rem;
+  }
+
+  .flank__right {
+    justify-self: end;
+    max-width: 24rem;
+    margin-top: 3rem;
+  }
+
+  .flank__gutter {
+    display: block;
+  }
+
+  .panel--flank .scrim {
+    background:
+      radial-gradient(
+        29% 40% at 15% 46%,
+        rgba(4, 5, 10, 0.8),
+        rgba(4, 5, 10, 0) 76%
+      ),
+      radial-gradient(
+        27% 38% at 85% 56%,
+        rgba(4, 5, 10, 0.8),
+        rgba(4, 5, 10, 0) 76%
+      );
+  }
+
+  .flank .stat-row,
+  .flank .cta-row {
+    justify-content: flex-start;
+  }
+
+  .flank .stat {
+    align-items: flex-start;
+  }
+}
+
+/* ---------------------------------------------------------------- *
+ * Footer
+ * ---------------------------------------------------------------- */
+
+.foot-close {
+  display: grid;
+  gap: 2.5rem;
+  padding: 4.5rem 0 4rem;
+  border-top: 1px solid rgba(150, 200, 255, 0.12);
+}
+
+.foot-close__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.foot-close__side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 34rem;
+}
+
+@media (min-width: 860px) {
+  .foot-close {
+    grid-template-columns: 1.15fr 1fr;
+    gap: 5rem;
+    align-items: end;
+  }
+}
+
+/* --- specification sheet ------------------------------------------ *
+ * Set as a leader table: key, a dotted run, value. The dots are a
+ * repeating radial rather than a border-style so they stay the same
+ * size at any width and always terminate flush against the value.
+ * ------------------------------------------------------------------ */
+
+.spec-sheet {
+  padding: 2.5rem 0 3rem;
+  border-top: 1px solid rgba(150, 200, 255, 0.12);
+}
+
+.spec-sheet__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.spec-sheet__body {
+  display: grid;
+  gap: 0;
+}
+
+@media (min-width: 1024px) {
+  /* Two columns of five, so the block is a slab of data rather than a
+     single long list the eye has to walk down. */
+  .spec-sheet__body {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4rem;
+  }
+}
+
+.spec-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.72rem 0.5rem 0.72rem 0.15rem;
+  border-bottom: 1px solid rgba(150, 200, 255, 0.08);
+  transition: background-color 0.45s var(--ease-out);
+}
+
+.spec-row:hover {
+  background: rgba(127, 212, 255, 0.05);
+}
+
+.spec-row__key {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  flex: none;
+  transition: color 0.4s var(--ease-out);
+}
+
+.spec-row:hover .spec-row__key {
+  color: var(--accent);
+}
+
+.spec-row__dots {
+  flex: 1 1 auto;
+  height: 1px;
+  min-width: 1.5rem;
+  align-self: center;
+  background-image: radial-gradient(
+    circle,
+    rgba(150, 200, 255, 0.32) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+}
+
+.spec-row__val {
+  font-size: 13px;
+  color: rgba(238, 244, 255, 0.8);
+  text-align: right;
+  flex: none;
+  max-width: 62%;
+}
+
+.spec-sheet__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.75rem;
+  font-size: 12.5px;
+  color: rgba(238, 244, 255, 0.7);
+  transition: color 0.4s var(--ease-out);
+}
+
+.spec-sheet__more:hover {
+  color: var(--fg);
+}
+
+/* --- link row ----------------------------------------------------- */
+
+.foot-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.25rem 1.5rem;
+  padding: 2.5rem 0 3.5rem;
+  border-top: 1px solid rgba(150, 200, 255, 0.12);
+}
+
+@media (min-width: 720px) {
+  .foot-links {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.foot-links__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.foot-links__col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.foot-links__col a {
+  font-size: 13.5px;
+  color: rgba(238, 244, 255, 0.55);
+  transition: color 0.4s var(--ease-out);
+}
+
+.foot-links__col a:hover {
+  color: var(--fg);
+}
+
+/* --- wordmark ----------------------------------------------------- *
+ * Cropped by the bottom of the page. The gradient fill does the work
+ * a plain low-opacity colour cannot: the letters are brightest where
+ * they meet the content above and vanish into the ground before the
+ * crop, so the crop reads as intentional rather than as a clipping bug.
+ * ------------------------------------------------------------------ */
+
+.wordmark {
+  overflow: hidden;
+  padding: 0 1.25rem;
+  margin-bottom: -1.5vw;
+  user-select: none;
+  pointer-events: none;
+}
+
+.wordmark span {
+  display: block;
+  font-size: clamp(3.6rem, 17.2vw, 17rem);
+  font-weight: 300;
+  line-height: 0.78;
+  letter-spacing: -0.055em;
+  text-align: center;
+  white-space: nowrap;
+  background: linear-gradient(
+    180deg,
+    rgba(190, 216, 255, 0.19),
+    rgba(127, 212, 255, 0.05) 62%,
+    rgba(127, 212, 255, 0) 92%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- bottom bar --------------------------------------------------- */
+
+.foot-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 0 2.25rem;
+  border-top: 1px solid rgba(150, 200, 255, 0.1);
+}
+
+@media (min-width: 780px) {
+  .foot-bottom {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.foot-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(127, 212, 255, 0.66);
+}
+
+.foot-status i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(127, 212, 255, 0.9);
+  animation: statusPulse 2.8s var(--ease-in-out) infinite;
+}
+
+@keyframes statusPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.foot-bottom__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.foot-bottom__links a {
+  transition: color 0.4s var(--ease-out);
+}
+
+.foot-bottom__links a:hover {
+  color: rgba(238, 244, 255, 0.85);
+}
+
+/* ---------------------------------------------------------------- *
+ * Progress rail
+ * ---------------------------------------------------------------- */
+
+.rail-track {
+  position: relative;
+  width: 1px;
+  height: 260px;
+  background: rgba(170, 214, 255, 0.16);
+  overflow: hidden;
+}
+
+.rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+@keyframes railDrop {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(300%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

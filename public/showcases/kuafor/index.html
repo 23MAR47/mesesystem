@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#241b1d">
+  <meta name="description" content="Doku — Saç tasarımı, renk ritüelleri ve randevu akışı için lüks editoryal Türkçe demo sayfası.">
+  <title>Doku — Kuaför &amp; Saç Tasarım Stüdyosu Demosu</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fcf8f5;
+      --paper-elevated: #ffffff;
+      --ink: #241b1d;
+      --muted: #6e6360;
+      --line: #e4d8d1;
+      --rose: #b74e52;
+      --rose-dark: #91393d;
+      --rose-light: #f7ebe8;
+      --rose-glow: rgba(183, 78, 82, 0.25);
+      --wash: #f5ebe4;
+      --serif: "Bodoni MT", Didot, Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    ::selection { background: var(--rose); color: #fff; }
+    :focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+    .skip {
+      position: absolute;
+      left: 14px;
+      top: -60px;
+      z-index: 100;
+      padding: 10px 16px;
+      background: var(--ink);
+      color: white;
+      font-weight: 700;
+      border-radius: 4px;
+      transition: top .2s ease;
+    }
+    .skip:focus { top: 14px; }
+
+    .shell {
+      max-width: 1240px;
+      width: calc(100% - 64px);
+      margin: auto;
+    }
+
+    /* Topbar */
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(252, 248, 245, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(36, 27, 29, 0.04);
+    }
+    .wordmark {
+      text-decoration: none;
+      font: italic 32px var(--serif);
+      letter-spacing: -.04em;
+      color: var(--ink);
+      display: flex;
+      align-items: baseline;
+    }
+    .wordmark span {
+      font: 700 11px var(--sans);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-left: 10px;
+    }
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
+    .nav a {
+      font-size: .86rem;
+      color: var(--muted);
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav a:hover { color: var(--rose); }
+    .sample {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: var(--rose);
+      background: rgba(183, 78, 82, 0.08);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 700;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+      align-items: center;
+      gap: 6%;
+      padding: 56px 0 68px;
+    }
+    .intro h1 {
+      max-width: 600px;
+      margin: 0;
+      font: 400 clamp(54px, 7.5vw, 96px)/.9 var(--serif);
+      letter-spacing: -.055em;
+    }
+    .intro h1 span {
+      display: block;
+      color: var(--rose);
+      font-style: italic;
+    }
+    .intro p {
+      max-width: 440px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin: 24px 0 32px;
+    }
+    .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background: var(--rose);
+      color: white;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .86rem;
+      box-shadow: 0 4px 18px var(--rose-glow);
+      transition: all .2s;
+    }
+    .link:hover {
+      background: var(--rose-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(183, 78, 82, 0.35);
+    }
+    .art {
+      height: 480px;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr .6fr;
+      grid-template-rows: 1.2fr .8fr;
+      gap: 14px;
+      padding: 0 16px 20px 0;
+    }
+    .art:after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 70%;
+      height: 45%;
+      border: 1px solid var(--rose);
+      border-radius: 8px;
+      z-index: 0;
+    }
+    .picture {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(36, 27, 29, 0.12);
+      background: #d9b5a3;
+    }
+    .picture:first-child { grid-row: 1 / 3; z-index: 1; }
+    .picture:nth-child(2) { z-index: 1; margin-top: 25px; }
+    .picture:nth-child(3) { z-index: 1; margin-bottom: 25px; }
+    .picture img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .picture:hover img { transform: scale(1.06); }
+    .fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(145deg, #74443f, #422d34);
+      font: italic 28px var(--serif);
+    }
+
+    /* Services Section */
+    .section {
+      padding: 68px 0;
+      border-top: 1px solid var(--line);
+    }
+    .heading-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+    .heading-row h2 {
+      max-width: 650px;
+      margin: 0;
+      font: 400 clamp(38px, 5.5vw, 64px)/.96 var(--serif);
+      letter-spacing: -.04em;
+    }
+    .heading-row p {
+      max-width: 400px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.65;
+    }
+    .service-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 36px;
+      row-gap: 16px;
+    }
+    .service {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      min-height: 94px;
+      padding: 16px 20px;
+      background: var(--paper-elevated);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      transition: all .2s ease;
+    }
+    .service:hover {
+      border-color: var(--rose);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(183, 78, 82, 0.1);
+    }
+    .service input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--rose);
+    }
+    .service strong {
+      font: 400 22px var(--serif);
+      color: var(--ink);
+    }
+    .service small {
+      display: block;
+      color: var(--muted);
+      font-size: .78rem;
+      margin-top: 3px;
+    }
+    .service b {
+      font-size: .95rem;
+      color: var(--rose);
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+    .service:has(input:checked) {
+      border-color: var(--rose);
+      background: var(--rose-light);
+    }
+
+    /* Booking Block */
+    .booking {
+      background: var(--wash);
+      border-radius: 14px;
+      padding: 56px 6%;
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 8%;
+      align-items: start;
+      border: 1px solid var(--line);
+    }
+    .booking h2 {
+      margin: 0;
+      font: 400 clamp(36px, 5vw, 56px)/1 var(--serif);
+    }
+    .booking-copy {
+      max-width: 340px;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.75;
+      margin-top: 14px;
+    }
+    .summary-card {
+      margin-top: 24px;
+      padding: 18px 22px;
+      background: var(--paper-elevated);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--rose);
+      border-radius: 8px;
+    }
+    .picked {
+      margin: 0;
+      font-size: .86rem;
+      color: var(--muted);
+    }
+    .picked strong {
+      color: var(--rose);
+      display: block;
+      margin-top: 4px;
+      font-size: 1rem;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+    .field.wide { grid-column: 1 / -1; }
+    .field label {
+      font-size: .8rem;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      min-height: 46px;
+      background: var(--paper-elevated);
+      border: 1px solid #d5c8bf;
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--ink);
+      font-size: .88rem;
+      transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--rose);
+      outline: none;
+    }
+    .field textarea { min-height: 74px; resize: vertical; }
+    .send {
+      min-height: 48px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--rose);
+      color: white;
+      font-weight: 750;
+      font-size: .88rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px var(--rose-glow);
+      transition: all .2s;
+    }
+    .send:hover {
+      background: var(--rose-dark);
+      transform: translateY(-1px);
+    }
+    .fine {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.6;
+    }
+    .status {
+      min-height: 24px;
+      margin-top: 12px;
+      color: var(--rose-dark);
+      font-size: .84rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(36, 27, 29, 0.95);
+      border: 1px solid var(--rose);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--rose);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 28px 0 36px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      color: var(--muted);
+      font-size: .78rem;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 32px; padding: 40px 0; }
+      .art { height: 380px; max-width: 520px; width: 100%; margin: auto; }
+      .service-list { grid-template-columns: 1fr; }
+      .booking { grid-template-columns: 1fr; gap: 28px; padding: 36px 24px; }
+      .heading-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+    @media (max-width: 540px) {
+      .shell { width: calc(100% - 32px); }
+      .top { height: auto; min-height: 70px; flex-wrap: wrap; padding: 12px 0; gap: 10px; }
+      .fields { grid-template-columns: 1fr; }
+      .field.wide { grid-column: auto; }
+      .footer { flex-direction: column; gap: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">İçeriğe geç</a>
+
+  <header class="shell top">
+    <a class="wordmark" href="#top">
+      doku
+      <span>Kuaför &amp; Stil Demosu</span>
+    </a>
+    <nav class="nav" aria-label="Ana gezinme">
+      <a href="#servisler">Servis Menüsü</a>
+      <a href="#randevu">Randevu Talebi</a>
+    </nav>
+    <span class="sample">✦ Canlı Tasarım Demosu</span>
+  </header>
+
+  <main id="main" class="shell">
+    <section class="hero" id="top">
+      <div class="intro">
+        <div style="color:var(--rose);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:16px">✦ Haute Coiffure & Saç Mimarisi</div>
+        <h1>Saçın,<br><span>senin hikâyen.</span></h1>
+        <p>Renk dengesi, doğal dokular ve ince dokunuşlarla kendini ifade etmek için tasarlanmış kurgusal bir kuaför stüdyosu vitrini. Hizmetini seç; randevu akışını dene.</p>
+        <a class="link" href="#servisler">Servis Menüsüne Göz At ↓</a>
+      </div>
+      <div class="art" aria-label="Saç ve güzellik detaylarından oluşan görsel seçki">
+        <div class="picture">
+          <span class="fallback" aria-hidden="true">Renk &amp; doku</span>
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Kuaför koltuğunda saç bakımı" fetchpriority="high" onerror="this.dataset.failed='true'">
+        </div>
+        <div class="picture">
+          <span class="fallback" aria-hidden="true">Biraz ışık</span>
+          <img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&amp;fit=crop&amp;w=600&amp;q=85" alt="Saç şekillendirme çalışması" loading="lazy" onerror="this.dataset.failed='true'">
+        </div>
+        <div class="picture">
+          <span class="fallback" aria-hidden="true">Kendin gibi</span>
+          <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&amp;fit=crop&amp;w=600&amp;q=85" alt="Saç bakım ürünleri" loading="lazy" onerror="this.dataset.failed='true'">
+        </div>
+      </div>
+    </section>
+
+    <!-- Servisler -->
+    <section class="section" id="servisler" aria-labelledby="services-title">
+      <div class="heading-row">
+        <div>
+          <h2 id="services-title">Kendine ayırdığın zaman.</h2>
+          <p>Bu demo servisleri, örnek bir salon menüsü akışı göstermek için özenle kurgulanmıştır. İhtiyacına uyanları işaretleyebilirsin.</p>
+        </div>
+        <p style="color:var(--rose);font-weight:600;font-size:.82rem">✦ Özel Konsültasyon & Bitkisel Boya Seçenekleri</p>
+      </div>
+
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="fine" style="margin-bottom:14px">Bir veya daha fazla servis seçebilirsiniz:</legend>
+        <div class="service-list">
+          <label class="service">
+            <input type="checkbox" name="service" value="Kesim & şekil" data-price="650" data-duration="45">
+            <span>
+              <strong>Kesim &amp; şekil</strong>
+              <small>Yüz hatlarına özel stil kesimi ve fön · 45 dk</small>
+            </span>
+            <b>₺650</b>
+          </label>
+
+          <label class="service">
+            <input type="checkbox" name="service" value="Renk yenileme & balayaj" data-price="1400" data-duration="90">
+            <span>
+              <strong>Renk &amp; balayaj</strong>
+              <small>Doğal ışıltılar ve mineral pigmentler · 90 dk</small>
+            </span>
+            <b>₺1.400</b>
+          </label>
+
+          <label class="service">
+            <input type="checkbox" name="service" value="Fön & stil" data-price="400" data-duration="30">
+            <span>
+              <strong>Fön &amp; özel stil</strong>
+              <small>Hacimli fön ve termal koruyucu kür · 30 dk</small>
+            </span>
+            <b>₺400</b>
+          </label>
+
+          <label class="service">
+            <input type="checkbox" name="service" value="Bakım ritüeli" data-price="850" data-duration="50">
+            <span>
+              <strong>Derin keratin ritüeli</strong>
+              <small>Yenileyici saç maskesi ve buhar terapisi · 50 dk</small>
+            </span>
+            <b>₺850</b>
+          </label>
+        </div>
+      </fieldset>
+    </section>
+
+    <!-- Randevu Formu -->
+    <section class="section" id="randevu">
+      <div class="booking">
+        <div>
+          <h2>Bir zaman<br>belirleyelim.</h2>
+          <p class="booking-copy">Talebinizi oluşturduğunuzda yalnızca bu ekranda bir onay simülasyonu gösterilir. Bu arayüz temsilidir; gerçek randevu alınmaz.</p>
+          <div class="summary-card">
+            <p class="picked">Seçilen Servisler: <strong id="picked" aria-live="polite">Henüz servis seçilmedi</strong></p>
+          </div>
+        </div>
+
+        <form id="form" novalidate>
+          <div class="fields">
+            <div class="field">
+              <label for="name">Adın Soyadın</label>
+              <input id="name" name="name" autocomplete="name" placeholder="Örn: Ayşe Demir" required>
+            </div>
+            <div class="field">
+              <label for="phone">Telefon numaran</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="05XX XXX XX XX" required>
+            </div>
+            <div class="field">
+              <label for="day">Gün tercihin</label>
+              <input id="day" name="day" type="date" required>
+            </div>
+            <div class="field">
+              <label for="slot">Zaman aralığı</label>
+              <select id="slot" name="slot" required>
+                <option value="">Bir aralık seçin</option>
+                <option>Sabah · 09.30 – 12.00</option>
+                <option>Öğle · 12.00 – 15.00</option>
+                <option>İkindi · 15.00 – 18.00</option>
+              </select>
+            </div>
+            <div class="field wide">
+              <label for="note">Saçınla ilgili bir stil notu <span>(isteğe bağlı)</span></label>
+              <textarea id="note" name="note" placeholder="Daha önce uygulanan işlemler veya istediğiniz ton..."></textarea>
+            </div>
+            <div class="field wide">
+              <button class="send" type="button" id="send">Örnek Randevu Talebi Oluştur</button>
+              <p class="fine">Örnek form. Veriler hiçbir sunucuya iletilmez, kaydedilmez ve gerçek randevu oluşturmaz.</p>
+              <div class="status" id="status" role="status" aria-live="polite"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Doku · Kurgusal lüks kuaför stüdyosu arayüzü</span>
+    <span>Marka, hizmet ve görseller demo amaçlıdır; temsilidir.</span>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    const form = document.querySelector('#form');
+    const checks = [...document.querySelectorAll('input[name="service"]')];
+    const picked = document.querySelector('#picked');
+    const status = document.querySelector('#status');
+    const toastContainer = document.querySelector('#toast-container');
+
+    function showToast(message) {
+      if (!toastContainer) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    function sync() {
+      const selected = checks.filter(x => x.checked);
+      if (!selected.length) {
+        picked.textContent = 'Henüz servis seçilmedi';
+        return;
+      }
+      const names = selected.map(x => x.value).join(' · ');
+      const total = selected.reduce((sum, el) => sum + Number(el.dataset.price || 0), 0);
+      picked.textContent = `${names} (Örnek Tutar: ₺${total})`;
+    }
+
+    checks.forEach(x => x.addEventListener('change', () => {
+      sync();
+      if (x.checked) {
+        showToast(x.value + " seçildi.");
+      } else {
+        showToast(x.value + " kaldırıldı.");
+      }
+    }));
+
+    const day = document.querySelector('#day');
+    day.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+    document.querySelector('#send').addEventListener('click', () => {
+      status.textContent = '';
+      if (!checks.some(x => x.checked)) {
+        status.textContent = 'Önce bir servis seçerek devam edebilirsin.';
+        checks[0].focus();
+        return;
+      }
+      if (!form.reportValidity()) return;
+      const ref = "DKU-" + Math.floor(1000 + Math.random() * 9000);
+      status.textContent = `✦ Randevu talebi hazır (Ref: #${ref}). Bilgileriniz gönderilmedi; randevu simülasyonu tamamlandı.`;
+      showToast(`Randevu Talebi #${ref} oluşturuldu (Demo).`);
+      form.reset();
+      sync();
+    });
+
+    form.addEventListener('submit', e => e.preventDefault());
+  </script>
+</body>
+</html>

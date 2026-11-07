@@ -1,0 +1,251 @@
+/* ==========================================================================
+   CardBookmark — a bookmark-tab card whose artwork blooms into colour on
+   hover. No dependencies; the silhouette is one SVG mask.
+   ========================================================================== */
+
+.cb-card {
+  --cb-bg: #0a0a0b;
+  --cb-label: #fff;
+  --cb-headline: #fff;
+  --cb-headline-hover: #7db4ff;
+  --cb-statement: #8a8a8f;
+  --cb-statement-hover: #fff;
+  --cb-accent: #2f7bff;
+  --cb-dot: rgba(255, 255, 255, 0.16);
+  --cb-glow: none;
+  --cb-art: #111;
+  --cb-aspect: 0.74;
+  --cb-tab-h: 7.4%;
+  --cb-lift: -6px;
+  --cb-dur: 620ms;
+  --cb-zoom: 1.28;
+  /* Expo-out: pushes off hard, then a long glide into the final scale. The
+     zoom outlasts the colour bloom so the artwork is still drifting after
+     everything else has settled. */
+  --cb-zoom-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --cb-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cb-slide-ease: var(--cb-ease);
+
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  transform: translate3d(0, 0, 0);
+  /* drop-shadow reads the mask's alpha, so the shadow follows the tab and the
+     bite. A box-shadow would draw a rectangle around them. */
+  filter: drop-shadow(0 14px 28px rgba(8, 10, 22, 0.26));
+  transition: transform var(--cb-dur) var(--cb-slide-ease),
+    filter var(--cb-dur) var(--cb-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  .cb-card {
+    --cb-slide-ease: var(--cb-spring, var(--cb-ease));
+  }
+}
+
+@supports (width: 1cqw) {
+  .cb-card {
+    container-type: inline-size;
+  }
+}
+
+.cb-card:is(a, button) {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+}
+
+/* The silhouette. Masking rather than clipping keeps the glow, artwork and
+   text as ordinary boxes inside a normal rectangle. */
+.cb-shape {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--cb-aspect);
+  overflow: hidden;
+  background: var(--cb-bg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  font-size: 16px;
+}
+
+@supports (width: 1cqw) {
+  .cb-shape {
+    font-size: 5cqw;
+  }
+}
+
+/* Colour bloom, sitting under the artwork so the artwork blends into it
+   rather than being painted over. */
+.cb-glow {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--cb-glow);
+  opacity: 0;
+  transition: opacity var(--cb-dur) var(--cb-ease);
+}
+
+/* --- Artwork ------------------------------------------------------------ */
+
+.cb-media {
+  position: absolute;
+  left: 4.6%;
+  right: 4.6%;
+  top: calc(var(--cb-tab-h) + 0.8em);
+  height: 47.7%;
+  display: block;
+  overflow: hidden;
+  border-radius: 0.72em;
+  /* Hairline catches the light at the artwork's edge; the scrim keeps the
+     headline legible once a real photograph goes in. */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.cb-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.14) 26%,
+    transparent 52%
+  );
+}
+
+.cb-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: scale(1);
+  transform-origin: 46% 42%;
+  transition: transform calc(var(--cb-dur) * 1.9) var(--cb-zoom-ease),
+    opacity var(--cb-dur) var(--cb-ease);
+}
+
+.cb-headline {
+  position: absolute;
+  z-index: 1;
+  left: 1.2em;
+  right: 1.2em;
+  bottom: 2.1em;
+  max-width: 15em;
+  font-size: 0.95em;
+  text-wrap: balance;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.012em;
+  color: var(--cb-headline);
+  transition: color var(--cb-dur) var(--cb-ease);
+}
+
+/* --- Tab label ---------------------------------------------------------- */
+
+.cb-label {
+  position: absolute;
+  inset: 0 0 auto auto;
+  display: flex;
+  align-items: center;
+  height: var(--cb-tab-h);
+  padding: 0.45em 1.4em 0;
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--cb-label);
+  white-space: nowrap;
+}
+
+/* --- Statement + dots --------------------------------------------------- */
+
+.cb-foot {
+  position: absolute;
+  inset: auto auto 0 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 4.6% 1.85em;
+}
+
+.cb-statement {
+  font-size: 3.05em;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.042em;
+  color: var(--cb-statement);
+  transition: color var(--cb-dur) var(--cb-ease);
+}
+
+.cb-dots {
+  display: flex;
+  gap: 0.4em;
+  margin-top: 2.35em;
+}
+
+.cb-dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--cb-dot);
+  transition: background var(--cb-dur) var(--cb-ease);
+}
+
+.cb-dot.is-on {
+  background: var(--cb-accent);
+}
+
+/* --- Hover -------------------------------------------------------------- */
+
+.cb-card:hover,
+.cb-card:focus-visible {
+  transform: translate3d(0, var(--cb-lift), 0);
+  filter: drop-shadow(0 26px 44px rgba(8, 10, 22, 0.34));
+}
+
+.cb-card:hover .cb-glow,
+.cb-card:focus-visible .cb-glow {
+  opacity: 1;
+}
+
+/* Dropping the artwork's opacity lets the glow read through it, which is what
+   makes the image dissolve into the colour instead of sitting on top of it. */
+.cb-card:hover .cb-art,
+.cb-card:focus-visible .cb-art {
+  opacity: 0.5;
+  transform: scale(var(--cb-zoom));
+}
+
+.cb-card:hover .cb-headline,
+.cb-card:focus-visible .cb-headline {
+  color: var(--cb-headline-hover);
+}
+
+.cb-card:hover .cb-statement,
+.cb-card:focus-visible .cb-statement {
+  color: var(--cb-statement-hover);
+}
+
+.cb-card:focus-visible {
+  outline: 2px solid var(--cb-accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-card,
+  .cb-art,
+  .cb-glow,
+  .cb-headline,
+  .cb-statement {
+    transition-duration: 1ms;
+  }
+}

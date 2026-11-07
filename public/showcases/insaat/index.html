@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#181b1d">
+  <meta name="description" content="Hat Çizgisi — Mimari tasarım, çağdaş konut ve kentsel yapı portfolyosu için lüks Türkçe demo arayüzü.">
+  <title>Hat Çizgisi — Mimari Portfolyo & Yapı Seçkisi Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --paper: #121517;
+      --paper-elevated: #1a1e22;
+      --ink: #f2efe8;
+      --muted: #9ba39e;
+      --line: rgba(255, 255, 255, 0.1);
+      --orange: #d97746;
+      --orange-bright: #f08e5c;
+      --gold: #c5a059;
+      --gold-glow: rgba(197, 160, 89, 0.25);
+      --serif: "Baskerville Old Face", Baskerville, Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: var(--orange); color: #fff; }
+    :focus-visible { outline: 2px solid var(--orange-bright); outline-offset: 3px; }
+
+    .skip {
+      position: absolute;
+      top: -60px;
+      left: 12px;
+      z-index: 100;
+      background: var(--orange);
+      color: white;
+      padding: 10px 16px;
+      font-weight: 700;
+      border-radius: 4px;
+      transition: top .2s ease;
+    }
+    .skip:focus { top: 12px; }
+
+    .shell {
+      width: min(1280px, calc(100% - 64px));
+      margin: auto;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(18, 21, 23, 0.9);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font: 400 20px var(--serif);
+      letter-spacing: .02em;
+      color: #fff;
+    }
+    .logo b {
+      display: inline-grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      background: rgba(217, 119, 70, 0.15);
+      border: 1px solid var(--orange);
+      border-radius: 6px;
+      font: 700 12px var(--sans);
+      letter-spacing: .08em;
+      color: var(--orange-bright);
+    }
+    .nav {
+      display: flex;
+      gap: 28px;
+    }
+    .nav a {
+      text-decoration: none;
+      font-size: .84rem;
+      color: var(--muted);
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav a:hover { color: var(--orange-bright); }
+    .sample {
+      padding: 6px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: .72rem;
+      color: var(--orange-bright);
+      background: rgba(217, 119, 70, 0.08);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 540px;
+      padding: 68px 0 72px;
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 7%;
+      align-items: center;
+    }
+    .hero h1 {
+      max-width: 580px;
+      margin: 0;
+      font: 400 clamp(50px, 6.8vw, 84px)/.96 var(--serif);
+      letter-spacing: -.05em;
+      color: #fff;
+    }
+    .hero h1 em {
+      font-weight: 400;
+      color: var(--orange-bright);
+      font-style: italic;
+    }
+    .hero p {
+      max-width: 460px;
+      margin: 24px 0 32px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+    .jump {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 24px;
+      border-radius: 6px;
+      background: var(--orange);
+      color: white;
+      text-decoration: none;
+      font-size: .86rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(217, 119, 70, 0.3);
+      transition: all .2s;
+    }
+    .jump:hover {
+      background: var(--orange-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(217, 119, 70, 0.45);
+    }
+    .lead-photo {
+      height: 420px;
+      position: relative;
+      background: #252b2f;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    }
+    .lead-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .lead-photo:hover img {
+      transform: scale(1.04);
+    }
+    .fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #2b3338, #181d20);
+      color: #f7f3e8;
+      font: italic 32px var(--serif);
+    }
+    .lead-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(transparent, rgba(14, 17, 19, 0.95));
+      color: #fff;
+      font-size: .78rem;
+      z-index: 1;
+    }
+    .lead-caption strong {
+      display: block;
+      font: italic 1.3rem var(--serif);
+      color: var(--orange-bright);
+    }
+
+    /* Portfolio Section */
+    .portfolio {
+      padding: 56px 0 84px;
+      border-top: 1px solid var(--line);
+    }
+    .portfolio-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    .portfolio-head h2 {
+      margin: 0;
+      font: 400 clamp(40px, 5vw, 62px)/1 var(--serif);
+      letter-spacing: -.04em;
+      color: #fff;
+    }
+    .portfolio-head p {
+      max-width: 420px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.7;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .filter {
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper-elevated);
+      color: var(--ink);
+      font: inherit;
+      font-size: .82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .filter:hover {
+      border-color: var(--orange);
+      background: rgba(217, 119, 70, 0.1);
+    }
+    .filter[aria-pressed="true"] {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(217, 119, 70, 0.35);
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 28px;
+    }
+    .project {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper-elevated);
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all .25s ease;
+    }
+    .project:hover {
+      border-color: var(--orange);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(217, 119, 70, 0.15);
+    }
+    .project[hidden] { display: none; }
+    .project-image {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 310px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #252c30;
+    }
+    .project-image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+    }
+    .project:hover .project-image img {
+      transform: scale(1.05);
+    }
+    .project-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 16px 0 6px;
+      color: var(--orange-bright);
+      font-size: .74rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .project h3 {
+      margin: 0;
+      font: 400 26px var(--serif);
+      color: #fff;
+    }
+    .project p {
+      max-width: 520px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.6;
+    }
+    .project .more {
+      margin-top: 14px;
+      color: var(--orange-bright);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    /* Disclaimer & Footer */
+    .disclaimer {
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.65;
+    }
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 0 36px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    /* Dialog Drawer */
+    dialog {
+      width: min(700px, calc(100% - 32px));
+      max-height: min(88vh, 800px);
+      padding: 0;
+      border: 1px solid var(--orange);
+      border-radius: 14px;
+      background: var(--paper-elevated);
+      color: var(--ink);
+      box-shadow: 0 25px 85px rgba(0, 0, 0, 0.8);
+    }
+    dialog::backdrop {
+      background: rgba(10, 13, 15, 0.85);
+      backdrop-filter: blur(10px);
+    }
+    .drawer {
+      padding: clamp(24px, 5vw, 44px);
+    }
+    .drawer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .drawer h2 {
+      margin: 0;
+      font: 400 clamp(32px, 5vw, 46px)/1 var(--serif);
+      color: #fff;
+    }
+    .drawer .kind {
+      margin: 0 0 8px;
+      color: var(--orange-bright);
+      font-size: .76rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all .2s;
+    }
+    .close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--orange);
+    }
+    .drawer-image {
+      height: 260px;
+      position: relative;
+      margin: 22px 0;
+      background: #252c30;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .drawer-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+    .drawer p {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.75;
+    }
+    .drawer dl {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 22px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .drawer dt {
+      font-size: .74rem;
+      color: var(--orange-bright);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-weight: 700;
+    }
+    .drawer dd {
+      margin: 4px 0 0;
+      font: 400 18px var(--serif);
+      color: #fff;
+    }
+    .close-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .inquire-btn {
+      min-height: 44px;
+      padding: 0 20px;
+      background: var(--orange);
+      border: 0;
+      border-radius: 6px;
+      color: white;
+      font-weight: 700;
+      font-size: .84rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .inquire-btn:hover { background: var(--orange-bright); }
+    .close-btn {
+      min-height: 44px;
+      padding: 0 18px;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .84rem;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(26, 30, 34, 0.95);
+      border: 1px solid var(--orange);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 36px; padding: 48px 0; }
+      .lead-photo { height: 320px; }
+      .grid { grid-template-columns: 1fr; }
+      .project-image { height: 260px; }
+    }
+    @media (max-width: 540px) {
+      .shell { width: calc(100% - 32px); }
+      .drawer dl { grid-template-columns: 1fr; }
+      .footer { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">İçeriğe geç</a>
+
+  <header class="header">
+    <div class="shell" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+      <a class="logo" href="#top">
+        <b>HÇ</b>
+        <span>HAT ÇİZGİSİ</span>
+      </a>
+      <nav class="nav" aria-label="Ana gezinme">
+        <a href="#projeler">Proje Seçkisi</a>
+        <a href="#hakkinda">Bu Demo Hakkında</a>
+      </nav>
+      <span class="sample">✦ Mimari Portfolyo Demosu</span>
+    </div>
+  </header>
+
+  <main id="main" class="shell">
+    <section class="hero" id="top">
+      <div>
+        <div style="color:var(--orange-bright);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:16px">✦ Çağdaş Mimari Tasarım & İnşaat</div>
+        <h1>Yapı, bir<br><em>fikirle başlar.</em></h1>
+        <p>Bu konsept; mimari tasarım, inşaat ve mekânsal restorasyon işleri için proje portfolyosunu seçkin bir sunumla sergiler. Kartları kategorilere göre filtrele; örnek proje notlarını açıp detayları incele.</p>
+        <a class="jump" href="#projeler">Seçkiye Göz At ↓</a>
+      </div>
+      <div class="lead-photo">
+        <span class="fallback" aria-hidden="true">Mekân üzerine notlar</span>
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Çağdaş mimari iç mekân konsepti" fetchpriority="high" onerror="this.dataset.failed='true'">
+        <div class="lead-caption">
+          <strong>Urla Evi · Yaşam Mekânı</strong>
+          <span>Görseller ve içerikler temsilidir · Portfolyo demosu</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio" id="projeler" aria-labelledby="projects-title">
+      <div class="portfolio-head">
+        <div>
+          <h2 id="projects-title">Proje Seçkisi</h2>
+          <p>Gerçek iş veya taahhüt içermez. Kartlardaki anlatılar arayüz etkileşimini ve mimari sunumu örneklemek için kurgulanmıştır.</p>
+        </div>
+        <p style="color:var(--orange-bright);font-size:.82rem;font-weight:600">✦ Sürdürülebilir Malzeme & Işık Odaklı</p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Projeleri türe göre filtrele">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">Tümü</button>
+        <button class="filter" type="button" data-filter="konut" aria-pressed="false">Konut Projeleri</button>
+        <button class="filter" type="button" data-filter="ticari" aria-pressed="false">Ticari & Ofis</button>
+        <button class="filter" type="button" data-filter="yenileme" aria-pressed="false">Yenileme & Restorasyon</button>
+      </div>
+
+      <div class="grid" id="project-grid">
+        <button class="project" type="button" data-kind="konut" data-title="Avlu Evi" data-category="Konut · Konsept" data-place="Kurgu yerleşim · İzmir" data-scope="Örnek konut kurgusu (380 m²)" data-description="Işığın gün boyunca değişimini izleyen iç avlu fikri etrafında tasarlanmış temsili bir proje anlatısı. Doğal taş malzeme seçimi, oda ilişkileri ve açık terasla kurulan bağlantı bu demo kartında örneklenir." data-image="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" data-alt="Avlu ve oturma alanı konsept görseli">
+          <span class="project-image">
+            <span class="image-fallback" aria-hidden="true">Avlu Evi</span>
+            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="" loading="lazy" onerror="this.dataset.failed='true'">
+          </span>
+          <span class="project-meta"><span>Konut · Konsept</span><span>01</span></span>
+          <h3>Avlu Evi</h3>
+          <p>Gün ışığı ve ortak yaşam etrafında kurgulanan örnek konut mimarisi anlatısı.</p>
+          <span class="more">Proje Notunu Aç ↗</span>
+        </button>
+
+        <button class="project" type="button" data-kind="ticari" data-title="Eşik Atölye" data-category="Ticari · Konsept" data-place="Kurgu mekân · İstanbul" data-scope="Örnek çalışma alanı (650 m²)" data-description="Üretim, görüşme ve sergileme ihtiyaçlarını tek bir akışta ele alan temsili bir çalışma alanı fikri. Bu proje gerçek bir yapı veya uygulama sonucu değildir; portfolyo içeriğinin detay katmanına örnektir." data-image="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" data-alt="Aydınlık çalışma alanı konsept görseli">
+          <span class="project-image">
+            <span class="image-fallback" aria-hidden="true">Eşik Atölye</span>
+            <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="" loading="lazy" onerror="this.dataset.failed='true'">
+          </span>
+          <span class="project-meta"><span>Ticari · Konsept</span><span>02</span></span>
+          <h3>Eşik Atölye</h3>
+          <p>Çağdaş çalışma ve karşılaşma alanlarına dair temsili yaratıcı mekân fikri.</p>
+          <span class="more">Proje Notunu Aç ↗</span>
+        </button>
+
+        <button class="project" type="button" data-kind="yenileme" data-title="Taş Yapı Yenilemesi" data-category="Yenileme · Konsept" data-place="Kurgu yapı · Ayvalık" data-scope="Örnek yenileme senaryosu (240 m²)" data-description="Mevcut bir taş yapının tarihi karakterini korurken modern kullanımını güncelleme üzerine yazılmış temsili bir senaryo. Yenileme portfolyosunda kapsam, yaklaşım ve malzeme kararlarını gösterir." data-image="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" data-alt="Taş cephe ve mimari detay konsept görseli">
+          <span class="project-image">
+            <span class="image-fallback" aria-hidden="true">Taş Yapı</span>
+            <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="" loading="lazy" onerror="this.dataset.failed='true'">
+          </span>
+          <span class="project-meta"><span>Yenileme · Konsept</span><span>03</span></span>
+          <h3>Taş Yapı Yenilemesi</h3>
+          <p>Yapının belleği ve yeni yaşam fonksiyonlarını buluşturan örnek restorasyon.</p>
+          <span class="more">Proje Notunu Aç ↗</span>
+        </button>
+
+        <button class="project" type="button" data-kind="konut" data-title="Işık Terası" data-category="Konut · Konsept" data-place="Kurgu konut · Bodrum" data-scope="Örnek yaşam alanı (290 m²)" data-description="Geniş terası evin gündelik yaşamına dahil eden küçük ölçekli bir konut konsepti. Bu kurgusal notta dolaşım, gölgelik pergola ve iç-dış ilişkisi temel başlıklar olarak ele alınır." data-image="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" data-alt="Teraslı konut iç mekânı konsept görseli">
+          <span class="project-image">
+            <span class="image-fallback" aria-hidden="true">Işık Terası</span>
+            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="" loading="lazy" onerror="this.dataset.failed='true'">
+          </span>
+          <span class="project-meta"><span>Konut · Konsept</span><span>04</span></span>
+          <h3>Işık Terası</h3>
+          <p>İç mekân ve açık gökyüzü arasındaki eşiği araştıran ferah villa örneği.</p>
+          <span class="more">Proje Notunu Aç ↗</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="disclaimer" id="hakkinda">
+      Hat Çizgisi, mimari portfolyo ve inşaat sunum arayüzü için hazırlanmış kurgusal bir demo ismidir. Buradaki tüm proje isimleri, kapsamlar ve anlatılar örnektir; gerçek proje, müşteri, teslimat veya resmi taahhüt iddiası taşımaz.
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Hat Çizgisi · Mimari portfolyo ve inşaat konsepti</span>
+    <span>Demo içerikleri kurgusaldır; gerçek bir iş örneği değildir.</span>
+  </footer>
+
+  <!-- Detay Dialog Modalı -->
+  <dialog id="project-dialog" aria-labelledby="dialog-title">
+    <div class="drawer">
+      <div class="drawer-top">
+        <div>
+          <p class="kind" id="dialog-kind"></p>
+          <h2 id="dialog-title"></h2>
+        </div>
+        <button class="close" type="button" aria-label="Proje detayını kapat">×</button>
+      </div>
+      <div class="drawer-image">
+        <span class="image-fallback" aria-hidden="true"></span>
+        <img id="dialog-image" alt="">
+      </div>
+      <p id="dialog-description"></p>
+      <dl>
+        <div>
+          <dt>Yer / Lokasyon</dt>
+          <dd id="dialog-place"></dd>
+        </div>
+        <div>
+          <dt>Kapsam / Alan</dt>
+          <dd id="dialog-scope"></dd>
+        </div>
+      </dl>
+      <div class="close-row">
+        <button class="inquire-btn" id="dialog-inquire" type="button">✦ Bu Proje İçin Bilgi İste (Demo)</button>
+        <button class="close-btn" type="button">Kapat</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    const filterButtons = [...document.querySelectorAll('.filter')];
+    const projects = [...document.querySelectorAll('.project')];
+    const dialog = document.querySelector('#project-dialog');
+    const closeButtons = [...dialog.querySelectorAll('.close, .close-row .close-btn')];
+    const dialogImage = document.querySelector('#dialog-image');
+    const toastContainer = document.querySelector('#toast-container');
+    let returnFocus = null;
+
+    function showToast(message) {
+      if (!toastContainer) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    filterButtons.forEach(button => button.addEventListener('click', () => {
+      const chosen = button.dataset.filter;
+      filterButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+      projects.forEach(project => {
+        project.hidden = chosen !== 'all' && project.dataset.kind !== chosen;
+      });
+      showToast(button.textContent.trim() + " filtrelendi.");
+    }));
+
+    projects.forEach(project => project.addEventListener('click', () => {
+      returnFocus = project;
+      document.querySelector('#dialog-kind').textContent = project.dataset.category;
+      document.querySelector('#dialog-title').textContent = project.dataset.title;
+      document.querySelector('#dialog-description').textContent = project.dataset.description;
+      document.querySelector('#dialog-place').textContent = project.dataset.place;
+      document.querySelector('#dialog-scope').textContent = project.dataset.scope;
+      dialogImage.src = project.dataset.image;
+      dialogImage.alt = project.dataset.alt;
+      dialogImage.dataset.failed = 'false';
+      dialog.showModal();
+      showToast(project.dataset.title + " projesi açıldı.");
+      closeButtons[0].focus();
+    }));
+
+    document.querySelector('#dialog-inquire')?.addEventListener('click', () => {
+      const title = document.querySelector('#dialog-title').textContent;
+      showToast(`${title} için örnek bilgi talebi oluşturuldu (Demo).`);
+      dialog.close();
+    });
+
+    dialogImage.addEventListener('error', () => dialogImage.dataset.failed = 'true');
+    closeButtons.forEach(button => button.addEventListener('click', () => dialog.close()));
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('cancel', () => dialog.close());
+    dialog.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        dialog.close();
+      }
+    });
+    dialog.addEventListener('close', () => {
+      returnFocus?.focus();
+      returnFocus = null;
+    });
+  </script>
+</body>
+</html>

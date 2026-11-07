@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1312">
+  <meta name="description" content="Vites Atölye — Yetkili standartta otomotiv servis, bakım paketleri ve anlık fiyat hesaplama arayüz demosu.">
+  <title>Vites Atölye — Profesyonel Servis &amp; Bakım Demosu</title>
+  <style>
+    :root {
+      --dark: #0a0f0e;
+      --panel: #131b18;
+      --panel-hover: #1b2622;
+      --panel-border: rgba(212, 241, 93, 0.2);
+      --lime: #d4f15d;
+      --lime-dark: #b8d447;
+      --lime-glow: rgba(212, 241, 93, 0.25);
+      --cream: #f4f3ec;
+      --muted: #8b9991;
+      --line: rgba(255, 255, 255, 0.08);
+      --serif: Georgia, "Times New Roman", Garamond, serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      margin: 0;
+      background: var(--dark);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--lime); color: var(--dark); }
+    a { color: inherit; text-decoration: none; text-underline-offset: .2em; }
+    button, input, select, textarea { font: inherit; }
+    :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+    .demo {
+      padding: .65rem 1rem;
+      background: var(--lime);
+      color: #0c1210;
+      text-align: center;
+      font-size: .78rem;
+      letter-spacing: .04em;
+    }
+    .demo strong { font-weight: 850; }
+
+    .wrap {
+      width: min(1200px, calc(100% - 3rem));
+      margin-inline: auto;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(10, 15, 14, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    .nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      font-size: 1.35rem;
+      font-weight: 850;
+      letter-spacing: -.03em;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand b { color: var(--lime); }
+    .nav a:last-child {
+      padding: .65rem 1.2rem;
+      border: 1px solid var(--lime);
+      border-radius: 999px;
+      background: rgba(212, 241, 93, 0.1);
+      color: var(--lime);
+      font-size: .82rem;
+      font-weight: 750;
+      transition: all .2s;
+    }
+    .nav a:last-child:hover {
+      background: var(--lime);
+      color: var(--dark);
+      box-shadow: 0 4px 14px var(--lime-glow);
+    }
+
+    /* Hero */
+    h1, h2, h3, p { margin-top: 0; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 3.5rem;
+      align-items: center;
+      padding: 4.5rem 0 4rem;
+    }
+    .hero-copy { max-width: 580px; }
+    .overline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.2rem;
+      color: var(--lime);
+      font-size: .76rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 750;
+      padding: 4px 12px;
+      background: rgba(212, 241, 93, 0.1);
+      border-radius: 999px;
+    }
+    h1 {
+      margin-bottom: 1.2rem;
+      font-size: clamp(3.2rem, 7vw, 5.8rem);
+      line-height: .92;
+      letter-spacing: -.065em;
+      color: #fff;
+    }
+    h1 em { color: var(--lime); font-style: normal; }
+    .hero-copy > p:not(.overline) {
+      max-width: 46ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 1.8rem;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: var(--lime);
+      color: var(--dark);
+      font-size: .86rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px var(--lime-glow);
+      transition: all .2s;
+    }
+    .hero-link:hover {
+      background: #e2fb7a;
+      transform: translateY(-2px);
+    }
+    .hero-image {
+      height: 420px;
+      position: relative;
+      background: #182420;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .hero-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .hero-image:hover img { transform: scale(1.04); }
+    .hero-image:after {
+      content: "";
+      position: absolute;
+      inset: 40% 0 0;
+      background: linear-gradient(transparent, rgba(10, 15, 14, 0.9));
+    }
+    .image-caption {
+      position: absolute;
+      z-index: 2;
+      left: 1.5rem;
+      bottom: 1.5rem;
+      color: var(--cream);
+    }
+    .image-caption strong {
+      display: block;
+      font: italic 1.4rem var(--serif);
+    }
+    .image-caption span {
+      display: block;
+      color: var(--lime);
+      font-size: .78rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* Quote Layout */
+    .quote-layout {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 3.5rem;
+      padding: 4rem 0 5rem;
+      border-top: 1px solid var(--line);
+    }
+    .quote-intro h2 {
+      font: clamp(2rem, 4vw, 3.2rem)/1.08 var(--serif);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      color: #fff;
+      margin-top: .6rem;
+    }
+    .quote-intro p {
+      max-width: 40ch;
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.7;
+    }
+    .steps {
+      margin: 2rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .steps li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .9rem 0;
+      border-top: 1px solid var(--line);
+      color: #cfd8d2;
+      font-size: .88rem;
+    }
+    .steps b {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(212, 241, 93, 0.15);
+      color: var(--lime);
+      font-size: .76rem;
+    }
+
+    /* Quote Panel */
+    .quote-panel {
+      padding: 2.2rem;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+    .quote-panel h3 {
+      margin-bottom: .4rem;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+    .panel-copy {
+      margin-bottom: 1.6rem;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .form-field { display: block; }
+    .form-field span {
+      display: block;
+      margin-bottom: .4rem;
+      color: #b0bfb6;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .form-field select, .form-field input, .form-field textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: .75rem .9rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #0a0f0e;
+      color: var(--cream);
+      font-size: .88rem;
+      transition: border-color .15s;
+    }
+    .form-field select:focus, .form-field input:focus, .form-field textarea:focus {
+      border-color: var(--lime);
+      outline: none;
+    }
+    .form-field.full { grid-column: 1 / -1; }
+    .estimate {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 1.2rem 0;
+      border-block: 1px solid var(--line);
+    }
+    .estimate span {
+      color: var(--muted);
+      font-size: .86rem;
+    }
+    .estimate strong {
+      font: 700 1.5rem var(--serif);
+      color: var(--lime);
+      font-variant-numeric: tabular-nums;
+    }
+    .quote-button {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--lime);
+      color: var(--dark);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: .88rem;
+      box-shadow: 0 4px 16px var(--lime-glow);
+      transition: all .2s;
+    }
+    .quote-button:hover {
+      background: #e2fb7a;
+      transform: translateY(-1px);
+    }
+    .quote-status {
+      min-height: 1.5rem;
+      margin: .9rem 0 0;
+      color: var(--lime);
+      font-size: .84rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .fine-print {
+      margin: .9rem 0 0;
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.55;
+    }
+
+    /* Services List */
+    .services {
+      padding: 0 0 5rem;
+    }
+    .services-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .services h2 {
+      margin-bottom: 0;
+      font: 400 2.2rem var(--serif);
+      color: #fff;
+    }
+    .services-heading p {
+      max-width: 38ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .service-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      padding: 1.2rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .service-row h3 {
+      margin-bottom: .25rem;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .service-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .service-tag {
+      align-self: center;
+      color: var(--lime);
+      font-size: .75rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      padding: 4px 10px;
+      background: rgba(212, 241, 93, 0.1);
+      border-radius: 999px;
+    }
+    footer {
+      padding: 1.8rem 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    /* Toast Container */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(19, 27, 24, 0.95);
+      border: 1px solid var(--lime);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--lime);
+      color: var(--dark);
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 0; }
+      .hero-image { height: 320px; }
+      .quote-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 1.5rem); }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-field.full { grid-column: auto; }
+      .quote-panel { padding: 1.4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <strong>OTO SERVİS DEMOSU</strong> · Servis paketleri, tutar hesaplama ve randevu akışı örnektir; gerçek atölye hizmeti sunulmaz.
+  </div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#" aria-label="Vites Atölye ana sayfa">VİTES <b>ATÖLYE</b></a>
+      <a href="#teklif">✦ Örnek Fiyatı Hesapla</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="overline">✦ Profesyonel Bakım &amp; Arıza Teşhis Vitrini</span>
+        <h1>Yola güvenle <em>devam.</em></h1>
+        <p>Aracınıza ne yapılacağını önceden bilin, işin kapsamını ve parça standartlarını şeffafça görün. Vites Atölye, servis seçimi ve teklif isteği deneyimini sunan kurgusal bir otomotiv vitrinidir.</p>
+        <a class="hero-link" href="#teklif">Fiyat Hesapla &amp; Teklif Al →</a>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&amp;fit=crop&amp;w=1100&amp;q=85" alt="Bir araç üzerinde yapılan temsili servis çalışması" onerror="this.hidden=true">
+        <div class="image-caption">
+          <strong>Yetkili Ekipman Standartları</strong>
+          <span>Kurgusal atölye vitrini · Canlı demo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Teklif Paneli -->
+    <section class="wrap quote-layout" id="teklif" aria-labelledby="quote-title">
+      <div class="quote-intro">
+        <span class="overline">Şeffaf Hesaplama</span>
+        <h2 id="quote-title">Önce ihtiyacınızı seçin.</h2>
+        <p>Bir servis başlığı ve araç sınıfı belirleyin; ekranda anlık olarak örnek parça/işçilik aralığını hesaplayalım.</p>
+        <ol class="steps">
+          <li><b>01</b> Hizmet türünü ve araç sınıfını belirleyin</li>
+          <li><b>02</b> Hesaplanan temsili fiyat aralığını inceleyin</li>
+          <li><b>03</b> Demo randevu talebini simüle edin</li>
+        </ol>
+      </div>
+
+      <div class="quote-panel">
+        <h3>Servis Talebi &amp; Fiyat Hesabı</h3>
+        <p class="panel-copy">Bu form etkileşimli bir arayüz demosudur. Gerçek iş emri veya ödeme oluşturmaz.</p>
+        <form id="quote-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Hizmet paketi</span>
+              <select id="service" required>
+                <option value="bakim">Periyodik Genel Bakım</option>
+                <option value="fren">Fren Balatası &amp; Disk Kontrolü</option>
+                <option value="lastik">Mevsimlik Lastik Değişimi &amp; Balans</option>
+                <option value="diagnostic">Bilgisayarlı Arıza Tespit &amp; Beyin Testi</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>Araç segmenti</span>
+              <select id="vehicle">
+                <option value="compact">Hatchback / Kompakt</option>
+                <option value="sedan">Sedan / Executive</option>
+                <option value="suv">SUV / Crossover / 4x4</option>
+              </select>
+            </label>
+            <label class="form-field full">
+              <span>Ek not / Belirtmek istediğiniz ses veya arıza <span>(isteğe bağlı)</span></span>
+              <textarea id="note" rows="3" maxlength="240" placeholder="Örn: 2021 model aracımda 60.000 km bakımı yapılacak..."></textarea>
+            </label>
+          </div>
+          <div class="estimate">
+            <span>Temsili Fiyat Aralığı</span>
+            <strong id="estimate" aria-live="polite">₺2.000–₺3.800</strong>
+          </div>
+          <button class="quote-button" type="submit">Demo Randevu Talebini Göster</button>
+          <p class="quote-status" id="quote-status" role="status" aria-live="polite"></p>
+          <p class="fine-print">Tutarlar yalnızca arayüzü göstermek amacıyla kurgulanmıştır. Form verileri tarayıcınızdan dışarı iletilmez.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Hizmet Başlıkları -->
+    <section class="wrap services" aria-labelledby="services-title">
+      <div class="services-heading">
+        <h2 id="services-title">Örnek Hizmet Standartları</h2>
+        <p>Aşağıdaki liste genel servis kapsamını görselleştirmek amacıyla hazırlanmıştır.</p>
+      </div>
+      <article class="service-row">
+        <div>
+          <h3>Periyodik Genel Bakım</h3>
+          <p>Motor yağı, filtre değişimleri (yağ, hava, polen, yakıt) ve 40 nokta güvenlik kontrolü.</p>
+        </div>
+        <span class="service-tag">STANDART BAKIM</span>
+      </article>
+      <article class="service-row">
+        <div>
+          <h3>Fren ve Süspansiyon Revizyonu</h3>
+          <p>Balata aşınma testleri, fren hidroliği kaynama noktası ölçümü ve disk taşlama.</p>
+        </div>
+        <span class="service-tag">GÜVENLİK TESTİ</span>
+      </article>
+      <article class="service-row">
+        <div>
+          <h3>Bilgisayarlı OBD-II Diyagnostik</h3>
+          <p>Motor beyni hata kodu okuma, sensör kalibrasyonu ve canlı veri analizi.</p>
+        </div>
+        <span class="service-tag">DİJİTAL ANALİZ</span>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Vites Atölye · Kurgusal oto servis sitesi demosu. Canlı talep, tahsilat veya resmi servis kaydı bulunmaz.</div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    const amounts = {
+      bakim: { compact: "₺2.000–₺3.800", sedan: "₺2.400–₺4.500", suv: "₺2.900–₺5.200" },
+      fren: { compact: "₺1.200–₺3.000", sedan: "₺1.500–₺3.600", suv: "₺1.900–₺4.200" },
+      lastik: { compact: "₺700–₺1.600", sedan: "₺900–₺1.900", suv: "₺1.100–₺2.400" },
+      diagnostic: { compact: "₺500–₺1.200", sedan: "₺600–₺1.400", suv: "₺700–₺1.700" }
+    };
+    const service = document.querySelector("#service");
+    const vehicle = document.querySelector("#vehicle");
+    const toastContainer = document.getElementById("toast-container");
+
+    function showToast(message) {
+      if (!toastContainer) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    function updateEstimate() {
+      const priceRange = amounts[service.value][vehicle.value];
+      document.querySelector("#estimate").textContent = priceRange;
+      document.querySelector("#quote-status").textContent = "";
+      showToast("Fiyat hesabı güncellendi: " + priceRange);
+    }
+
+    service.addEventListener("change", updateEstimate);
+    vehicle.addEventListener("change", updateEstimate);
+
+    document.querySelector("#quote-form").addEventListener("submit", event => {
+      event.preventDefault();
+      const selected = service.options[service.selectedIndex].text;
+      const ref = "VTS-" + Math.floor(1000 + Math.random() * 9000);
+      document.querySelector("#quote-status").textContent = `✦ ${selected} için demo randevusu (#${ref}) oluşturuldu. Gerçek işlem yapılmadı.`;
+      showToast(`Servis Talebi #${ref} hazırlandı (Demo).`);
+    });
+  </script>
+</body>
+</html>

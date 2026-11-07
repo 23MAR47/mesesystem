@@ -1,0 +1,1228 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1118">
+  <meta name="description" content="Akıllı enerji, endüstriyel pano ve bina elektrik mühendisliği için interaktif Türkçe demo ve teklif arayüzü.">
+  <title>Akım — Akıllı Enerji &amp; Elektrik Mühendisliği Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090e14;
+      --bg-surface: #0f1722;
+      --panel: #131f2e;
+      --panel-hover: #18283a;
+      --panel-border: rgba(243, 199, 78, 0.16);
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --gold: #f3c74e;
+      --gold-glow: rgba(243, 199, 78, 0.35);
+      --orange: #ef8c45;
+      --cyan: #38bdf8;
+      --emerald: #10b981;
+      --line: rgba(255, 255, 255, 0.09);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
+      --serif: "Cinzel", Georgia, serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(ellipse at 85% 0%, rgba(243, 199, 78, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 15% 45%, rgba(56, 189, 248, 0.06) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(9, 14, 20, 0.95), #090e14);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+
+    .skip {
+      position: absolute;
+      left: 14px;
+      top: -70px;
+      z-index: 100;
+      background: var(--gold);
+      color: #090e14;
+      font-weight: 700;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      transition: top 0.2s;
+    }
+    .skip:focus { top: 14px; }
+
+    .shell {
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(9, 14, 20, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1c2b3d, #101a24);
+      border: 1px solid var(--gold);
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+    .brand-mark svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    .brand span {
+      color: var(--gold);
+      font-weight: 300;
+    }
+    .brand-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(243, 199, 78, 0.1);
+      color: var(--gold);
+      border: 1px solid rgba(243, 199, 78, 0.25);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--gold); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+    .demo-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      background: rgba(243, 199, 78, 0.12);
+      border: 1px solid rgba(243, 199, 78, 0.3);
+      color: var(--gold);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 72px 0 64px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 5.2vw, 68px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--gold) 20%, #ffffff 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 580px;
+      margin-bottom: 32px;
+    }
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--gold), #e5b638);
+      color: #0b1118;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 26px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 20px var(--gold-glow);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(243, 199, 78, 0.5);
+    }
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 22px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+    }
+    .cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+    .metric-item strong {
+      display: block;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .metric-item strong span { color: var(--gold); }
+    .metric-item span.lbl {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Diagram Card */
+    .circuit-card {
+      position: relative;
+      background: linear-gradient(145deg, #101c29, #0a121c);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .circuit-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(243, 199, 78, 0.08), transparent 70%),
+        repeating-linear-gradient(0deg, transparent, transparent 39px, var(--line) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, var(--line) 40px);
+      pointer-events: none;
+    }
+    .circuit-header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .circuit-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .circuit-nodes {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .node-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: rgba(19, 31, 46, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      transition: border-color 0.2s;
+    }
+    .node-item:hover {
+      border-color: rgba(243, 199, 78, 0.4);
+    }
+    .node-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .node-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(243, 199, 78, 0.12);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+    }
+    .node-status {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--emerald);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .circuit-footer {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+
+    /* Services Grid */
+    .services-section {
+      padding: 64px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: clamp(28px, 3.8vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 30px;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(243, 199, 78, 0.4);
+      background: var(--panel-hover);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+    .service-card:hover::after { opacity: 1; }
+    .service-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .service-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+    .service-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .service-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+    .spec-pill {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+    .service-btn {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      background: transparent;
+      border: 0;
+      padding: 0;
+      transition: gap 0.2s;
+    }
+    .service-btn:hover { gap: 12px; }
+
+    /* Request Form & Live Triage */
+    .request-section {
+      padding: 72px 0 88px;
+      border-top: 1px solid var(--line);
+    }
+    .request-container {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .request-header h2 {
+      font-size: clamp(32px, 4.2vw, 54px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 20px;
+    }
+    .request-lead {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .urgent-banner {
+      background: rgba(239, 140, 69, 0.08);
+      border: 1px solid rgba(239, 140, 69, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .urgent-banner strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .urgent-banner p {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* Live Triage Card */
+    .triage-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+    }
+    .triage-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .triage-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .triage-item:last-child { border-bottom: 0; }
+    .triage-lbl { color: var(--muted); }
+    .triage-val { font-weight: 600; color: var(--ink); }
+
+    /* Form Panel */
+    .form-panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .field.full {
+      grid-column: 1 / -1;
+    }
+    .field label, .group legend {
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 14px;
+      background: #090e14;
+      border: 1px solid #2b3d4f;
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .field select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23f3c74e' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 12px;
+    }
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(243, 199, 78, 0.2);
+      background: #0d151e;
+    }
+
+    .group {
+      border: 0;
+      padding: 0;
+      margin: 0;
+    }
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .urgency {
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+    .urgency input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+    }
+    .urgency span {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      padding: 12px 10px;
+      border: 1px solid #2b3d4f;
+      border-radius: var(--radius-sm);
+      background: #090e14;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .urgency input:checked + span {
+      background: rgba(243, 199, 78, 0.14);
+      border-color: var(--gold);
+      color: var(--gold);
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(243, 199, 78, 0.2);
+    }
+    .urgency:focus-within span {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .send {
+      min-height: 52px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--gold), #e5b638);
+      color: #0b1118;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 4px 18px var(--gold-glow);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+    }
+    .send:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(243, 199, 78, 0.5);
+    }
+    .send:active { transform: translateY(0); }
+
+    .privacy {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .status {
+      min-height: 24px;
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--gold);
+      background: rgba(243, 199, 78, 0.08);
+      border: 1px solid rgba(243, 199, 78, 0.2);
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+    }
+    .status.active { display: block; }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0 44px;
+      margin-top: auto;
+      background: #070b0f;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* Mobile Sticky Quick Bar */
+    .mobile-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(9, 14, 20, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      padding: 12px 20px;
+      display: none;
+      z-index: 50;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .mobile-bar-btn {
+      flex: 1;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #090e14;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+    }
+    .mobile-bar-status {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Interactive Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      background: rgba(15, 23, 34, 0.96);
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      color: var(--ink);
+      font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      max-width: 360px;
+      animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toast.hide {
+      animation: toastOut 0.25s forwards;
+    }
+    @keyframes toastIn {
+      from { transform: translateY(20px) scale(0.95); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    @keyframes toastOut {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(15px); opacity: 0; }
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 0; }
+      .services-grid { grid-template-columns: 1fr; }
+      .request-container { grid-template-columns: 1fr; gap: 32px; }
+      .nav { display: none; }
+      .mobile-bar { display: flex; }
+      body { padding-bottom: 68px; }
+    }
+
+    @media (max-width: 600px) {
+      .shell { width: calc(100% - 32px); }
+      .fields { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .choices { grid-template-columns: 1fr; }
+      .form-panel { padding: 24px 18px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">İçeriğe geç</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="shell header-inner">
+      <div class="brand-group">
+        <a class="brand" href="#top">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          AKIM <span>/ elektrik</span>
+        </a>
+        <span class="brand-tag">Mühendislik Demosu</span>
+      </div>
+
+      <nav class="nav" aria-label="Ana gezinme">
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="#diyagram">Sistem Mimarisi</a>
+        <a href="#teklif">Keşif &amp; Teklif</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="live-status">
+          <span class="pulse-dot"></span>
+          <span>Sistem Çevrimiçi</span>
+        </div>
+        <span class="demo-badge">Demo Arayüz</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main" class="shell">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div>
+        <div class="hero-eyebrow">
+          <span>●</span> Akıllı Enerji &amp; Yüksek Güvenilirlik
+        </div>
+        <h1>
+          Güvenli şebeke.<br>
+          <span class="highlight">Kusursuz altyapı.</span>
+        </h1>
+        <p class="hero-desc">
+          Konut, ticari alan ve endüstriyel tesisler için yüksek standartlı elektrik mühendisliği iş akışı. 
+          İhtiyacınızı ve aciliyet derecenizi belirleyin; interaktif simülasyonumuz anında keşif profilinizi hazırlasın.
+        </p>
+        <div class="hero-ctas">
+          <a class="cta-primary" href="#teklif">
+            <span>Örnek Keşif Başlat</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="cta-secondary" href="#hizmetler">
+            <span>Hizmet Yelpazesi</span>
+          </a>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <strong>24<span>/7</span></strong>
+            <span class="lbl">Triage Hazırlığı</span>
+          </div>
+          <div class="metric-item">
+            <strong>%100</strong>
+            <span class="lbl">Simüle Akış</span>
+          </div>
+          <div class="metric-item">
+            <strong>A+</strong>
+            <span class="lbl">Enerji Verimliliği</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Blueprint Diagram -->
+      <div class="circuit-card" id="diyagram" role="region" aria-label="Elektrik şebekesi simülasyon paneli">
+        <div class="circuit-header">
+          <span class="circuit-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Şebeke Teşhis Paneli
+          </span>
+          <span class="brand-tag">v2.4 Yerel Simülatör</span>
+        </div>
+        <div class="circuit-nodes">
+          <div class="node-item">
+            <div class="node-info">
+              <span class="node-icon">⚡</span>
+              <div>
+                <strong>Ana Dağıtım Panosu</strong>
+                <div style="font-size: 11px; color: var(--muted);">380V Trifaze Faz Dengesi</div>
+              </div>
+            </div>
+            <span class="node-status"><span class="pulse-dot"></span> Nominal</span>
+          </div>
+          <div class="node-item">
+            <div class="node-info">
+              <span class="node-icon">🔋</span>
+              <div>
+                <strong>Aşırı Gerilim / Kaçak Akım</strong>
+                <div style="font-size: 11px; color: var(--muted);">30mA Diferansiyel Koruma</div>
+              </div>
+            </div>
+            <span class="node-status"><span class="pulse-dot"></span> Aktif</span>
+          </div>
+          <div class="node-item">
+            <div class="node-info">
+              <span class="node-icon">💡</span>
+              <div>
+                <strong>DALI &amp; Akıllı Aydınlatma</strong>
+                <div style="font-size: 11px; color: var(--muted);">Otomasyon Veriyolu</div>
+              </div>
+            </div>
+            <span class="node-status"><span class="pulse-dot"></span> Hazır</span>
+          </div>
+        </div>
+        <div class="circuit-footer">
+          <span>Temsili laboratuvar telemetrisi</span>
+          <span style="color: var(--gold);">Harici veri iletilmez</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-section" id="hizmetler" aria-label="Örnek elektrik hizmetleri">
+      <div class="section-eyebrow">Hizmet Alanları</div>
+      <h2 class="section-title">Uzmanlık Gerektiren Çözümler</h2>
+      <div class="services-grid">
+        <article class="service-card">
+          <span class="service-badge">Teşhis &amp; Güvenlik</span>
+          <h3>Arıza &amp; Kaçak Akım Tespiti</h3>
+          <p>Sigorta atması, pano arkı, kaçak akım rölesi devresi sorunları ve termal kamera ile ısı haritası incelemesi.</p>
+          <div class="service-specs">
+            <span class="spec-pill">Termal Teşhis</span>
+            <span class="spec-pill">Topraklama Ölçümü</span>
+            <span class="spec-pill">Meger İzolasyon</span>
+          </div>
+          <button type="button" class="service-btn" onclick="quickSelect('Arıza kontrolü')">Bu hizmeti formda seç →</button>
+        </article>
+
+        <article class="service-card">
+          <span class="service-badge">Otomasyon &amp; Mimari</span>
+          <h3>Aydınlatma &amp; Akıllı Ev</h3>
+          <p>DALI, KNX ve mimari lineer LED projeleri, acil çıkış yönlendirme armatürleri ve lüks aydınlatma kontrolü.</p>
+          <div class="service-specs">
+            <span class="spec-pill">Lineer LED</span>
+            <span class="spec-pill">KNX Entegrasyonu</span>
+            <span class="spec-pill">Dimmer Gruplama</span>
+          </div>
+          <button type="button" class="service-btn" onclick="quickSelect('Aydınlatma kurulumu')">Bu hizmeti formda seç →</button>
+        </article>
+
+        <article class="service-card">
+          <span class="service-badge">Altyapı &amp; Revizyon</span>
+          <h3>Pano &amp; Tesisat Yenileme</h3>
+          <p>Yetersiz kalan eski kablolamanın halojensiz (HFFR) standartlara çekilmesi ve modern modüler pano montajı.</p>
+          <div class="service-specs">
+            <span class="spec-pill">HFFR Kablolama</span>
+            <span class="spec-pill">Schneider/Siemens Pano</span>
+            <span class="spec-pill">Proje Onayı</span>
+          </div>
+          <button type="button" class="service-btn" onclick="quickSelect('Yenileme / başka iş')">Bu hizmeti formda seç →</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Request Form Section -->
+    <section class="request-section" id="teklif">
+      <div class="request-container">
+        <div class="request-header">
+          <div class="section-eyebrow">Simüle Keşif Talebi</div>
+          <h2>İhtiyacınızı<br>Birlikte Planlayalım.</h2>
+          <p class="request-lead">
+            Tesisat durumunu ve aciliyet derecesini belirtin. 
+            Bu form demo amaçlı olup tarayıcınızda anında simüle bir iş emri referansı üretir.
+          </p>
+
+          <div class="urgent-banner">
+            <strong>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.5L20 19H4L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+              Acil Durum Bilgilendirmesi
+            </strong>
+            <p>
+              Bu arayüz kurgusal bir örnektir ve acil servis merkezi değildir. Yanık kokusu veya doğrudan ark tehlikesi varsa derhal ana şalteri indiriniz ve resmi itfaiye/şebeke acil hattını arayınız.
+            </p>
+          </div>
+
+          <!-- Live Dynamic Triage Box -->
+          <div class="triage-box">
+            <div class="triage-title">
+              <span>Canlı Öncelik &amp; Triage</span>
+              <span id="triage-badge" style="color: var(--gold);">Normal İnceleme</span>
+            </div>
+            <div class="triage-item">
+              <span class="triage-lbl">Seçili Hizmet:</span>
+              <span class="triage-val" id="triage-service">Seçilmedi</span>
+            </div>
+            <div class="triage-item">
+              <span class="triage-lbl">Zaman Aralığı:</span>
+              <span class="triage-val" id="triage-window">Planlı randevu</span>
+            </div>
+            <div class="triage-item">
+              <span class="triage-lbl">Örnek Talep Kodu:</span>
+              <span class="triage-val" id="triage-code">AKM-TASLAK</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Panel -->
+        <div class="form-panel">
+          <form id="form" novalidate>
+            <div class="fields">
+              <div class="field">
+                <label for="name">Adınız Soyadınız</label>
+                <input id="name" name="name" autocomplete="name" placeholder="Örn: Caner Yalçın" required>
+              </div>
+
+              <div class="field">
+                <label for="phone">Telefon Numaranız</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="05XX XXX XX XX" required>
+              </div>
+
+              <div class="field">
+                <label for="service">İş Türü</label>
+                <select id="service" name="service" required>
+                  <option value="">Bir hizmet seçiniz</option>
+                  <option>Arıza kontrolü</option>
+                  <option>Aydınlatma kurulumu</option>
+                  <option>Priz veya anahtar</option>
+                  <option>Yenileme / başka iş</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="area">Bölge / İlçe</label>
+                <input id="area" name="area" autocomplete="address-level2" placeholder="Örn: Kadıköy / Moda" required>
+              </div>
+
+              <fieldset class="field full group">
+                <legend>Ne kadar acil?</legend>
+                <div class="choices">
+                  <label class="urgency">
+                    <input type="radio" name="urgency" value="Planlı" checked>
+                    <span>
+                      <strong>Planlı</strong>
+                      <small style="opacity: 0.7;">1-3 Gün İçinde</small>
+                    </span>
+                  </label>
+                  <label class="urgency">
+                    <input type="radio" name="urgency" value="Yakın zamanda">
+                    <span>
+                      <strong>Yakın Zamanda</strong>
+                      <small style="opacity: 0.7;">24-48 Saat</small>
+                    </span>
+                  </label>
+                  <label class="urgency">
+                    <input type="radio" name="urgency" value="Acil değil">
+                    <span>
+                      <strong>Acil Değil</strong>
+                      <small style="opacity: 0.7;">Gelecek Hafta</small>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="field full">
+                <label for="details">İşin Detayları &amp; Açıklaması</label>
+                <textarea id="details" name="details" placeholder="Örneğin: Sigorta sürekli devreden çıkıyor veya yeni mutfak priz hatları çekilecek."></textarea>
+              </div>
+
+              <div class="field full">
+                <button type="button" class="send" id="send">
+                  Örnek Teklif Talebi Oluştur ⚡
+                </button>
+                <p class="privacy">
+                  Bu demo sayfası verileri saklamaz veya harici sunuculara iletmez. Gösterilen değerler temsili simülasyondur.
+                </p>
+                <div class="status" id="status" role="status" aria-live="polite"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Quick Action Bar -->
+  <aside class="mobile-bar" aria-label="Hızlı mobil eylemler">
+    <div class="mobile-bar-status">
+      <span class="pulse-dot" style="display:inline-block; margin-right:4px;"></span>
+      <span>Simüle Keşif Formu</span>
+    </div>
+    <a href="#teklif" class="mobile-bar-btn">
+      <span>Keşif Formuna Git ↘</span>
+    </a>
+  </aside>
+
+  <!-- Interactive Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <div>
+        <strong>Akım</strong> · Kurgusal elektrik mühendisliği demo arayüzü
+      </div>
+      <div class="footer-links">
+        <span>Temsili Portfolyo Tasarımı</span>
+        <a href="#top">Yukarı çık ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.querySelector('#form');
+    const statusEl = document.querySelector('#status');
+    const serviceSelect = document.querySelector('#service');
+    const urgencyInputs = document.querySelectorAll('input[name="urgency"]');
+    const triageBadge = document.querySelector('#triage-badge');
+    const triageService = document.querySelector('#triage-service');
+    const triageWindow = document.querySelector('#triage-window');
+    const triageCode = document.querySelector('#triage-code');
+    const toastContainer = document.querySelector('#toastContainer');
+
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      const icon = type === 'success' ? '⚡' : 'ℹ️';
+      toast.innerHTML = `<span style="font-size:16px;">${icon}</span><span style="flex:1;">${message}</span>`;
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 260);
+      }, 4200);
+    }
+
+    function updateTriage() {
+      const currentService = serviceSelect.value || 'Seçilmedi';
+      const checkedUrgency = document.querySelector('input[name="urgency"]:checked')?.value || 'Planlı';
+
+      triageService.textContent = currentService;
+      if (checkedUrgency === 'Planlı') {
+        triageBadge.textContent = 'Planlı İnceleme';
+        triageBadge.style.color = 'var(--gold)';
+        triageWindow.textContent = '1-3 iş günü içerisinde keşif';
+      } else if (checkedUrgency === 'Yakın zamanda') {
+        triageBadge.textContent = 'Öncelikli Triage';
+        triageBadge.style.color = 'var(--orange)';
+        triageWindow.textContent = '24-48 saat randevu penceresi';
+      } else {
+        triageBadge.textContent = 'Esnek Takvim';
+        triageBadge.style.color = 'var(--cyan)';
+        triageWindow.textContent = 'Müsaitlik durumunda planlama';
+      }
+    }
+
+    window.quickSelect = function(serviceName) {
+      serviceSelect.value = serviceName;
+      updateTriage();
+      showToast(`“${serviceName}” hizmeti form alanında seçildi.`, 'info');
+      const target = document.querySelector('#teklif');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    serviceSelect.addEventListener('change', updateTriage);
+    urgencyInputs.forEach(input => input.addEventListener('change', updateTriage));
+
+    document.querySelector('#send').addEventListener('click', () => {
+      statusEl.textContent = '';
+      statusEl.classList.remove('active');
+
+      if (!form.reportValidity()) {
+        showToast('Lütfen formdaki zorunlu alanları doldurunuz.', 'warning');
+        return;
+      }
+
+      const kind = serviceSelect.value;
+      const urgency = document.querySelector('input[name="urgency"]:checked').value;
+      const refCode = 'AKM-' + Math.floor(1000 + Math.random() * 9000);
+
+      triageCode.textContent = refCode;
+      const feedbackMsg = `“${kind}” için “${urgency.toLowerCase()}” önceliğinde örnek talep hazır. Ref: ${refCode}. Bilgiler gönderilmedi ve teklif oluşturulmadı.`;
+      
+      statusEl.textContent = feedbackMsg;
+      statusEl.classList.add('active');
+      showToast(`Örnek talep simüle edildi! (${refCode})`, 'success');
+
+      form.reset();
+      updateTriage();
+    });
+
+    form.addEventListener('submit', (e) => e.preventDefault());
+  </script>
+</body>
+</html>

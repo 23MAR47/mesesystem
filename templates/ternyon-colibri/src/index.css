@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/*
+  Gorget — an original interface over the hummingbird hero.
+
+  The palette is sampled from the hero image itself rather than invented, so
+  the UI and the photograph share a source:
+
+      rose        #bd235d   the gorget
+      jade        #2c4639   the mantle
+      shadow      #17211f   the darkest plumage
+
+  The ground gradient is sampled from the hummingbird plate itself.
+*/
+@theme {
+  --color-ink: #0c1a14;
+  --color-ink-2: #1d4034;
+  --color-ink-3: #4a6b5c;
+  --color-amber: #e0568a;
+  --color-paper: #f0f7f2;
+  --color-ground-hi: #bcd6c6;
+  --color-ground-lo: #2e4a3c;
+
+  --font-display: "Instrument Serif", Georgia, serif;
+  /* The wordmark keeps its own face. Marko One is wider and softer than
+     Instrument Serif and holds up better at 365px behind the bird. */
+  --font-wordmark: "Marko One", Georgia, serif;
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+}
+
+:root {
+  --stage-w: 1920;
+  --stage-h: 1080;
+  --hair: rgba(22, 43, 13, 0.16);
+  --hair-strong: rgba(22, 43, 13, 0.28);
+}
+
+html,
+body,
+#root {
+  margin: 0;
+}
+
+body {
+  background: #5c7366;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Legibility scrim.
+
+   A soft lift behind the hero copy, peak 0.25 -- half of 0.50, which is the
+   least wash that would put the body copy at 4.5:1 over this bird's ground
+   (unwashed it measures 1.1:1). Set for the photograph, not for the target.
+
+   Sized to the copy block and nothing more: centred on it, reaching a little
+   past the CTA and fading out well before the bird. An earlier version spread
+   a wide ellipse across a third of the frame, which read as haze over the
+   photograph rather than as light behind the text.
+
+   The noise is a dither, not texture. A ramp this shallow over dark footage
+   quantises to 8-bit and the steps show as rings -- plainly visible once the
+   scrim is isolated against the clip. About a level of noise breaks them up.
+
+   The element is oversized (-20%) because a background paints only inside its
+   own box: at artboard size the falloff was clipped into a hard seam. It sits
+   inside the artboard so it tracks the copy at any aspect ratio; at the
+   viewport it would drift, the artboard being contain-scaled and centred.
+
+   Geometry, in artboard px, re-expressed against the 140% element:
+     copy block  x 60-480, y 540-880   centre (270, 710)
+     falloff     460 x 380             -> 17% x 25% at 24% 61% */
+.scrim {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+    radial-gradient(
+      ellipse 17% 25% at 24% 61%,
+      color-mix(in srgb, var(--color-paper) 25%, transparent) 0%,
+      color-mix(in srgb, var(--color-paper) 23%, transparent) 30%,
+      color-mix(in srgb, var(--color-paper) 18%, transparent) 50%,
+      color-mix(in srgb, var(--color-paper) 10%, transparent) 72%,
+      color-mix(in srgb, var(--color-paper) 3%, transparent) 88%,
+      transparent 100%
+    );
+  background-repeat: repeat, no-repeat;
+  background-size: 180px 180px, 100% 100%;
+}
+
+/* Hero copy colour.
+
+   The copy sits on the clip's own ground, so which direction reads is a
+   property of that ground, not a style choice. Measured over the copy block
+   with the scrim applied, this bird gives 2.7:1 dark / 6.1:1 light --
+   hence light type here.
+
+   Kept as variables because the four variants split on this: eagle and
+   sparrow have pale enough ground to carry dark ink, colibri and toucan do
+   not, and their ground is near black behind the copy. Light type gets them
+   readable without leaning on a heavier scrim over the photograph. */
+:root {
+  --hero-ink: var(--color-paper);
+  --hero-ink-soft: rgba(240,247,242,0.80);
+  --hero-ink-body: rgba(240,247,242,0.86);
+  --hero-em: #bcd6c6;
+  --hero-rule: rgba(240,247,242,0.34);
+}
+
+.stage-bg {
+  background: linear-gradient(180deg, #cfdad3 38.6%, #5c7366 116%);
+}
+
+/* A micro-label: uppercase, tracked out, set small. Used for eyebrows and
+   the index numbers in the spec panel. */
+.micro {
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Hairlines carry most of the structure here instead of boxes and shadows. */
+.hair-t {
+  border-top: 1px solid var(--hair);
+}
+.hair-b {
+  border-bottom: 1px solid var(--hair);
+}
+
+/* The spec panel. Deliberately not a glass card: a single translucent plane
+   with a hairline edge and an inner highlight, so it reads as a pane of the
+   page rather than an object floating over it. */
+.panel {
+  background: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.3) 46%,
+    rgba(109, 133, 70, 0.2) 100%
+  );
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 24px 60px -32px rgba(22, 43, 13, 0.55);
+}
+
+/* Tabular figures so the numbers in the spec rows hold their columns. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* The wordmark behind the bird. */
+.wordmark {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Plate mode (?plate): backdrop only, for exporting video conditioning frames. */
+.plate > *:not(.backdrop) {
+  display: none !important;
+}
+.plate .wordmark {
+  display: none !important;
+}

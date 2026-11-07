@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* NEGENTROPY palette — particle-driven longevity site (Bryan Johnson tribute).
+     Black cosmos with amber-to-violet gradient particles. Origin: art direction
+     in obsidian/projects/negentropy/concept.md. */
+  --negentropy-void: #050608;
+  --negentropy-void-soft: #0a0c12;
+  --negentropy-amber: #ff6030;
+  --negentropy-amber-soft: #ffb98a;
+  --negentropy-violet: #6b4ce0;
+  --negentropy-violet-deep: #1b3984;
+  --negentropy-bone: #f5ede0;
+  --negentropy-bone-muted: #b6ada0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-onest);
+  --font-display: var(--font-unbounded);
+  /* System face — Helvetica Neue on Apple devices, falls back through the
+     OS stack elsewhere. Used for loader / UI labels where the brand display
+     face would be too heavy. */
+  --font-system: -apple-system, "Helvetica Neue", Helvetica, system-ui, Arial,
+    sans-serif;
+
+  --color-negentropy-void: var(--negentropy-void);
+  --color-negentropy-void-soft: var(--negentropy-void-soft);
+  --color-negentropy-amber: var(--negentropy-amber);
+  --color-negentropy-amber-soft: var(--negentropy-amber-soft);
+  --color-negentropy-violet: var(--negentropy-violet);
+  --color-negentropy-violet-deep: var(--negentropy-violet-deep);
+  --color-negentropy-bone: var(--negentropy-bone);
+  --color-negentropy-bone-muted: var(--negentropy-bone-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  /* Brand void colour on the root elements so any momentary gap between
+     loader / scene / sections never reveals a different underlayer.
+     Pages that need a different bg can still override on their own root. */
+  background: var(--negentropy-void);
+}
+
+body {
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Scroll-narrative pages opt out of the centered shell — they own their own
+   vertical layout. Scoped via `:has()` on a data attribute so adding more
+   such pages is a single attribute change in the view, no CSS edit. */
+body:has(main[data-scroll-narrative]) {
+  display: block;
+  height: auto;
+  min-height: 100vh;
+  justify-content: flex-start;
+  align-items: stretch;
+  /* Lock the page bg to the brand void colour so the loader fading out, the
+     R3F scene mounting, and the section background all share one canvas
+     colour — no flash through the global `--background` underneath. */
+  background: var(--negentropy-void);
+}
+
+@layer base {
+  /* Adaptive scaling grid — scales the root font-size with the viewport so a
+     rem-based layout stays proportional. Each breakpoint divides FONT_BASE
+     (16px) by the design base width its range was laid out at:
+       font-size: 16 * 100 / baseWidth  (vw)
+     Above 1920px the AdaptiveGrid component takes over (scale-up).
+     Keep in sync with src/components/common/grid/grid.config.ts. */
+  html {
+    font-size: 16px;
+  }
+
+  @media (max-width: 1920px) {
+    html {
+      font-size: 0.833333vw; /* 16 * 100 / 1920 */
+    }
+  }
+
+  @media (max-width: 1440px) {
+    html {
+      font-size: 1.111111vw; /* 16 * 100 / 1440 */
+    }
+  }
+
+  @media (max-width: 1024px) {
+    html {
+      font-size: 1.5625vw; /* 16 * 100 / 1024 */
+    }
+  }
+
+  @media (max-width: 640px) {
+    html {
+      font-size: 4.444444vw; /* 16 * 100 / 360 */
+    }
+  }
+}
+
+@layer utilities {
+}
+
+@layer components {
+}

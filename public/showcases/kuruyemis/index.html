@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1730">
+  <meta name="description" content="Çıtır & Çekirdek — Kurgusal butik kuruyemiş ve özel harman kahve dükkânı için ürün ve sepet konsepti.">
+  <title>Çıtır &amp; Çekirdek — Gurme Kuruyemiş & Kahve Dükkânı Demosu</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #0d1730;
+      --navy-light: #162447;
+      --blue: #1f3568;
+      --orange: #e86538;
+      --yellow: #f5d76e;
+      --gold: #c5a059;
+      --bg: #f8f6f0;
+      --card: #ffffff;
+      --line: #dcd7ca;
+      --muted: #5d677a;
+      --serif: Georgia, "Times New Roman", Garamond, serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--navy);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: var(--yellow); color: var(--navy); }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+    .skip {
+      position: absolute;
+      z-index: 100;
+      left: 1rem;
+      top: -5rem;
+      padding: .8rem 1.2rem;
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: 750;
+      border-radius: 4px;
+      transition: top .2s ease;
+    }
+    .skip:focus { top: 1rem; }
+
+    .shell {
+      width: min(1280px, calc(100% - 48px));
+      margin: auto;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      background: rgba(248, 246, 240, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(13, 23, 48, 0.05);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brand-stamp {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), #c4471d);
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 14px rgba(232, 101, 56, 0.3);
+    }
+    .brand-name {
+      font-weight: 900;
+      letter-spacing: -.03em;
+      font-size: 1.15rem;
+      color: var(--navy);
+    }
+    .brand-name span { color: var(--orange); }
+    .nav-note {
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .cart-jump {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--navy);
+      border-radius: 999px;
+      background: var(--navy);
+      color: white;
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 750;
+      transition: all .2s;
+      box-shadow: 0 4px 14px rgba(13, 23, 48, 0.2);
+    }
+    .cart-jump:hover {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+    .cart-badge {
+      display: grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: .74rem;
+      font-weight: 900;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: stretch;
+      gap: 0;
+      margin: 36px 0 64px;
+      background: var(--navy);
+      border-radius: 16px;
+      overflow: hidden;
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(13, 23, 48, 0.25);
+    }
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: clamp(32px, 5.5vw, 68px);
+    }
+    .hero-kicker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--yellow);
+      font-size: .74rem;
+      font-weight: 750;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .hero-kicker::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: var(--orange);
+    }
+    .hero h1 {
+      max-width: 580px;
+      margin: 0;
+      font: 800 clamp(2.8rem, 6.2vw, 5.6rem)/.94 var(--sans);
+      letter-spacing: -.065em;
+    }
+    .hero h1 span { color: var(--yellow); }
+    .hero-copy > p {
+      max-width: 460px;
+      margin: 20px 0 0;
+      color: #d1d8ea;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background: var(--yellow);
+      color: var(--navy);
+      border-radius: 999px;
+      font-size: .84rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(245, 215, 110, 0.4);
+      transition: all .2s;
+    }
+    .hero-link:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+    .hero-photo {
+      position: relative;
+      min-height: 380px;
+      background: #73452b;
+    }
+    .hero-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .hero:hover .hero-photo img {
+      transform: scale(1.04);
+    }
+    .hero-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--navy) 0%, transparent 35%);
+    }
+    .photo-label {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      z-index: 2;
+      padding: 8px 14px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Main Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 36px;
+      align-items: start;
+      padding-bottom: 84px;
+    }
+    .products { min-width: 0; }
+    .section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--navy);
+    }
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -.05em;
+    }
+    .section-heading p {
+      max-width: 320px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 0 24px;
+    }
+    .filter {
+      min-height: 40px;
+      padding: 0 18px;
+      border: 1px solid #bac0d2;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--navy);
+      transition: all .2s ease;
+    }
+    .filter:hover {
+      border-color: var(--blue);
+      background: #e6e9f5;
+    }
+    .filter[aria-pressed="true"] {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: white;
+      box-shadow: 0 4px 14px rgba(13, 23, 48, 0.25);
+    }
+
+    /* Product Cards */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .product {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+      transition: all .25s ease;
+    }
+    .product:hover {
+      transform: translateY(-4px);
+      border-color: var(--orange);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.09);
+    }
+    .product[hidden] { display: none; }
+    .product-photo {
+      position: relative;
+      height: 160px;
+      overflow: hidden;
+      background: #d9c49b;
+    }
+    .product-photo span {
+      position: absolute;
+      z-index: 2;
+      inset: auto 10px 10px;
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 750;
+      background: rgba(13, 23, 48, 0.8);
+      padding: 3px 8px;
+      border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .product-photo img, .product-photo svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s cubic-bezier(.16,1,.3,1);
+    }
+    .product:hover .product-photo img, .product:hover .product-photo svg {
+      transform: scale(1.08);
+    }
+    .product-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 16px;
+    }
+    .product-type {
+      margin: 0 0 6px;
+      color: var(--orange);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .product h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+      color: var(--navy);
+    }
+    .product-desc {
+      min-height: 38px;
+      margin: 8px 0 16px;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+    .product-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .product-price {
+      font-size: 1.05rem;
+      font-weight: 850;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+    .product-unit {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 400;
+    }
+    .add {
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid var(--navy);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--navy);
+      cursor: pointer;
+      font-size: .76rem;
+      font-weight: 750;
+      white-space: nowrap;
+      transition: all .15s ease;
+    }
+    .add:hover {
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(13, 23, 48, 0.25);
+    }
+
+    /* Cart */
+    .cart {
+      position: sticky;
+      top: 96px;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--orange);
+      border-radius: 12px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+    }
+    .cart-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .cart-title h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: -.03em;
+      color: var(--navy);
+    }
+    .cart-title span {
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .cart-empty {
+      margin: 0;
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .cart-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .cart-line {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .cart-line strong {
+      display: block;
+      font-size: .84rem;
+      color: var(--navy);
+    }
+    .cart-line small {
+      display: block;
+      margin-top: 3px;
+      color: var(--orange);
+      font-size: .75rem;
+      font-weight: 750;
+    }
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quantity button {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #aaa5bd;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      display: grid;
+      place-items: center;
+      transition: all .15s;
+    }
+    .quantity button:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+    .quantity span {
+      min-width: 18px;
+      text-align: center;
+      font-size: .82rem;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 18px 0 10px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .total strong {
+      font-size: 1.25rem;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+    .notice {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: .72rem;
+      line-height: 1.55;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: 6px;
+      border-left: 3px solid var(--orange);
+    }
+    .cart-actions {
+      display: grid;
+      gap: 10px;
+    }
+    .checkout, .clear {
+      min-height: 44px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 750;
+      transition: all .2s;
+    }
+    .checkout {
+      border: 0;
+      background: var(--navy);
+      color: white;
+      box-shadow: 0 4px 14px rgba(13, 23, 48, 0.2);
+    }
+    .checkout:hover:not(:disabled) {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+    .clear {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+    }
+    .clear:hover:not(:disabled) {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .checkout:disabled, .clear:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+    .status {
+      min-height: 2.2em;
+      margin: 12px 0 0;
+      color: var(--navy);
+      font-size: .78rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* Floating Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(13, 23, 48, 0.95);
+      border: 1px solid var(--yellow);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--navy);
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    /* Mobile Sticky Bottom Bar */
+    .mobile-cart-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(13, 23, 48, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 20px;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .mobile-cart-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      max-width: 500px;
+      margin: auto;
+    }
+    .mobile-cart-info span {
+      display: block;
+      color: #cbd3e8;
+      font-size: .72rem;
+    }
+    .mobile-cart-info strong {
+      display: block;
+      color: var(--yellow);
+      font-size: 1.15rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .mobile-cart-btn {
+      min-height: 42px;
+      padding: 0 20px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: .84rem;
+      border: 0;
+      cursor: pointer;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 0 32px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    @media (max-width: 1050px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .cart { position: static; order: -1; margin-bottom: 24px; }
+      .mobile-cart-bar { display: block; }
+    }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 32px, 560px); }
+      .topbar { height: 68px; }
+      .nav-note { display: none; }
+      .hero { grid-template-columns: 1fr; margin: 20px 0 36px; }
+      .hero-photo { min-height: 240px; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer { flex-direction: column; gap: 8px; }
+    }
+    @media (max-width: 440px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .product-photo { height: 180px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#products">Ürünlere geç</a>
+
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Çıtır ve Çekirdek ana sayfa">
+        <span class="brand-stamp" aria-hidden="true">ÇÇ</span>
+        <span class="brand-name">ÇITIR <span>&amp;</span> ÇEKİRDEK</span>
+      </a>
+      <span class="nav-note">✦ Kavrulmuş Kuruyemiş & Nitelikli Kahve Dükkânı</span>
+      <a class="cart-jump" href="#cart">
+        <span>Sepetim</span>
+        <span class="cart-badge" id="cart-count" aria-label="Sepetteki toplam ürün sayısı">0</span>
+      </a>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <span class="hero-kicker">Taze Kavrulmuş Çekirdekler · Örnek Seçki</span>
+          <h1 id="page-title">Çıtır bir ara <span>ver.</span></h1>
+          <p>Çıtır &amp; Çekirdek; taze kavrulmuş kuruyemiş ve nitelikli dünya kahveleri etrafında kurgulanmış butik bir mahalle dükkânı konseptidir. Çeşitleri keşfet, sepetini doldur ve arayüzü dene.</p>
+          <a class="hero-link" href="#products">Ürün Seçkisine Göz At →</a>
+        </div>
+        <div class="hero-photo" style="background:#7a4b2e">
+          <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&amp;fit=crop&amp;w=1100&amp;q=85" alt="Kahve fincanı ve kavrulmuş kahve çekirdekleri" onerror="this.hidden=true">
+          <span class="photo-label">KURGUSAL DÜKKÂN · CANLI DEMO</span>
+        </div>
+      </section>
+
+      <div class="main-grid">
+        <section class="products" id="products" aria-labelledby="products-title">
+          <div class="section-heading">
+            <h2 id="products-title">Kavanozdan Değirmene</h2>
+            <p>Ufak partiler halinde kavrulmuş, tamamı temsili örnek ürünler.</p>
+          </div>
+
+          <div class="filter-row" role="group" aria-label="Ürün türleri">
+            <button type="button" class="filter" data-filter="all" aria-pressed="true">Tüm Çeşitler</button>
+            <button type="button" class="filter" data-filter="kuruyemis" aria-pressed="false">Taze Kuruyemiş</button>
+            <button type="button" class="filter" data-filter="kahve" aria-pressed="false">Özel Harman Kahve</button>
+          </div>
+
+          <div class="product-grid" id="product-grid">
+            <article class="product" data-category="kuruyemis">
+              <div class="product-photo" style="background:#9c7348">
+                <svg viewBox="0 0 600 400" role="img" aria-label="Kavrulmuş fındık tanelerinin çizimi">
+                  <rect width="600" height="400" fill="#c9965f"/>
+                  <circle cx="105" cy="82" r="52" fill="#d9b17a"/>
+                  <circle cx="495" cy="340" r="78" fill="#af7649"/>
+                  <g transform="rotate(-18 300 210)">
+                    <path d="M147 213c6-72 70-128 145-128s139 56 145 128c-2 68-62 119-145 119s-143-51-145-119Z" fill="#75492d"/>
+                    <path d="M163 206c8-57 61-101 129-101s121 44 129 101c-4 55-55 97-129 97s-125-42-129-97Z" fill="#c28b56"/>
+                    <path d="M184 199c12-41 53-72 108-72s96 31 108 72c-9 38-49 66-108 66s-99-28-108-66Z" fill="#e4bd7f"/>
+                  </g>
+                </svg>
+                <span>Giresun · Az Tuzlu</span>
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kuruyemiş</p>
+                <h3>Fındık, tavada</h3>
+                <p class="product-desc">Odun ateşinde fırınlanmış, çıtır kabuksuz dolgun fındık.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺165<small class="product-unit">250 g</small></span>
+                  <button class="add" type="button" data-id="findik" data-name="Fındık, tavada" data-price="165">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kuruyemis">
+              <div class="product-photo" style="background:#76915c">
+                <svg viewBox="0 0 600 400" role="img" aria-label="Yeşil kabuklu Antep fıstıklarının çizimi">
+                  <rect width="600" height="400" fill="#cad4a0"/>
+                  <circle cx="88" cy="315" r="96" fill="#dbe1ba"/>
+                  <circle cx="525" cy="80" r="67" fill="#a5b97a"/>
+                  <g transform="rotate(-24 300 205)">
+                    <path d="M192 202c5-67 52-124 108-124s103 57 108 124c-6 69-52 120-108 120s-102-51-108-120Z" fill="#64834b"/>
+                    <path d="M214 201c4-48 38-88 86-88s82 40 86 88c-5 51-39 87-86 87s-81-36-86-87Z" fill="#eee2b8"/>
+                  </g>
+                </svg>
+                <span>Gaziantep · Çifte Kavrulmuş</span>
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kuruyemiş</p>
+                <h3>Antep fıstığı</h3>
+                <p class="product-desc">Ana çatlak, iri taneli ve hafif kaya tuzlu.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺245<small class="product-unit">200 g</small></span>
+                  <button class="add" type="button" data-id="fistik" data-name="Antep fıstığı" data-price="245">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kuruyemis">
+              <div class="product-photo" style="background:#bd9c6d">
+                <img src="https://images.unsplash.com/photo-1608797178974-15b35a64ede9?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Bir kâsede kavrulmuş bademler" loading="lazy" onerror="this.hidden=true">
+                <span>Datça · Doğal Tat</span>
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kuruyemiş</p>
+                <h3>Badem kırığı</h3>
+                <p class="product-desc">Taş değirmende hafif çatlatılmış, çıtır badem içi.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺138<small class="product-unit">200 g</small></span>
+                  <button class="add" type="button" data-id="badem" data-name="Badem kırığı" data-price="138">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kuruyemis">
+              <div class="product-photo" style="background:#af7757">
+                <span>Gurme Karışım</span>
+                <img src="https://images.unsplash.com/photo-1608797178974-15b35a64ede9?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Karışık kuruyemiş ve çekirdekler" loading="lazy" onerror="this.hidden=true">
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kuruyemiş</p>
+                <h3>Çıtır karışım</h3>
+                <p class="product-desc">Kaju, kabuksuz badem, kenevir ve kabak çekirdeği.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺179<small class="product-unit">250 g</small></span>
+                  <button class="add" type="button" data-id="karisim" data-name="Çıtır karışım" data-price="179">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kahve">
+              <div class="product-photo" style="background:#584334">
+                <span>Kolombiya & Etiyopya</span>
+                <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Öğütülmüş kahve ve kahve çekirdekleri" loading="lazy" onerror="this.hidden=true">
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kahve</p>
+                <h3>Sabah harmanı</h3>
+                <p class="product-desc">Filtre ve Chemex demlemeye uygun orta gövdeli harman.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺220<small class="product-unit">250 g</small></span>
+                  <button class="add" type="button" data-id="sabah" data-name="Sabah harmanı" data-price="220">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kahve">
+              <div class="product-photo" style="background:#76543d">
+                <span>Espresso Blend</span>
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Süt köpüğüyle servis edilmiş kahve" loading="lazy" onerror="this.hidden=true">
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kahve</p>
+                <h3>Koyu fincan</h3>
+                <p class="product-desc">Koyu kavrum, çikolata ve fındık notalı espresso harmanı.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺235<small class="product-unit">250 g</small></span>
+                  <button class="add" type="button" data-id="koyu" data-name="Koyu fincan" data-price="235">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kahve">
+              <div class="product-photo" style="background:#986b4a">
+                <span>Geleneksel Türk Kahvesi</span>
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Küçük fincanda Türk kahvesi" loading="lazy" onerror="this.hidden=true">
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kahve</p>
+                <h3>Bakır cezve</h3>
+                <p class="product-desc">Taş değirmende ipeksi öğütülmüş bol köpüklü kahve.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺195<small class="product-unit">200 g</small></span>
+                  <button class="add" type="button" data-id="cezve" data-name="Bakır cezve" data-price="195">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product" data-category="kuruyemis">
+              <div class="product-photo" style="background:#c59b5f">
+                <svg viewBox="0 0 600 400" role="img" aria-label="Kavrulmuş kaju tanelerinin çizimi">
+                  <rect width="600" height="400" fill="#d7ac70"/>
+                  <circle cx="88" cy="79" r="62" fill="#e1c28d"/>
+                  <circle cx="524" cy="325" r="80" fill="#c08d57"/>
+                  <g fill="none" stroke="#916039" stroke-width="33" stroke-linecap="round">
+                    <path d="M188 206c0-64 52-112 113-112 43 0 76 25 76 61 0 36-32 58-62 54-32-4-48-29-43-54"/>
+                    <path d="M285 282c0-48 39-84 84-84 32 0 57 18 57 46s-24 43-47 40c-24-3-36-22-32-41"/>
+                  </g>
+                </svg>
+                <span>Fırınlanmış Kaju</span>
+              </div>
+              <div class="product-body">
+                <p class="product-type">Kuruyemiş</p>
+                <h3>Kaju kıtırı</h3>
+                <p class="product-desc">Özel fırında tuzsuz ve katkısız hafif kavrulmuş kaju.</p>
+                <div class="product-bottom">
+                  <span class="product-price">₺205<small class="product-unit">200 g</small></span>
+                  <button class="add" type="button" data-id="kaju" data-name="Kaju kıtırı" data-price="205">+ Sepete Ekle</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Aside Cart -->
+        <aside class="cart" id="cart" aria-labelledby="cart-title">
+          <div class="cart-title">
+            <h2 id="cart-title">Sepet</h2>
+            <span id="item-count">0 ürün</span>
+          </div>
+          <p class="cart-empty" id="empty">Henüz bir seçim yok. Kahve ya da kuruyemiş ekleyerek başla.</p>
+          <ul class="cart-list" id="cart-list" aria-label="Sepetteki ürünler"></ul>
+          <div class="total">
+            <span>Örnek toplam</span>
+            <strong id="cart-total">₺0</strong>
+          </div>
+          <p class="notice">Bu arayüz kurgusal bir portfolyo tasarımı demosudur. Gerçek sipariş, teslimat veya ödeme tahsilatı yapılmaz.</p>
+          <div class="cart-actions">
+            <button class="checkout" id="checkout" type="button" disabled>Demo Alışverişi Tamamla</button>
+            <button class="clear" id="clear" type="button" disabled>Sepeti Boşalt</button>
+          </div>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>Çıtır &amp; Çekirdek · Kurgusal butik kuruyemiş ve kahve mağazası arayüzü</span>
+      <span>Örnek ürünler ve fiyatlandırma; temsili bir işletme modelidir.</span>
+    </footer>
+  </div>
+
+  <!-- Mobile Sticky Bottom Bar -->
+  <div class="mobile-cart-bar" id="mobile-cart-bar">
+    <div class="mobile-cart-bar-inner">
+      <div class="mobile-cart-info">
+        <span id="mobile-item-count">0 ürün seçildi</span>
+        <strong id="mobile-cart-sum">₺0</strong>
+      </div>
+      <a class="mobile-cart-btn" href="#cart">Sepete Git →</a>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const cart = new Map();
+      const money = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 });
+      const list = document.getElementById("cart-list");
+      const itemCount = document.getElementById("item-count");
+      const cartBadge = document.getElementById("cart-count");
+      const cartTotal = document.getElementById("cart-total");
+      const empty = document.getElementById("empty");
+      const checkout = document.getElementById("checkout");
+      const clear = document.getElementById("clear");
+      const status = document.getElementById("status");
+      const toastContainer = document.getElementById("toast-container");
+      const mobileItemCount = document.getElementById("mobile-item-count");
+      const mobileCartSum = document.getElementById("mobile-cart-sum");
+
+      function showToast(message) {
+        if (!toastContainer) return;
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateY(10px)";
+          setTimeout(() => toast.remove(), 300);
+        }, 2600);
+      }
+
+      const render = () => {
+        list.replaceChildren();
+        let totalItems = 0;
+        let sum = 0;
+        cart.forEach((item, id) => {
+          totalItems += item.quantity;
+          sum += item.price * item.quantity;
+          const row = document.createElement("li");
+          row.className = "cart-line";
+          const info = document.createElement("div");
+          const name = document.createElement("strong");
+          name.textContent = item.name;
+          const price = document.createElement("small");
+          price.textContent = money.format(item.price * item.quantity);
+          info.append(name, price);
+          const controls = document.createElement("div");
+          controls.className = "quantity";
+          const minus = document.createElement("button");
+          minus.type = "button";
+          minus.textContent = "−";
+          minus.dataset.action = "decrease";
+          minus.dataset.id = id;
+          minus.setAttribute("aria-label", item.name + " azalt");
+          const countSpan = document.createElement("span");
+          countSpan.textContent = String(item.quantity);
+          const plus = document.createElement("button");
+          plus.type = "button";
+          plus.textContent = "+";
+          plus.dataset.action = "increase";
+          plus.dataset.id = id;
+          plus.setAttribute("aria-label", item.name + " artır");
+          controls.append(minus, countSpan, plus);
+          row.append(info, controls);
+          list.append(row);
+        });
+
+        itemCount.textContent = totalItems + " ürün";
+        cartBadge.textContent = String(totalItems);
+        cartTotal.textContent = money.format(sum);
+        if (mobileItemCount) mobileItemCount.textContent = totalItems + " ürün seçildi";
+        if (mobileCartSum) mobileCartSum.textContent = money.format(sum);
+        empty.hidden = cart.size > 0;
+        checkout.disabled = cart.size === 0;
+        clear.disabled = cart.size === 0;
+      };
+
+      document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
+        const cat = button.dataset.filter;
+        document.querySelectorAll(".filter").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
+        document.querySelectorAll(".product").forEach(card => {
+          card.hidden = cat !== "all" && card.dataset.category !== cat;
+        });
+        showToast(button.textContent.trim() + " filtrelendi.");
+      }));
+
+      document.getElementById("product-grid").addEventListener("click", event => {
+        const btn = event.target.closest(".add");
+        if (!btn) return;
+        const { id, name, price } = btn.dataset;
+        const item = cart.get(id) || { name, price: Number(price), quantity: 0 };
+        item.quantity += 1;
+        cart.set(id, item);
+        status.textContent = name + " sepete eklendi.";
+        showToast(name + " sepete eklendi.");
+        render();
+      });
+
+      list.addEventListener("click", event => {
+        const btn = event.target.closest("button[data-action]");
+        if (!btn) return;
+        const item = cart.get(btn.dataset.id);
+        if (!item) return;
+        if (btn.dataset.action === "increase") {
+          item.quantity += 1;
+          showToast(item.name + " artırıldı.");
+        } else {
+          item.quantity -= 1;
+          if (item.quantity <= 0) {
+            cart.delete(btn.dataset.id);
+            showToast(item.name + " sepetten çıkarıldı.");
+          }
+        }
+        render();
+      });
+
+      clear.addEventListener("click", () => {
+        cart.clear();
+        status.textContent = "Sepetiniz boşaltıldı.";
+        showToast("Sepet boşaltıldı.");
+        render();
+      });
+
+      checkout.addEventListener("click", () => {
+        if (!cart.size) return;
+        const ref = "CC-" + Math.floor(1000 + Math.random() * 9000);
+        cart.clear();
+        render();
+        status.textContent = `✦ Demo tamamlandı (#${ref}); gerçek sipariş veya ödeme tahsilatı yapılmaz.`;
+        showToast(`Sipariş No #${ref} alındı (Demo).`);
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

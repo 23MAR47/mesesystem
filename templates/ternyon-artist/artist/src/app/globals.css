@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Design tokens — cloned from the reference site's monochrome palette.
+   Light base (#fff), near-black ink (#191917), grey (#f3f3f3) and dark
+   (#191917) section surfaces, dashed hairlines. No colour accent.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --background: #ffffff;
+  --foreground: #191917;
+
+  --canvas: #ffffff; /* page base (light) */
+  --surface-grey: #f3f3f3; /* grey sections */
+  --surface-dark: #191917; /* dark sections */
+
+  --ink: #191917; /* primary text on light */
+  --ink-muted: rgba(25, 25, 23, 0.6); /* --th-black-40 */
+  --ink-faint: rgba(25, 25, 23, 0.3); /* --th-black-20 */
+
+  --on-dark: #ffffff; /* text on dark sections */
+  --on-dark-muted: rgba(255, 255, 255, 0.6);
+  --on-dark-faint: rgba(255, 255, 255, 0.3);
+
+  --line: rgba(25, 25, 23, 0.2); /* dashed hairline on light */
+  --line-strong: rgba(25, 25, 23, 0.4);
+  --line-on-dark: rgba(255, 255, 255, 0.2);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-canvas: var(--canvas);
+  --color-surface-grey: var(--surface-grey);
+  --color-surface-dark: var(--surface-dark);
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-muted: var(--on-dark-muted);
+  --color-on-dark-faint: var(--on-dark-faint);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-line-on-dark: var(--line-on-dark);
+
+  --font-sans: var(--font-satoshi);
+  --font-display: var(--font-playfair);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  /* Use the next/font variable directly — `@theme inline` does NOT emit a
+     usable `--font-sans` custom property for hand-written `var()`. */
+  font-family: var(--font-satoshi);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+@layer base {
+  /* Adaptive scaling grid — scales the root font-size with the viewport so a
+     rem-based layout stays proportional. Each breakpoint divides FONT_BASE
+     (16px) by the design base width its range was laid out at:
+       font-size: 16 * 100 / baseWidth  (vw)
+     Above 1920px the AdaptiveGrid component takes over (scale-up).
+     Keep in sync with src/components/common/grid/grid.config.ts. */
+  html {
+    font-size: 16px;
+  }
+
+  @media (max-width: 1920px) {
+    html {
+      font-size: 0.833333vw; /* 16 * 100 / 1920 */
+    }
+  }
+
+  @media (max-width: 1440px) {
+    html {
+      font-size: 1.111111vw; /* 16 * 100 / 1440 */
+    }
+  }
+
+  @media (max-width: 1024px) {
+    html {
+      font-size: 1.5625vw; /* 16 * 100 / 1024 */
+    }
+  }
+
+  @media (max-width: 640px) {
+    html {
+      font-size: 4.444444vw; /* 16 * 100 / 360 */
+    }
+  }
+
+  /* Display headings — Playfair Display serif, mixed-case (sentence case),
+     regular weight. <Accent> adds an italic emphasis word. */
+  h1,
+  h2,
+  h3 {
+    /* Use the next/font variable directly — `@theme inline` does NOT emit a
+       usable `--font-display` custom property for hand-written `var()`; the
+       base rule was silently resolving to the default sans stack. */
+    font-family: var(--font-playfair);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    /* Roomier than the old sans (0.95) so Playfair descenders/italics aren't
+       clipped by the TextEngine `overflow` line-reveal. */
+    line-height: 1.12;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+}
+
+@layer utilities {
+  /* Dashed hairline rules matching the reference's dashed borders. */
+  .rule-dashed {
+    border-style: dashed;
+    border-color: var(--line);
+  }
+  .rule-dashed-dark {
+    border-style: dashed;
+    border-color: var(--line-on-dark);
+  }
+}
+
+@layer components {
+}

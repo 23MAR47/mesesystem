@@ -1,0 +1,358 @@
+/* `source("../")` limits class detection to `src/` (this file lives in src/app).
+   Without it Tailwind v4 scans the whole repo — including obsidian/ and .claude/,
+   where documented class *patterns* like duration-[var(--duration-*)] parse as
+   real candidates and emit CSS warnings. Docs are not a source of utilities. */
+@import "tailwindcss" source("../");
+
+/* ---------------------------------------------------------------------------
+   TIER 1 — PRIMITIVES  (`--raw-*`)
+   Raw literal values. The only tier allowed to contain a hex/px/ms literal.
+   Never referenced in markup, never bound into @theme. Rename freely.
+   Grammar: --raw-<category>-<name>[-<shade>]
+   See obsidian/frontend/design-system.md → "Token naming convention".
+   --------------------------------------------------------------------------- */
+:root {
+  --raw-color-white: #ffffff;
+  --raw-color-black: #000000;
+  /* The title stage's ground and its one accent. Porcelain rather than
+     white: the design sets the whole first screen a shade below paper, so
+     the portrait's own white edges read as light rather than as the page. */
+  --raw-color-porcelain: #f0f0f0;
+  --raw-color-electric-500: #0051ff;
+
+  /* Tide field ramp. One calibrated set, not five independent colours: the
+     shader walks them perceptually and each stop is placed against its
+     neighbours, so moving one on its own turns the field to mud. Move them
+     together or not at all.
+
+     Named for what each stop does in the field's own vocabulary — it draws a
+     fire front, so there is char behind the line, an ember on it and a lick
+     above. That the fire is blue is the palette's business, not the shader's. */
+  --raw-color-kindle-ground: #010b24;
+  --raw-color-kindle-char: #061a4d;
+  --raw-color-kindle-body: #0a2a7a;
+  --raw-color-kindle-ember: #2e6bff;
+  --raw-color-kindle-lick: #9fc2ff;
+
+  /* The mark's chrome: a *light* metal, near white, not the blue-silver it was.
+     Metal tints its reflection by its albedo, so these two are what the
+     environment gets coloured by — and a deep blue albedo is exactly why the
+     mark used to read as dark glass however bright the reflection was made. */
+  --raw-color-chrome-sheen: #ffffff;
+  --raw-color-chrome-deep: #c9dcff;
+  --raw-color-neutral-100: #ededed;
+  --raw-color-neutral-900: #171717;
+  --raw-color-neutral-950: #0a0a0a;
+
+  --raw-duration-fast: 150ms;
+  --raw-duration-normal: 250ms;
+
+  /* How far a block of copy rises into place. `rem`, so it re-bases with the
+     grid: the same nudge relative to the type at every width. */
+  --raw-size-lift: 1.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   TIER 2 — SEMANTIC  (role names, no namespace prefix)
+   Purpose, not appearance. Always `var(--raw-*)` — never a literal.
+   This is the themeable layer: dark mode overrides happen HERE, which is why
+   these are separate from the @theme bindings below (see the note there).
+   Grammar: --<role>[-<variant>][-<state>]
+   --------------------------------------------------------------------------- */
+:root {
+  --background: var(--raw-color-white);
+  --foreground: var(--raw-color-neutral-900);
+
+  --duration-fast: var(--raw-duration-fast);
+  --duration-normal: var(--raw-duration-normal);
+
+  /* 3D stage. Deliberately NOT overridden in the dark block below: the model's
+     lighting and the grain are calibrated against a white ground, so the stage
+     stays white in both themes.
+     `--scene-wire` colours the topology revealed under the brush. It was
+     `--scene-shadow` while a ground plane caught a contact shadow; that plane is
+     gone (ADR-0025), so the old name no longer described its purpose.
+     Read from JS via getComputedStyle — see src/lib/scene/model-scene.ts. */
+  /* Porcelain, not white, and it must stay equal to `--stage-ground`: the
+     model dissolves *towards* this colour at its foot while its alpha drops,
+     so if the two grounds differ the dissolve paints a pale smear over the page
+     on its way out. One ground, two things reading it. */
+  --scene-surface: var(--raw-color-porcelain);
+  /* Text on that stage. Like the stage itself, deliberately NOT overridden in
+     the dark block: `--foreground` inverts with the OS theme, which on a
+     permanently white ground turns the copy near-white on white. */
+  --scene-surface-foreground: var(--raw-color-neutral-900);
+  --scene-wire: var(--raw-color-electric-500);
+  /* What the pointer's mark paints, on the model and on the ground alike. It is
+     white against a porcelain page on purpose: the mark lifts what it passes
+     over rather than shading it, so it reads as a light being held to the
+     surface. One token, because the mark crossing the silhouette must not
+     change colour — the model's shader and the background quad both read it. */
+  --scene-mark: var(--raw-color-white);
+
+  /* Page surfaces. `--surface-accent` is the plane the work gallery raises as
+     it ends — and it has to be the colour of the block the reader lands on, or
+     the handover stops being a handover: what makes it seamless is that the
+     plane they watched arrive *is* the ground they arrive at.
+
+     So it shares the accent's primitive with `--stage-accent` rather than
+     naming its own. Two roles, one colour: one is a plane climbing over a
+     strip, the other is the closing block's ground. Change the block and this
+     follows, always. */
+  /* The title stage. Its own family rather than the page's `--background`,
+     because the first screen is a composition with a ground of its own —
+     and, like `--scene-surface`, it is deliberately NOT overridden in the
+     dark block below: the portrait is lit for this ground. */
+  --stage-ground: var(--raw-color-porcelain);
+  --stage-ink: var(--raw-color-black);
+  --stage-rule: var(--raw-color-black);
+  /* The second screen rides the tide, so its copy is white and its pill is
+     a light island on a dark field — the inverse of the title stage's ink. */
+  --stage-immersed-ink: var(--raw-color-white);
+  --stage-pill: var(--raw-color-white);
+  --stage-pill-ink: var(--raw-color-black);
+  --stage-accent: var(--raw-color-electric-500);
+  --stage-accent-foreground: var(--raw-color-white);
+
+  /* ---------------------------------------------------------------------------
+     The stage frame's scale.
+
+     Every screen over the scene is one 1440x800 Figma frame held in proportion
+     by `vw` (see `StageFrame`, ADR-0072). That is the right unit for the
+     **composition** — the name, the subject, where things sit — and the wrong
+     one for **type and touch targets**, which have floors the design never had
+     to think about because it was drawn at one width. At 390px a `1.1111vw`
+     sentence is 4px.
+
+     So each of these is `max(floor, design)`: the design's own `vw` wherever
+     there is room for it, and a readable size when there is not. The floor wins
+     below roughly 1260px for body copy — which is why the tablet range needs
+     no separate layout, only this.
+
+     **The floors are in `px`, and that is not an oversight.** They were written
+     in `rem` first and it made them worthless exactly where they mattered: this
+     app re-bases the root font-size per breakpoint (`GRID_BREAKPOINTS`), so at
+     834px wide the root is **13.03px**, and a "13px" floor of `0.8125rem` came
+     out at 10.6 — body copy, nav labels and a 44px control all delivered at
+     81% of the size they were promised. A floor written in the unit the system
+     scales is not a floor. `px` is the only unit here that means what it says.
+
+     They are lengths, not colours, so they name their role at Tier 2 directly;
+     the `vw` term *is* the primitive here and repeating it in a `--raw-*` would
+     put the design's own number one indirection away from the comment
+     explaining it. */
+  --frame-lead: max(24px, 2.7778vw);
+  --frame-body: max(14px, 1.1111vw);
+  --frame-figure: max(30px, 2.7778vw);
+  --frame-nav: max(16px, 1.25vw);
+  /* 46px, comfortably past the 44 a thumb reliably hits. Below that the pill is
+     decoration, not a control. */
+  --frame-control: max(46px, 3.4722vw);
+  --frame-gutter: max(22px, 2.0833vw);
+  /**
+   * Where a screen's display heading sits on a phone.
+   *
+   * Not the top edge. The design hangs it there against a landscape frame,
+   * where the subject starts immediately below it; in portrait the subject is
+   * a long way down and the heading was stranded on its own above a band of
+   * empty ground. Dropped to here it reads as the top of one composition
+   * rather than as a label floating over another.
+   *
+   * `lvh`, not `vh`: the screens are `h-lvh`, and a heading that moved when
+   * the URL bar collapsed would be the one thing on the page that did.
+   */
+  --frame-heading-top: 10lvh;
+  /* How much room the floating bar wants at the foot of a screen. One plate on
+     a wide window; two, stacked, on a phone — so the screens that sit under it
+     reserve the right amount without any of them knowing how the bar is built.
+     Overridden in the phone block at the foot of this file. */
+  --frame-navbar: var(--frame-control);
+  /* The lift a screen's copy arrives with — see `stageRise`. Read via
+     `var()` from an inline transform, so it needs no @theme binding. */
+  --stage-rise: var(--raw-size-lift);
+
+  --surface-raised: var(--raw-color-neutral-100);
+  --surface-accent: var(--raw-color-electric-500);
+  --surface-accent-foreground: var(--raw-color-white);
+
+  /* The three stages the scroll moves through, in order: the model is textured
+     on `--scene-surface`, then dissolved to a mesh over the live tide field —
+     and the third stage keeps that same field, so it brings no colour of its
+     own. What its line sweeps is the model opening for good, after which the
+     mesh leaves to become the word. `--scene-wire` is the mesh on the white
+     stage; once past the first line it becomes `--scene-wire-immersed`.
+
+     The ramp the tide field walks, in its own order. The second stage is not a
+     colour any more: the shader evaluates a live field there, and these five are
+     the stops it walks. One calibrated set — move them together. Read from CSS
+     at runtime, see src/lib/scene/scene-shader.ts. */
+  --scene-tide-bg: var(--raw-color-kindle-ground);
+  --scene-tide-a: var(--raw-color-kindle-char);
+  --scene-tide-b: var(--raw-color-kindle-body);
+  --scene-tide-c: var(--raw-color-kindle-ember);
+  --scene-tide-d: var(--raw-color-kindle-lick);
+
+  /* Grazing angles reflect most, so the sheen sits on the edges and the deep
+     blue on the faces — which is what reads as chrome rather than as paint. */
+  --scene-chrome-sheen: var(--raw-color-chrome-sheen);
+  --scene-chrome-deep: var(--raw-color-chrome-deep);
+  /* The halo the finished mark throws. Its own token because it is light in the
+     air rather than a property of the metal — see [[decisions-log]] ADR-0048. */
+  --scene-wire-immersed: var(--raw-color-white);
+  /* The sparks on the mesh's junctions. Borrowed from the field's own top stop
+     rather than given a colour of its own: they are embers sitting on the
+     subject, so they have to belong to the fire behind it. */
+  --scene-wire-spark: var(--raw-color-kindle-lick);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--raw-color-neutral-950);
+    --foreground: var(--raw-color-neutral-100);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   THEME BINDINGS — map semantic tokens into Tailwind namespaces.
+   Every entry is exactly `--<tw-namespace>-<role>: var(--<role>)`.
+   `inline` is required: it inlines the var() into each utility, so the
+   dark-mode overrides on the Tier 2 tokens above cascade. Binding a literal
+   here instead would freeze the value and break theming.
+
+   Only these namespaces generate utilities (verified against tailwindcss
+   v4.3.3): --color-* --spacing-* --radius-* --leading-* --tracking-* --text-*
+   --font-* --ease-* --breakpoint-* --container-* --shadow-* --blur-* --animate-*
+   NOTE: there is NO --duration-* namespace in v4 — `duration-fast` compiles to
+   nothing. Durations stay Tier 2 only and are used as duration-[var(--duration-fast)].
+   --------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-scene-surface: var(--scene-surface);
+  --color-scene-surface-foreground: var(--scene-surface-foreground);
+  --color-stage-ground: var(--stage-ground);
+  --color-stage-ink: var(--stage-ink);
+  --color-stage-rule: var(--stage-rule);
+  --color-stage-immersed-ink: var(--stage-immersed-ink);
+  --color-stage-pill: var(--stage-pill);
+  --color-stage-pill-ink: var(--stage-pill-ink);
+  --color-stage-accent: var(--stage-accent);
+  --color-stage-accent-foreground: var(--stage-accent-foreground);
+  /* The ground under a still of the tide, while its image loads. */
+  --color-scene-tide: var(--scene-tide-bg);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-accent: var(--surface-accent);
+  --color-surface-accent-foreground: var(--surface-accent-foreground);
+  /* Three families, three jobs: the display serif carries the name, the
+     text serif the two lines that speak, and the sans the small print.
+     `--font-sans` is Mulish rather than the starter's Onest because the
+     design names Mulish — the design is the source of truth now. */
+  --font-display: var(--font-melodrama);
+  --font-serif: var(--font-instrument-serif);
+  --font-sans: var(--font-mulish);
+
+  /* Leading floor for clipped TextEngine reveals — see
+     obsidian/frontend/text-engine.md → "Alignment & line-height". */
+  --leading-display: 1.1;
+
+  --ease-entrance: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Tier 3 — the gallery card's corner. A token rather than a raw utility so
+     the value has one home when the strip gains real artwork and a hover
+     treatment (hard rule #4). */
+  --radius-card: 1.1rem;
+
+  /* The frame's scale, bound so the stages can say `text-frame-body` rather
+     than repeating a `max()` at every call site. */
+  --text-frame-lead: var(--frame-lead);
+  --text-frame-body: var(--frame-body);
+  --text-frame-figure: var(--frame-figure);
+  --text-frame-nav: var(--frame-nav);
+  --spacing-frame-gutter: var(--frame-gutter);
+  --spacing-frame-control: var(--frame-control);
+}
+
+/* The starter shipped this centred on a fixed 100vh/100vw box to hold an empty
+   page in the middle of the viewport. Now that the page has full-bleed content,
+   that box would shrink-wrap `main` (cross-axis centring) and 100vw would add a
+   horizontal scrollbar as soon as the page grows past one screen. Size to
+   content instead; sections declare their own height. */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  min-height: 100lvh;
+  width: 100%;
+}
+
+@layer base {
+  /* Adaptive scaling grid — scales the root font-size with the viewport so a
+     rem-based layout stays proportional. Each breakpoint divides FONT_BASE
+     (16px) by the design base width its range was laid out at:
+       font-size: 16 * 100 / baseWidth  (vw)
+     Above 1920px the AdaptiveGrid component takes over (scale-up).
+     Keep in sync with src/components/common/grid/grid.config.ts. */
+  html {
+    font-size: 16px;
+  }
+
+  @media (max-width: 1920px) {
+    html {
+      font-size: 0.833333vw; /* 16 * 100 / 1920 */
+    }
+  }
+
+  @media (max-width: 1440px) {
+    html {
+      font-size: 1.111111vw; /* 16 * 100 / 1440 */
+    }
+  }
+
+  @media (max-width: 1024px) {
+    html {
+      font-size: 1.5625vw; /* 16 * 100 / 1024 */
+    }
+  }
+
+  @media (max-width: 640px) {
+    html {
+      font-size: 4.444444vw; /* 16 * 100 / 360 */
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   `stacked:` — the windows the design's bottom band cannot be laid out in.
+
+   It was `max-md:`, a width. That was wrong twice over. The band is two, three
+   or four things **side by side**, which is a shape a *landscape* window has
+   and a portrait one does not — so the question was never how wide the window
+   is. A 834x1112 tablet is far closer to a phone than to the design, and it was
+   getting the design's layout with type 51% larger than the layout was drawn
+   for: the summary ran into the button, the claims into the statistics.
+
+   And a *landscape* phone at 844x390 is almost exactly the design's own 1.8
+   aspect — it should have the band, and under a width rule it never could.
+
+   1179px is the ceiling because past it the design's own `vw` type has caught
+   up with the floors and nothing is being stretched any more.
+
+   This deliberately no longer matches `deviceTier()`'s 768. The two ask
+   different questions: this one is "does the bottom band fit across this
+   window", that one is "how much can this GPU do". They were the same number by
+   coincidence, and saying so was the mistake.
+   --------------------------------------------------------------------------- */
+@custom-variant stacked (@media (max-width: 1179px) and (max-aspect-ratio: 1/1));
+
+@media (max-width: 1179px) and (max-aspect-ratio: 1/1) {
+  :root {
+    /* Two plates, stacked, plus the gap between them. See `StageNav`. */
+    --frame-navbar: calc(var(--frame-control) * 2 + 8px);
+  }
+}
+
+@layer utilities {
+}
+
+@layer components {
+}

@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#192722">
+  <meta name="description" content="Aralık — Seçkin yaşam alanları, villa ve daire portföyü için lüks Türkçe emlak vitrini demosu.">
+  <title>Aralık — Yaşam Alanları &amp; Gayrimenkul Portföy Demosu</title>
+  <style>
+    :root {
+      --canvas: #f6f4ed;
+      --paper: #ffffff;
+      --ink: #182620;
+      --muted: #596b61;
+      --olive: #2c4a3c;
+      --olive-dark: #1a3026;
+      --sun: #c5a059;
+      --sun-glow: rgba(197, 160, 89, 0.25);
+      --line: #dedad0;
+      --serif: Georgia, "Times New Roman", Garamond, serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--olive); color: #fff; }
+    a { color: inherit; text-decoration: none; text-underline-offset: .2em; }
+    button, input, select { font: inherit; }
+    :focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
+
+    .demo {
+      background: var(--olive-dark);
+      color: #f5f2e8;
+      text-align: center;
+      padding: .65rem 1rem;
+      font-size: .78rem;
+      letter-spacing: .04em;
+      border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    }
+    .demo strong { color: var(--sun); font-weight: 750; }
+
+    .wrap {
+      width: min(1240px, calc(100% - 3rem));
+      margin-inline: auto;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 244, 237, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(24, 38, 32, 0.04);
+    }
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font: 400 1.85rem var(--serif);
+      letter-spacing: -.05em;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+    }
+    .brand-mark {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 .65rem .1rem 0;
+      background: var(--sun);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--sun-glow);
+    }
+    .nav-label {
+      font-size: .82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Intro */
+    .intro {
+      padding: 3.5rem 0 2.8rem;
+      display: grid;
+      grid-template-columns: 1fr .85fr;
+      align-items: end;
+      gap: 3rem;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 14ch;
+      margin-bottom: 0;
+      font: 400 clamp(3.2rem, 6.5vw, 5.2rem)/1.02 var(--serif);
+      letter-spacing: -.05em;
+      color: var(--ink);
+    }
+    h1 em {
+      color: var(--sun);
+      font-style: italic;
+    }
+    .intro-note {
+      max-width: 44ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    /* Body Grid */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2.5rem;
+      padding-bottom: 5rem;
+    }
+    .filters {
+      align-self: start;
+      position: sticky;
+      top: 96px;
+      padding: 1.6rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    }
+    .filters h2 {
+      margin-bottom: 1.2rem;
+      font: 400 1.45rem var(--serif);
+      color: var(--ink);
+    }
+    .field {
+      display: block;
+      margin: 1.1rem 0;
+    }
+    .field span {
+      display: block;
+      margin-bottom: .4rem;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .field select {
+      width: 100%;
+      padding: .7rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: .88rem;
+      transition: border-color .15s;
+    }
+    .field select:focus {
+      border-color: var(--sun);
+      outline: none;
+    }
+    .clear {
+      width: 100%;
+      min-height: 44px;
+      padding: .7rem;
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--olive);
+      font-weight: 700;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .clear:hover {
+      background: var(--olive);
+      color: white;
+    }
+
+    /* Listings */
+    .listing-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: .4rem 0 1.2rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .listing-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .listing-head strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .property-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+    }
+    .property {
+      min-width: 0;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      transition: all .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .property:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.09);
+      border-color: var(--sun);
+    }
+    .property[hidden] { display: none; }
+    .cover {
+      height: 240px;
+      position: relative;
+      background: #b9c3ae;
+      overflow: hidden;
+    }
+    .cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .property:hover .cover img {
+      transform: scale(1.05);
+    }
+    .flag {
+      position: absolute;
+      left: .9rem;
+      top: .9rem;
+      padding: .35rem .7rem;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(6px);
+      border-radius: 4px;
+      color: var(--ink);
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 750;
+    }
+    .property-info {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .location {
+      margin-bottom: .3rem;
+      color: var(--olive);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .property h3 {
+      margin-bottom: .4rem;
+      font: 400 1.5rem/1.2 var(--serif);
+      color: var(--ink);
+    }
+    .details {
+      margin: 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .property-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+    }
+    .amount {
+      font: 700 1.25rem var(--serif);
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .amount small {
+      display: block;
+      color: var(--muted);
+      font: 400 .72rem var(--sans);
+    }
+    .details-button {
+      padding: .6rem 1.1rem;
+      border: 1px solid var(--olive);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--olive);
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 750;
+      transition: all .2s;
+    }
+    .details-button:hover {
+      background: var(--olive);
+      color: white;
+    }
+    .empty {
+      display: none;
+      padding: 4rem 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .empty.show { display: block; }
+    .disclaimer {
+      padding: 1.4rem 1.6rem;
+      background: #e9e6dd;
+      border-radius: 8px;
+      border-left: 4px solid var(--sun);
+      color: #55665c;
+      font-size: .84rem;
+      line-height: 1.6;
+    }
+    footer {
+      padding: 2rem 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    /* Dialog */
+    dialog {
+      width: min(620px, calc(100% - 2rem));
+      max-height: 90vh;
+      padding: 0;
+      border: 1px solid var(--sun);
+      border-radius: 12px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 24px 80px rgba(24, 38, 32, 0.4);
+    }
+    dialog::backdrop {
+      background: rgba(24, 38, 32, 0.7);
+      backdrop-filter: blur(8px);
+    }
+    .detail-dialog {
+      padding: 2.2rem;
+    }
+    .dialog-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .8rem;
+    }
+    .dialog-head h2 {
+      margin: 0;
+      font: 400 2.2rem/1.12 var(--serif);
+    }
+    .dialog-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      font-size: 1.35rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all .2s;
+    }
+    .dialog-close:hover {
+      border-color: var(--sun);
+      background: var(--canvas);
+    }
+    .dialog-copy {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: .95rem;
+    }
+    .detail-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 1.2rem 0;
+      border-block: 1px solid var(--line);
+    }
+    .detail-list div {
+      font-size: .84rem;
+      color: var(--muted);
+    }
+    .detail-list strong {
+      display: block;
+      font: 700 1.25rem var(--serif);
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .inquire-btn {
+      width: 100%;
+      min-height: 46px;
+      background: var(--olive);
+      color: white;
+      border: 0;
+      border-radius: 6px;
+      font-weight: 750;
+      font-size: .88rem;
+      cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 1rem;
+    }
+    .inquire-btn:hover {
+      background: var(--olive-dark);
+    }
+    .dialog-warning {
+      padding: .85rem;
+      background: #e9e6dd;
+      color: #55665c;
+      font-size: .78rem;
+      border-radius: 6px;
+      border-left: 3px solid var(--sun);
+    }
+
+    /* Toast Container */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 280px;
+      max-width: 380px;
+      padding: 12px 18px;
+      background: rgba(24, 38, 32, 0.95);
+      border: 1px solid var(--sun);
+      border-radius: 8px;
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: .84rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toast-in .3s cubic-bezier(.2,0,0,1);
+      transition: opacity .3s, transform .3s;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-icon {
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--sun);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 860px) {
+      .body-grid { grid-template-columns: 220px 1fr; gap: 1.5rem; }
+      .property-grid { grid-template-columns: 1fr; }
+      .intro { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: calc(100% - 1.5rem); }
+      .body-grid { grid-template-columns: 1fr; }
+      .filters { position: static; }
+      .detail-dialog { padding: 1.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <strong>PORTFÖY DEMOSU</strong> · Tüm ilanlar, mimari fotoğraflar ve bedeller kurgusaldır; gerçek taşınmaz satışı yapılmaz.
+  </div>
+
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>aralık</span>
+      </a>
+      <span class="nav-label">✦ Seçkin Yaşam Alanları &amp; Konut Portföyü</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap intro" aria-labelledby="page-title">
+      <h1 id="page-title">Bir sonraki hikâyeniz <em>nerede başlar?</em></h1>
+      <p class="intro-note">Geniş teraslar, zeytin ağaçlarıyla çevrili avlular ya da şehrin kalbinde sakin bir köşe. Örnek mimari portföyü filtreleyin, ayrıntıları keşfedin.</p>
+    </section>
+
+    <section class="wrap body-grid" aria-label="Örnek portföy ve filtreler">
+      <aside class="filters">
+        <h2>Aramanı Şekillendir</h2>
+        <form id="filters">
+          <label class="field">
+            <span>İlan türü</span>
+            <select id="type">
+              <option value="all">Tüm portföy</option>
+              <option value="daire">Lüks Daire</option>
+              <option value="ev">Müstakil Villa</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Oda sayısı</span>
+            <select id="rooms">
+              <option value="all">Fark etmez</option>
+              <option value="1">1+1 Suit</option>
+              <option value="2">2+1 Konut</option>
+              <option value="3">3+1 Rezidans</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Örnek bütçe</span>
+            <select id="budget">
+              <option value="all">Tüm aralıklar</option>
+              <option value="low">₺5M ve altı</option>
+              <option value="mid">₺5M – ₺10M</option>
+              <option value="high">₺10M ve üstü</option>
+            </select>
+          </label>
+          <button class="clear" type="reset">Filtreleri Temizle</button>
+        </form>
+      </aside>
+
+      <div>
+        <div class="listing-head">
+          <p><strong id="result-count" aria-live="polite">4 örnek yaşam alanı</strong></p>
+          <p style="color:var(--olive);font-weight:600">✦ Temsili portföy · Canlı arayüz testi</p>
+        </div>
+
+        <div class="property-grid" id="property-grid">
+          <article class="property" data-type="daire" data-rooms="2" data-budget="mid">
+            <div class="cover">
+              <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Geniş pencereli, çağdaş örnek daire iç mekânı" onerror="this.hidden=true">
+              <span class="flag">Satılık · Örnek</span>
+            </div>
+            <div class="property-info">
+              <p class="location">Kıyı Mahallesi · İzmir</p>
+              <h3>Günün ışığını seven ev</h3>
+              <p class="details">2+1 · 94 m² · Deniz Manzaralı Daire</p>
+              <div class="property-foot">
+                <span class="amount">₺7.250.000 <small>temsili bedel</small></span>
+                <button class="details-button" type="button" data-title="Günün ışığını seven ev" data-location="Kıyı Mahallesi · İzmir" data-meta="2+1 · 94 m² · Daire" data-price="₺7.250.000" data-description="Çapraz esinti sağlayan boydan boya camlar, güneş alan geniş bir salon ve dingin bir iç mekân kurgusu. Bu ilan bütünüyle portfolyo örneğidir.">Detayları Gör</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="property" data-type="ev" data-rooms="3" data-budget="high">
+            <div class="cover">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Ağaçlar arasında çağdaş çizgili örnek müstakil ev" onerror="this.hidden=true">
+              <span class="flag">Satılık · Örnek</span>
+            </div>
+            <div class="property-info">
+              <p class="location">Çamlık · Bodrum</p>
+              <h3>Bahçeye açılan sakinlik</h3>
+              <p class="details">3+1 · 168 m² · Müstakil Taş Villa</p>
+              <div class="property-foot">
+                <span class="amount">₺12.800.000 <small>temsili bedel</small></span>
+                <button class="details-button" type="button" data-title="Bahçeye açılan sakinlik" data-location="Çamlık · Bodrum" data-meta="3+1 · 168 m² · Müstakil" data-price="₺12.800.000" data-description="İç ve dış yaşamı birleştiren geniş bir ahşap veranda, zeytin ağaçlı bir bahçe ve sakin bir mimari plan. Temsili portföy örneğidir.">Detayları Gör</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="property" data-type="daire" data-rooms="1" data-budget="low">
+            <div class="cover">
+              <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Açık renkli mobilyalarla döşenmiş örnek kompakt daire" onerror="this.hidden=true">
+              <span class="flag">Satılık · Örnek</span>
+            </div>
+            <div class="property-info">
+              <p class="location">Merkez · İstanbul</p>
+              <h3>Küçük alanda büyük ferahlık</h3>
+              <p class="details">1+1 · 62 m² · Şehir Rezidansı</p>
+              <div class="property-foot">
+                <span class="amount">₺3.800.000 <small>temsili bedel</small></span>
+                <button class="details-button" type="button" data-title="Küçük alanda büyük ferahlık" data-location="Merkez · İstanbul" data-meta="1+1 · 62 m² · Daire" data-price="₺3.800.000" data-description="Kompakt plan, akıllı saklama çözümleri ve sıcak bir renk paleti. Bu kurgusal ilan gerçek bir konut satışı veya kira teklifi değildir.">Detayları Gör</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="property" data-type="daire" data-rooms="3" data-budget="mid">
+            <div class="cover">
+              <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Doğal malzemelerle tasarlanmış örnek geniş daire" onerror="this.hidden=true">
+              <span class="flag">Satılık · Örnek</span>
+            </div>
+            <div class="property-info">
+              <p class="location">Yukarı Sokak · Ankara</p>
+              <h3>Birlikte yaşamak için</h3>
+              <p class="details">3+1 · 132 m² · Bahçe Katı Daire</p>
+              <div class="property-foot">
+                <span class="amount">₺9.450.000 <small>temsili bedel</small></span>
+                <button class="details-button" type="button" data-title="Birlikte yaşamak için" data-location="Yukarı Sokak · Ankara" data-meta="3+1 · 132 m² · Daire" data-price="₺9.450.000" data-description="Ortak aile zamanları için açık bir ada mutfaklı salon, çalışma köşesi ve üç ferah oda. Konum ve fiyatlar temsili portfolyo içeriğidir.">Detayları Gör</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="empty" id="empty-state" role="status">Bu ölçütlere uyan örnek bulunamadı. Lütfen filtreleri genişletip yeniden deneyin.</p>
+      </div>
+    </section>
+
+    <aside class="wrap disclaimer">
+      Bu sayfa kurgusal bir emlak vitrini tasarım demosudur. İlanlar, mimari fotoğraflar, konumlar ve bedeller arayüz sunumu için hazırlanmıştır; gerçek mülk, danışmanlık veya ticari sözleşme oluşturmaz.
+    </aside>
+  </main>
+
+  <footer>
+    <div class="wrap">Aralık · Kurgusal emlak vitrini ve portföy arayüzü demosu. Gerçek bir acenteyi temsil etmez.</div>
+  </footer>
+
+  <!-- Detay Dialog Modalı -->
+  <dialog id="detail-dialog" aria-labelledby="detail-title">
+    <div class="detail-dialog">
+      <div class="dialog-head">
+        <div>
+          <p class="location" id="detail-location"></p>
+          <h2 id="detail-title"></h2>
+        </div>
+        <button class="dialog-close" type="button" aria-label="Detay penceresini kapat">×</button>
+      </div>
+      <p class="dialog-copy" id="detail-copy"></p>
+      <div class="detail-list">
+        <div>
+          <strong id="detail-meta"></strong>
+          Örnek Özellik &amp; Tip
+        </div>
+        <div>
+          <strong id="detail-price"></strong>
+          Temsili Satış Bedeli
+        </div>
+      </div>
+      <button class="inquire-btn" id="inquire-btn" type="button">✦ Bu İlan İçin Danışman Talebi (Demo)</button>
+      <p class="dialog-warning">Bu ayrıntılar demo içeriğidir. Gerçek mülk, satıcı, gayrimenkul danışmanı veya hukuki işlem bulunmaz.</p>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script>
+    const form = document.querySelector("#filters");
+    const cards = [...document.querySelectorAll(".property")];
+    const toastContainer = document.getElementById("toast-container");
+
+    function showToast(message) {
+      if (!toastContainer) return;
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = '<span class="toast-icon">✓</span><span>' + message + '</span>';
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    function filterListings() {
+      const type = document.querySelector("#type").value;
+      const rooms = document.querySelector("#rooms").value;
+      const budget = document.querySelector("#budget").value;
+      let visible = 0;
+      cards.forEach(card => {
+        const matches = (type === "all" || card.dataset.type === type) &&
+          (rooms === "all" || card.dataset.rooms === rooms) &&
+          (budget === "all" || card.dataset.budget === budget);
+        card.hidden = !matches;
+        if (matches) visible++;
+      });
+      document.querySelector("#result-count").textContent = visible + " örnek ilan";
+      document.querySelector("#empty-state").classList.toggle("show", visible === 0);
+    }
+
+    form.addEventListener("change", () => {
+      filterListings();
+      showToast("İlan filtreleri güncellendi.");
+    });
+    form.addEventListener("reset", () => {
+      requestAnimationFrame(() => {
+        filterListings();
+        showToast("Filtreler sıfırlandı.");
+      });
+    });
+
+    const dialog = document.querySelector("#detail-dialog");
+    document.querySelectorAll(".details-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const title = button.dataset.title;
+        document.querySelector("#detail-title").textContent = title;
+        document.querySelector("#detail-location").textContent = button.dataset.location;
+        document.querySelector("#detail-meta").textContent = button.dataset.meta;
+        document.querySelector("#detail-price").textContent = button.dataset.price;
+        document.querySelector("#detail-copy").textContent = button.dataset.description;
+        dialog.showModal();
+        dialog.querySelector(".dialog-close").focus();
+        showToast(title + " detayı açıldı.");
+      });
+    });
+
+    document.querySelector("#inquire-btn")?.addEventListener("click", () => {
+      const title = document.querySelector("#detail-title").textContent;
+      showToast(`${title} için danışman talebi simüle edildi (Demo).`);
+      dialog.close();
+    });
+
+    document.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
+  </script>
+</body>
+</html>

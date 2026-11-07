@@ -1,0 +1,8 @@
+*.zip
+_eraslan-walkthrough-video/
+tests/
+Dockerfile
+docker-compose.yml
+.dockerignore
+dizajn.md
+prd.md

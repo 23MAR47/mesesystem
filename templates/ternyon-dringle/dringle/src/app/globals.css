@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  /* ── Palette — from Figma "Ternyon" hero (node 610:557) ── */
+  --background: #f0f2fa; /* left surface / page background */
+  --foreground: #00012f; /* primary ink (navy) */
+  --ink: #00012f; /* headings, body copy, badges */
+  --ink-strong: #000000; /* nav links / contact label */
+  --violet: #1b0095; /* CTA gradient end / accent */
+  --hairline: rgba(0, 0, 0, 0.1); /* pill borders on the light surface */
+  --card-fill: rgba(0, 0, 0, 0.4); /* glass stat cards over the panel */
+  --card-hairline: rgba(255, 255, 255, 0.2); /* glass stat-card border */
+  --panel: #05010f; /* dark panel base behind the video */
+  --gradient-cta: linear-gradient(90deg, var(--ink), var(--violet)); /* Start-a-Project button */
+  --gradient-preloader: linear-gradient(180deg, var(--ink), var(--violet)); /* preloader curtain */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-violet: var(--violet);
+  --color-hairline: var(--hairline);
+  --color-card-fill: var(--card-fill);
+  --color-card-hairline: var(--card-hairline);
+  --color-panel: var(--panel);
+
+  --font-sans: var(--font-general-sans);
+
+  --radius-panel: 1.5rem; /* 24px — right media panel */
+  --radius-card: 1rem; /* 16px — glass stat cards */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* Reference the next/font variable directly: with `@theme inline` Tailwind
+     inlines `--font-sans` into utilities and never emits it as a property. */
+  font-family: var(--font-general-sans), sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Mobile: the stacked hero is a normal scrollable page (the desktop stage is a
+   single fixed screen). Undo the flex-centering and vertical clip. */
+@media (max-width: 1023px) {
+  body {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+@layer base {
+  /* Single-base (1440) grid. Horizontal metrics track the Figma 1440 frame:
+     `1rem` = viewport WIDTH / 90 (100vw / 90 = 1.111111vw) so the 90rem-wide
+     desktop stage always fills the width — small, mockup-accurate insets, never
+     big side margins. The stage's HEIGHT is the full viewport (`100dvh`) and its
+     contents are anchored fluidly (nav top, CTA/social bottom, headline centred,
+     panel full-height) — so the hero fills any viewport aspect with no letterbox
+     gaps and nothing scrolls. See decisions-log ADR-0017. Keep the 1440 base in
+     sync with grid.config.ts. */
+  html {
+    font-size: 1.111111vw; /* 16 * 100 / 1440 */
+  }
+
+  /* Below the desktop breakpoint the hero switches to the stacked mobile layout
+     (a normal flowing, scrollable page), so the root font-size returns to a
+     conventional, viewport-aware size instead of the 1440-grid vw. */
+  @media (max-width: 1023px) {
+    html {
+      font-size: clamp(14px, 4.2vw, 20px);
+    }
+  }
+}
+
+@layer utilities {
+}
+
+@layer components {
+}

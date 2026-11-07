@@ -1,0 +1,183 @@
+/* `source("../")` limits class detection to `src/` (this file lives in src/app).
+   Without it Tailwind v4 scans the whole repo — including obsidian/ and .claude/,
+   where documented class *patterns* like duration-[var(--duration-*)] parse as
+   real candidates and emit CSS warnings. Docs are not a source of utilities. */
+@import "tailwindcss" source("../");
+
+/* ---------------------------------------------------------------------------
+   TIER 1 — PRIMITIVES  (`--raw-*`)
+   Raw literal values. The only tier allowed to contain a hex/px/ms literal.
+   Never referenced in markup, never bound into @theme. Rename freely.
+   Grammar: --raw-<category>-<name>[-<shade>]
+   See obsidian/frontend/design-system.md → "Token naming convention".
+
+   Palette sampled from Figma "Ternyon",
+   frames "Concept 9. Block 1–6" (nodes 2412:210, 2428:599, 2384:156,
+   2431:940, 2384:190, 2384:202).
+   --------------------------------------------------------------------------- */
+:root {
+  --raw-color-white: #ffffff;
+  --raw-color-black: #000000;
+
+  /* Halden brand red — nav, hero type, blocks 2 & 6, catalogue band */
+  --raw-color-red-600: #de0419;
+
+  /* Warm paper neutrals */
+  --raw-color-cream-50: #f4f2ed;
+  --raw-color-cream-100: #edeae2;
+  --raw-color-sand-200: #d8d3c0;
+  --raw-color-stone-500: #6e6a60;
+  --raw-color-ink-950: #14130f;
+
+  --raw-duration-fast: 150ms;
+  --raw-duration-normal: 250ms;
+}
+
+/* ---------------------------------------------------------------------------
+   TIER 2 — SEMANTIC  (role names, no namespace prefix)
+   Purpose, not appearance. Always `var(--raw-*)` — never a literal.
+   This is the themeable layer: any re-theme overrides HERE, which is why these
+   are separate from the @theme bindings below (see the note there).
+   Grammar: --<role>[-<variant>][-<state>]
+
+   NOTE: the starter's `prefers-color-scheme: dark` override was removed — the
+   Halden design is a single fixed theme (warm paper + red), and flipping
+   --background/--foreground inverted the whole comp. Re-add a dark ramp here
+   if a dark variant is ever designed.
+   --------------------------------------------------------------------------- */
+:root {
+  --background: var(--raw-color-cream-100);
+  --foreground: var(--raw-color-black);
+
+  /* Red surfaces (blocks 2 & 6, catalogue active band) and type on them */
+  --surface-accent: var(--raw-color-red-600);
+  --foreground-accent: var(--raw-color-red-600);
+  --foreground-on-accent: var(--raw-color-white);
+
+  /* Paper-light type used over red or over photography */
+  --foreground-on-band: var(--raw-color-cream-50);
+
+  /* Neutral type ramp */
+  --foreground-strong: var(--raw-color-ink-950);
+  --foreground-muted: var(--raw-color-stone-500);
+
+  /* Scrim laid over the room photograph while one piece is spotlit */
+  --scrim: var(--raw-color-ink-950);
+
+  /* Hairlines, chips, pills */
+  --rule: var(--raw-color-sand-200);
+  --surface-subtle: var(--raw-color-sand-200);
+  --surface-overlay: var(--raw-color-cream-50);
+
+  --duration-fast: var(--raw-duration-fast);
+  --duration-normal: var(--raw-duration-normal);
+}
+
+/* ---------------------------------------------------------------------------
+   THEME BINDINGS — map semantic tokens into Tailwind namespaces.
+   Colour/font entries are exactly `--<tw-namespace>-<role>: var(--<role>)`.
+   `inline` is required: it inlines the var() into each utility so Tier 2
+   overrides cascade. Binding a literal here would freeze the value.
+
+   Only these namespaces generate utilities (verified against tailwindcss
+   v4.3.3): --color-* --spacing-* --radius-* --leading-* --tracking-* --text-*
+   --font-* --ease-* --breakpoint-* --container-* --shadow-* --blur-* --animate-*
+   NOTE: there is NO --duration-* namespace in v4 — `duration-fast` compiles to
+   nothing. Durations stay Tier 2 only and are used as duration-[var(--duration-fast)].
+   --------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface-accent: var(--surface-accent);
+  --color-foreground-accent: var(--foreground-accent);
+  --color-foreground-on-accent: var(--foreground-on-accent);
+  --color-foreground-on-band: var(--foreground-on-band);
+  --color-foreground-strong: var(--foreground-strong);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-rule: var(--rule);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-scrim: var(--scrim);
+
+  /* Instrument Serif is the workhorse; Bebas Neue is the display face;
+     Inter appears only in the wordmark lockup (block 1). */
+  --font-serif: var(--font-instrument-serif);
+  --font-display: var(--font-bebas-neue);
+  --font-sans: var(--font-inter);
+
+  /* Type scale — every size in the Figma comps, at the 1440 design base.
+     rem, so the adaptive grid scales the whole page proportionally. */
+  --text-display: 15rem; /* 240px — hero headline, 2412:368 */
+  --text-wordmark: 12.01425rem; /* 192.228px — footer HALDEN, 2437:1607 */
+  --text-manifesto: 4.875rem; /* 78px — block 2 statement, 2428:604 */
+  --text-section: 3.875rem; /* 62px — block 4 & 5 headings */
+  --text-category: 3.375rem; /* 54px — catalogue list, 2419:557 */
+  --text-headline: 2.875rem; /* 46px — footer heading, 2437:1580 */
+  --text-title: 1.625rem; /* 26px — product titles, hero welcome & CTA */
+  --text-plus: 1.125rem; /* 18px — hotspot "+" glyph, 2437:1430 */
+  --text-body: 1rem; /* 16px */
+  --text-label: 0.875rem; /* 14px */
+  --text-caption: 0.75rem; /* 12px */
+  --text-micro: 0.625rem; /* 10px */
+  --text-nano: 0.5rem; /* 8px — registered mark, 2412:218 */
+
+  --radius-image: 0.125rem; /* 2px — every image plate in the comps */
+  --radius-pill: 6.25rem; /* 100px — pills, chips, save buttons */
+
+  /* Leading floor for clipped TextEngine reveals — see
+     obsidian/frontend/text-engine.md → "Alignment & line-height". */
+  --leading-display: 1.1;
+
+  --ease-entrance: cubic-bezier(0.2, 0, 0, 1);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+}
+
+@layer base {
+  /* Adaptive scaling grid — scales the root font-size with the viewport so the
+     rem-based layout stays proportional. Each range scales from the comp it
+     was drawn at; above 1440 the AdaptiveGrid component scales up.
+     Keep in sync with src/components/common/grid/grid.config.ts. */
+  html {
+    font-size: 16px;
+  }
+
+  @media (max-width: 1440px) {
+    html {
+      font-size: 1.111111vw; /* 16 * 100 / 1440 */
+    }
+  }
+
+  @media (max-width: 1024px) {
+    html {
+      font-size: 1.5625vw; /* 16 * 100 / 1024 */
+    }
+  }
+
+  @media (max-width: 768px) {
+    html {
+      font-size: 2.083333vw; /* 16 * 100 / 768 */
+    }
+  }
+
+  /* 548 is the split between the 768 and 390 comps — see grid.config.ts. */
+  @media (max-width: 548px) {
+    html {
+      font-size: 4.102564vw; /* 16 * 100 / 390 */
+    }
+  }
+}
+
+@custom-variant at1024 (@media (max-width: 1024px));
+@custom-variant at768 (@media (max-width: 768px));
+@custom-variant at390 (@media (max-width: 548px));
+
+@layer utilities {
+}
+
+@layer components {
+}
