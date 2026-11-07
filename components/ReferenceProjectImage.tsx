@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import type { PortfolioProject } from '@/config/referenceSite'
 
@@ -51,16 +50,15 @@ export default function ReferenceProjectImage({
       aria-hidden="true"
     >
       {imageSrc ? (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element -- next/image hangs the browser renderer on this page
+        <img
           src={imageSrc}
           alt=""
-          fill
           sizes={sizes}
-          unoptimized
-          priority={priority}
-          loading="eager"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
           onError={() => setImageFailed(true)}
-          className="object-cover object-top transition-[object-position] duration-[3500ms] ease-in-out group-hover:object-bottom"
+          className="absolute inset-0 h-full w-full object-cover object-top transition-[object-position] duration-[3500ms] ease-in-out group-hover:object-bottom"
         />
       ) : (
         <>
