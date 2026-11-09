@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Terneon birim testleri — toplu koşucu.
+ * MESE SYSTEM birim testleri — toplu koşucu.
  *
  * tests/ altındaki her `*.test.mjs` dosyasını ayrı süreçte çalıştırır
  * (izolasyon: bir dosyadaki hata veya global durum diğerlerini etkilemesin).
  *
  * Kullanım:
- *   node terneon/tests/run-tests.mjs
- *   node terneon/tests/run-tests.mjs --only format
+ *   node tests/run-tests.mjs
+ *   node tests/run-tests.mjs --only format
  *
  * Çıkış kodu: 0 = hepsi geçti, 1 = en az bir başarısız.
  * Ağ erişimi gerekmez; npm paketi gerekmez.
@@ -44,7 +44,7 @@ if (files.length === 0) {
 }
 
 console.log(
-  paint(ANSI.bold, "\n  Terneon — Birim Testleri\n") +
+  paint(ANSI.bold, "\n  MESE SYSTEM — Birim Testleri\n") +
     paint(ANSI.gray, `  ${files.length} dosya · Node ${process.version}\n`)
 );
 

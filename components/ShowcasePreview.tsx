@@ -25,7 +25,7 @@ export default function ShowcasePreview({
       {project.previewImage ? (
         <Image
           src={project.previewImage}
-          alt=""
+          alt={`${project.name} — ${project.category} arayüz tasarımı ve canlı demo önizlemesi`}
           fill
           sizes={sizes}
           priority={priority}

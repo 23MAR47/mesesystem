@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0e12">
+  <meta name="description" content="Dinamik Pilates & Fitness — Canlı kontenjanlı haftalık butik ders takvimi, interaktif BMI & kalori hesaplayıcısı ve ücretsiz deneme seansı rezervasyonu. MESE SYSTEM sektörel vitrin demosu.">
+  <title>Dinamik Pilates & Fitness — Reformer Pilates & Stüdyo Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-fitness: #0c0e12;
+      --bg-fitness-deep: #060709;
+      --panel-fitness: #141720;
+      --panel-fitness-hover: #1b202c;
+      --card-fitness: #181d28;
+      --card-border: rgba(163, 230, 53, 0.22);
+      --card-border-hover: rgba(163, 230, 53, 0.55);
+      --lime-kinetic: #a3e635;
+      --lime-glow: rgba(163, 230, 53, 0.18);
+      --amber-pulse: #f59e0b;
+      --neon-cyan: #06b6d4;
+      --text-white: #f8fafc;
+      --ink-muted: #94a3b8;
+      --ink-dim: #64748b;
+      --line-subtle: rgba(255, 255, 255, 0.08);
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      background: var(--bg-fitness);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; cursor: pointer; }
+    ::selection { background: var(--lime-kinetic); color: #060709; }
+    :focus-visible { outline: 2px solid var(--lime-kinetic); outline-offset: 3px; }
+
+    .wrap {
+      width: min(1200px, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Top Demo Notice Bar */
+    .demo-bar {
+      padding: .65rem 1rem;
+      background: var(--bg-fitness-deep);
+      color: #bef264;
+      text-align: center;
+      font-size: .8rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .demo-pill {
+      background: rgba(163, 230, 53, 0.15);
+      border: 1px solid rgba(163, 230, 53, 0.4);
+      color: var(--lime-kinetic);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(12, 14, 18, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+    }
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--lime-kinetic), #65a30d);
+      display: grid;
+      place-items: center;
+      color: #060709;
+      box-shadow: 0 0 16px var(--lime-glow);
+    }
+    .brand-mark svg { width: 24px; height: 24px; }
+    .brand-subtitle {
+      font-size: .72rem;
+      color: var(--lime-kinetic);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      display: block;
+      margin-top: -2px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+    .nav-links a {
+      color: var(--ink-muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--lime-kinetic); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--lime-kinetic), #84cc16);
+      color: #060709 !important;
+      font-weight: 800;
+      padding: .65rem 1.35rem;
+      border-radius: 6px;
+      letter-spacing: .02em;
+      box-shadow: 0 4px 14px var(--lime-glow);
+      transition: all .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(163, 230, 53, 0.4); }
+
+    /* Hero Section */
+    .hero {
+      padding: 5.5rem 0 4.5rem;
+      position: relative;
+      background: radial-gradient(circle at 85% 15%, rgba(163, 230, 53, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 75%, rgba(20, 23, 32, 0.8) 0%, transparent 50%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .badge-kinetic {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(163, 230, 53, 0.1);
+      border: 1px solid var(--card-border);
+      color: var(--lime-kinetic);
+      font-size: .82rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span.lime-text {
+      background: linear-gradient(135deg, var(--lime-kinetic), #bef264);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 1.1rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-kinetic {
+      background: linear-gradient(135deg, var(--lime-kinetic), #84cc16);
+      color: #060709;
+      font-weight: 800;
+      padding: .85rem 1.8rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 18px var(--lime-glow);
+      transition: all .2s;
+    }
+    .btn-kinetic:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(163, 230, 53, 0.4); }
+    .btn-outline-kinetic {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text-white);
+      font-weight: 600;
+      padding: .85rem 1.6rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .2s;
+    }
+    .btn-outline-kinetic:hover { background: rgba(163, 230, 53, 0.1); border-color: var(--lime-kinetic); }
+
+    .fitness-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-border);
+    }
+    .fit-stat strong {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--lime-kinetic);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .fit-stat span {
+      font-size: .82rem;
+      color: var(--ink-muted);
+    }
+
+    .hero-side-card {
+      position: relative;
+    }
+    .hero-studio-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--card-border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      background: var(--panel-fitness);
+    }
+    .hero-studio-frame img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+    .floating-trainer-badge {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      background: rgba(20, 23, 32, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--lime-kinetic);
+      padding: 1rem 1.3rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .floating-trainer-badge .tr-icon { font-size: 1.8rem; }
+    .floating-trainer-badge strong { display: block; font-size: .92rem; color: #fff; }
+    .floating-trainer-badge span { font-size: .78rem; color: var(--lime-kinetic); }
+
+    /* Section Headings */
+    .sec-tag {
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--lime-kinetic);
+      background: var(--lime-glow);
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      margin-bottom: .85rem;
+    }
+    .sec-center-head {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3.5rem;
+    }
+    .sec-center-head h2 {
+      font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .85rem;
+      letter-spacing: -0.01em;
+    }
+    .sec-center-head p {
+      color: var(--ink-muted);
+      font-size: 1.05rem;
+    }
+
+    /* ========================================================
+       COMPONENT 1: CANLI KONTENJANLI HAFTALIK DERS PROGRAMI
+       ======================================================== */
+    .schedule-section {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, var(--bg-fitness) 0%, var(--bg-fitness-deep) 100%);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .weekday-tabs {
+      display: flex;
+      justify-content: center;
+      gap: .65rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .day-tab {
+      background: var(--panel-fitness);
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .65rem 1.4rem;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .day-tab:hover { border-color: var(--lime-kinetic); color: #fff; }
+    .day-tab.active {
+      background: var(--lime-kinetic);
+      color: #060709;
+      border-color: var(--lime-kinetic);
+      font-weight: 800;
+      box-shadow: 0 0 14px var(--lime-glow);
+    }
+
+    .class-cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .class-card {
+      background: var(--panel-fitness);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.6rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      transition: all .2s;
+    }
+    .class-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateX(4px);
+    }
+    .class-time {
+      font-family: var(--font-body);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(6, 7, 9, 0.6);
+      border: 1px solid var(--line-subtle);
+      padding: .75rem 1.25rem;
+      border-radius: 8px;
+      min-width: 140px;
+      text-align: center;
+    }
+    .class-info {
+      flex-grow: 1;
+    }
+    .intensity-tag {
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: .35rem;
+    }
+    .intensity-tag.level-2 { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .intensity-tag.level-3 { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .intensity-tag.level-4 { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .class-info h4 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .25rem;
+    }
+    .class-info p {
+      font-size: .88rem;
+      color: var(--ink-muted);
+    }
+    .class-quota-box {
+      min-width: 150px;
+    }
+    .quota-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .quota-fill {
+      height: 100%;
+      background: var(--lime-kinetic);
+      border-radius: 3px;
+      transition: width .3s;
+    }
+    .quota-text {
+      font-size: .8rem;
+      color: var(--ink-muted);
+      display: block;
+    }
+    .quota-text strong { color: var(--lime-kinetic); font-size: .95rem; }
+
+    .btn-book-class {
+      background: rgba(163, 230, 53, 0.12);
+      border: 1px solid var(--lime-kinetic);
+      color: var(--lime-kinetic);
+      font-weight: 800;
+      font-size: .88rem;
+      padding: .75rem 1.4rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+    .btn-book-class:hover:not(:disabled) {
+      background: var(--lime-kinetic);
+      color: #060709;
+    }
+    .btn-book-class:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    /* ========================================================
+       COMPONENT 2: BMI & KALORİ HESAPLAYICI
+       ======================================================== */
+    .calculator-section {
+      padding: 5rem 0;
+      position: relative;
+    }
+    .fitness-calculator-card {
+      background: var(--panel-fitness);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .calc-top {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .badge-lime {
+      display: inline-block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--lime-kinetic);
+      background: var(--lime-glow);
+      border: 1px solid var(--card-border);
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    .calc-top h3 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .65rem;
+    }
+    .calc-top p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+    }
+
+    .fitness-calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .calc-inputs-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .f-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .f-group label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .gender-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .btn-gender {
+      background: rgba(6, 7, 9, 0.6);
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .75rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: .9rem;
+      transition: all .2s;
+    }
+    .btn-gender.active {
+      background: var(--lime-kinetic);
+      color: #060709;
+      border-color: var(--lime-kinetic);
+    }
+    .form-control {
+      background: rgba(6, 7, 9, 0.8);
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: .8rem 1rem;
+      color: #fff;
+      font-size: .95rem;
+    }
+    .form-control:focus {
+      border-color: var(--lime-kinetic);
+      outline: none;
+    }
+
+    .calc-output-col {
+      background: rgba(6, 7, 9, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .bmi-score-box {
+      text-align: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+    .bmi-score-box span {
+      display: block;
+      font-size: .82rem;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+    }
+    .bmi-score-box strong {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--lime-kinetic);
+      line-height: 1;
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .bmi-status {
+      display: inline-block;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+    }
+    .bmi-status.normal { background: rgba(163, 230, 53, 0.15); color: var(--lime-kinetic); border: 1px solid var(--card-border); }
+    .bmi-status.warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .bmi-status.alert { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .metabolic-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .m-stat {
+      background: var(--panel-fitness);
+      border: 1px solid var(--line-subtle);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .m-stat span { display: block; font-size: .76rem; color: var(--ink-muted); margin-bottom: 4px; }
+    .m-stat strong { font-size: 1.15rem; color: #fff; font-weight: 800; }
+    .m-stat strong.lime-text { color: var(--lime-kinetic); }
+
+    .studio-program-box {
+      background: rgba(163, 230, 53, 0.08);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .studio-program-box strong {
+      display: block;
+      font-size: .92rem;
+      color: var(--lime-kinetic);
+      margin-bottom: 4px;
+    }
+    .studio-program-box p {
+      font-size: .88rem;
+      color: var(--text-white);
+      line-height: 1.5;
+    }
+    .btn-fit-trial {
+      background: linear-gradient(135deg, var(--lime-kinetic), #84cc16);
+      color: #060709;
+      font-weight: 800;
+      padding: .85rem;
+      border-radius: 6px;
+      border: none;
+      width: 100%;
+      transition: all .2s;
+    }
+    .btn-fit-trial:hover { box-shadow: 0 4px 18px var(--lime-glow); }
+
+    /* ========================================================
+       COMPONENT 3: MASTER EĞİTMENLER & DENEME REZERVASYONU
+       ======================================================== */
+    .trainer-booking-section {
+      padding: 5rem 0;
+      background: var(--bg-fitness-deep);
+      border-top: 1px solid var(--card-border);
+    }
+    .trainer-booking-wrap {
+      background: var(--panel-fitness);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-col label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .btn-fit-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--lime-kinetic), #84cc16);
+      color: #060709;
+      font-weight: 800;
+      padding: 1rem;
+      border-radius: 6px;
+      border: none;
+      margin-top: 1rem;
+      transition: all .2s;
+      font-size: 1rem;
+    }
+    .btn-fit-primary:hover {
+      box-shadow: 0 4px 20px var(--lime-glow);
+    }
+
+    /* Amenities Strip */
+    .amenities-strip {
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--card-border);
+      background: var(--bg-fitness);
+    }
+    .amenities-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .amenity-card {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .amenity-icon {
+      font-size: 1.6rem;
+      background: rgba(163, 230, 53, 0.1);
+      border: 1px solid var(--card-border);
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .amenity-card strong { display: block; font-size: .95rem; color: #fff; margin-bottom: 2px; }
+    .amenity-card p { font-size: .8rem; color: var(--ink-muted); line-height: 1.5; }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 7, 9, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      place-items: center;
+      padding: 1.5rem;
+    }
+    .modal-box {
+      background: var(--panel-fitness);
+      border: 2px solid var(--lime-kinetic);
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+    .modal-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .modal-box h3 { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: .85rem; }
+    .modal-box p { color: var(--ink-muted); font-size: .95rem; line-height: 1.6; margin-bottom: 2rem; }
+    .modal-box p strong { color: var(--lime-kinetic); }
+    .btn-modal-close {
+      background: var(--lime-kinetic);
+      color: #060709;
+      font-weight: 800;
+      padding: .75rem 2rem;
+      border-radius: 6px;
+      border: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-fitness-deep);
+      border-top: 1px solid var(--card-border);
+      padding: 4.5rem 0 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-col h4 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 1rem; }
+    .footer-col p { color: var(--ink-muted); font-size: .9rem; line-height: 1.7; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { color: var(--ink-muted); font-size: .88rem; margin-bottom: .5rem; }
+    .footer-bottom {
+      border-top: 1px solid var(--line-subtle);
+      padding-top: 2rem;
+      text-align: center;
+      font-size: .82rem;
+      color: var(--ink-dim);
+      line-height: 1.7;
+    }
+    .footer-bottom strong { color: var(--lime-kinetic); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .fitness-calc-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .class-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .amenities-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .row-2, .form-row { grid-template-columns: 1fr; }
+      .fitness-stats { grid-template-columns: 1fr; }
+      .amenities-grid { grid-template-columns: 1fr; }
+      .class-card { padding: 1.25rem; }
+      .class-time { width: 100%; text-align: center; min-width: 0; }
+      .btn-book-class { width: 100%; text-align: center; }
+      .class-quota-box { width: 100%; min-width: 0; }
+      .weekday-tabs { gap: .4rem; }
+      .day-tab { padding: .5rem 1rem; font-size: .8rem; }
+      .modal-box { padding: 1.75rem; }
+      .nav-links { display: none; }
+      .fitness-calculator-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Demo Notice Bar -->
+  <div class="demo-bar">
+    <span class="demo-pill">Fitness Vitrini</span>
+    <span>Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış temsili bir stüdyo ve reformer pilates vitrinidir. Gerçek bir üyelik kaydı ve ödeme alınmaz.</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap">
+      <nav class="nav">
+        <a href="#ust" class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/>
+            </svg>
+          </div>
+          <div>
+            Dinamik Pilates & Fitness
+            <span class="brand-subtitle">Butik Reformer Stüdyosu</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="#ders-programi">Ders Programı</a>
+          <a href="#bmi-hesaplayici">BMI & Kalori</a>
+          <a href="#rezervasyon" class="nav-cta">Ücretsiz Deneme Dersi →</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="ust">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="badge-kinetic">
+              ⚡ Maksimum 6 Kişilik Butik Seanslar & Polestar Pilates
+            </div>
+            <h1>
+              Birebir Reformer Pilates & <span class="lime-text">Fonksiyonel Güç Disiplini</span>
+            </h1>
+            <p class="hero-lead">
+              Kişiye özel postür analizi, omurga sağlığı odaklı klinik reformer seansları ve yüksek tempolu fonksiyonel antrenmanlarla bedeninizi dönüştürün.
+            </p>
+            <div class="hero-actions">
+              <a href="#ders-programi" class="btn-kinetic">
+                Canlı Kontenjanlı Dersler ↓
+              </a>
+              <a href="#bmi-hesaplayici" class="btn-outline-kinetic">
+                BMI & Kalori Hesapla
+              </a>
+            </div>
+            <div class="fitness-stats">
+              <div class="fit-stat">
+                <strong>Maks 6</strong>
+                <span>Kişilik Butik Gruplar</span>
+              </div>
+              <div class="fit-stat">
+                <strong>1.400+</strong>
+                <span>Vücut Dönüşümü</span>
+              </div>
+              <div class="fit-stat">
+                <strong>12 Yıl</strong>
+                <span>Master Pilates Eğitimi</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-studio-frame">
+              <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80" alt="Reformer Pilates Stüdyosu">
+            </div>
+            <div class="floating-trainer-badge">
+              <div class="tr-icon">🏅</div>
+              <div>
+                <strong>PMA & Polestar Onaylı</strong>
+                <span>Klinik Omurga & Skolyoz Sertifikası</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 1: CANLI KONTENJANLI HAFTALIK DERS PROGRAMI -->
+    <section class="schedule-section" id="ders-programi">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-tag">Reformer & Fonksiyonel</span>
+          <h2>Haftalık Canlı Kontenjanlı Stüdyo Programı</h2>
+          <p>Her derste maksimum 6 kişilik butik gruplar. Gerçek zamanlı kalan kontenjanınızı seçerek yerinizi hemen ayırtın.</p>
+        </div>
+
+        <div class="weekday-tabs" id="dayTabs">
+          <button class="day-tab active" data-day="pzt">Pazartesi</button>
+          <button class="day-tab" data-day="sal">Salı</button>
+          <button class="day-tab" data-day="car">Çarşamba</button>
+          <button class="day-tab" data-day="per">Perşembe</button>
+          <button class="day-tab" data-day="cum">Cuma</button>
+          <button class="day-tab" data-day="cmt">Cumartesi</button>
+        </div>
+
+        <div class="class-cards-grid" id="classCards">
+          <!-- Pazartesi 1 -->
+          <div class="class-card" data-day="pzt" data-class-id="pzt-1">
+            <div class="class-time">08:00 - 09:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-3">🔥🔥🔥 Seviye 3 / Orta-İleri</span>
+              <h4>Morning Flow Reformer</h4>
+              <p>Eğitmen: <strong>Ece Yılmaz</strong> · Stüdyo Reformer A (Maks. 6 Kişi)</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 66%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">2</strong> Kontenjan Kaldı</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Morning Flow Reformer', 'Pazartesi 08:00', 'pzt-1')">Derse Katıl →</button>
+          </div>
+
+          <!-- Pazartesi 2 -->
+          <div class="class-card" data-day="pzt" data-class-id="pzt-2">
+            <div class="class-time">12:30 - 13:30</div>
+            <div class="class-info">
+              <span class="intensity-tag level-2">🔥🔥 Seviye 2 / Postür & Güç</span>
+              <h4>Klinik Omurga & Core Pilates</h4>
+              <p>Eğitmen: <strong>Burak Demir</strong> · Mat & Reformer Alanı</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 83%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">1</strong> Son Kontenjan!</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Klinik Omurga & Core Pilates', 'Pazartesi 12:30', 'pzt-2')">Derse Katıl →</button>
+          </div>
+
+          <!-- Pazartesi 3 -->
+          <div class="class-card" data-day="pzt" data-class-id="pzt-3">
+            <div class="class-time">19:00 - 20:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-4">🔥🔥🔥🔥 Seviye 4 / Yüksek Kalori</span>
+              <h4>HIIT & Athletic Burn</h4>
+              <p>Eğitmen: <strong>Selin Kaya</strong> · Fonksiyonel Bölüm</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 50%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">3</strong> Kontenjan Kaldı</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('HIIT & Athletic Burn', 'Pazartesi 19:00', 'pzt-3')">Derse Katıl →</button>
+          </div>
+
+          <!-- Salı 1 -->
+          <div class="class-card" data-day="sal" data-class-id="sal-1" style="display:none;">
+            <div class="class-time">09:00 - 10:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-2">🔥🔥 Seviye 2 / Esneklik</span>
+              <h4>Reformer Tower & Stretch</h4>
+              <p>Eğitmen: <strong>Ece Yılmaz</strong> · Stüdyo Reformer B</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 33%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">4</strong> Kontenjan Kaldı</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Reformer Tower & Stretch', 'Salı 09:00', 'sal-1')">Derse Katıl →</button>
+          </div>
+
+          <!-- Salı 2 -->
+          <div class="class-card" data-day="sal" data-class-id="sal-2" style="display:none;">
+            <div class="class-time">18:30 - 19:30</div>
+            <div class="class-info">
+              <span class="intensity-tag level-3">🔥🔥🔥 Seviye 3 / Sıkılaşma</span>
+              <h4>Power Reformer & Glute Sculpt</h4>
+              <p>Eğitmen: <strong>Selin Kaya</strong> · Stüdyo Reformer A</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 66%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">2</strong> Kontenjan Kaldı</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Power Reformer & Glute Sculpt', 'Salı 18:30', 'sal-2')">Derse Katıl →</button>
+          </div>
+
+          <!-- Çarşamba 1 -->
+          <div class="class-card" data-day="car" data-class-id="car-1" style="display:none;">
+            <div class="class-time">08:00 - 09:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-3">🔥🔥🔥 Seviye 3 / Kardiyo & Mat</span>
+              <h4>Cardio Jumpboard Pilates</h4>
+              <p>Eğitmen: <strong>Burak Demir</strong> · Stüdyo Reformer A</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 83%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">1</strong> Son Kontenjan!</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Cardio Jumpboard Pilates', 'Çarşamba 08:00', 'car-1')">Derse Katıl →</button>
+          </div>
+
+          <!-- Perşembe 1 -->
+          <div class="class-card" data-day="per" data-class-id="per-1" style="display:none;">
+            <div class="class-time">19:00 - 20:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-2">🔥🔥 Seviye 2 / Omurga</span>
+              <h4>Klinik Reformer & Postür</h4>
+              <p>Eğitmen: <strong>Ece Yılmaz</strong> · Stüdyo Reformer A</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 50%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">3</strong> Kontenjan Kaldı</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Klinik Reformer & Postür', 'Perşembe 19:00', 'per-1')">Derse Katıl →</button>
+          </div>
+
+          <!-- Cuma 1 -->
+          <div class="class-card" data-day="cum" data-class-id="cum-1" style="display:none;">
+            <div class="class-time">18:00 - 19:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-4">🔥🔥🔥🔥 Seviye 4 / Full Body</span>
+              <h4>Weekend Kickoff Athletic HIIT</h4>
+              <p>Eğitmen: <strong>Burak Demir</strong> · Fonksiyonel Alan</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 66%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">2</strong> Kontenjan Kaldı</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Weekend Kickoff Athletic HIIT', 'Cuma 18:00', 'cum-1')">Derse Katıl →</button>
+          </div>
+
+          <!-- Cumartesi 1 -->
+          <div class="class-card" data-day="cmt" data-class-id="cmt-1" style="display:none;">
+            <div class="class-time">11:00 - 12:00</div>
+            <div class="class-info">
+              <span class="intensity-tag level-3">🔥🔥🔥 Seviye 3 / Master</span>
+              <h4>Saturday Signature Reformer Flow</h4>
+              <p>Eğitmen: <strong>Ece Yılmaz</strong> · Stüdyo Reformer A & B</p>
+            </div>
+            <div class="class-quota-box">
+              <div class="quota-bar"><div class="quota-fill" style="width: 83%;"></div></div>
+              <span class="quota-text"><strong class="quota-num">1</strong> Son Kontenjan!</span>
+            </div>
+            <button type="button" class="btn-book-class" onclick="bookClassSlot('Saturday Signature Reformer Flow', 'Cumartesi 11:00', 'cmt-1')">Derse Katıl →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 2: BMI & KALORİ HESAPLAYICI -->
+    <section class="calculator-section" id="bmi-hesaplayici">
+      <div class="wrap">
+        <div class="fitness-calculator-card">
+          <div class="calc-top">
+            <span class="badge-lime">Performans Analizi</span>
+            <h3>İnteraktif BMI & Günlük Kalori İhtiyacı Aracı</h3>
+            <p>Hedefinize göre günlük bazal metabolizma hızınızı ve stüdyo antrenman reçetenizi belirleyin.</p>
+          </div>
+
+          <div class="fitness-calc-grid">
+            <div class="calc-inputs-col">
+              <div class="row-2">
+                <div class="f-group">
+                  <label>Cinsiyet</label>
+                  <div class="gender-toggle">
+                    <button type="button" class="btn-gender active" data-gender="k">Kadın</button>
+                    <button type="button" class="btn-gender" data-gender="e">Erkek</button>
+                  </div>
+                </div>
+                <div class="f-group">
+                  <label for="fitAge">Yaşınız</label>
+                  <input type="number" id="fitAge" class="form-control" value="28" min="15" max="80">
+                </div>
+              </div>
+              <div class="row-2">
+                <div class="f-group">
+                  <label for="fitHeight">Boy (cm)</label>
+                  <input type="number" id="fitHeight" class="form-control" value="168" min="120" max="220">
+                </div>
+                <div class="f-group">
+                  <label for="fitWeight">Kilo (kg)</label>
+                  <input type="number" id="fitWeight" class="form-control" value="62" min="35" max="180">
+                </div>
+              </div>
+              <div class="f-group">
+                <label for="fitActivity">Haftalık Aktivite Seviyesi</label>
+                <select id="fitActivity" class="form-control">
+                  <option value="1.2">Hareketsiz / Masa başı çalışma</option>
+                  <option value="1.375" selected>Hafif Aktif (Haftada 1-2 seans)</option>
+                  <option value="1.55">Orta Aktif (Haftada 3-4 seans)</option>
+                  <option value="1.725">Yüksek Tempo (Haftada 5+ seans)</option>
+                </select>
+              </div>
+              <div class="f-group">
+                <label for="fitGoal">Öncelikli Hedefiniz</label>
+                <select id="fitGoal" class="form-control">
+                  <option value="lose">Yağ Yakımı & Kilo Verme (-400 kcal)</option>
+                  <option value="tone" selected>Sıkılaşma & Omurga Duruşu (Postür)</option>
+                  <option value="gain">Kas Kazanımı & Kuvvet (+300 kcal)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Calculation Output Column -->
+            <div class="calc-output-col">
+              <div class="bmi-score-box">
+                <span>Vücut Kitle Endeksiniz (BMI)</span>
+                <strong id="bmiVal">22.0</strong>
+                <span class="bmi-status normal" id="bmiStatus">İdeal Form Aralığında</span>
+              </div>
+
+              <div class="metabolic-stats">
+                <div class="m-stat">
+                  <span>Bazal Metabolizma (BMR):</span>
+                  <strong id="bmrVal">1.380 kcal/gün</strong>
+                </div>
+                <div class="m-stat">
+                  <span>Günlük Hedef Kalori:</span>
+                  <strong id="tdeeVal" class="lime-text">1.750 kcal/gün</strong>
+                </div>
+              </div>
+
+              <div class="studio-program-box">
+                <strong>Stüdyo Antrenör Reçetesi:</strong>
+                <p id="fitRecommendation">Haftada 3 Seans Reformer Pilates + 1 Seans Fonksiyonel Esneme ile omurga hizalanması ve dengeli kas tonusu önerilmektedir.</p>
+              </div>
+
+              <button type="button" class="btn-fit-trial" onclick="document.getElementById('rezervasyon').scrollIntoView({behavior:'smooth'})">Bu Programa Göre Ücretsiz Deneme Dersi Al →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 3: EĞİTMEN KADROSU & DENEME SEANSI REZERVASYONU -->
+    <section class="trainer-booking-section" id="rezervasyon">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-tag">Ücretsiz İlk Deneyim</span>
+          <h2>Kişisel Antrenörünüz ile Ücretsiz Tanışma Seansı</h2>
+          <p>Stüdyomuzun reformer ve fonksiyonel imkanlarını eğitmen eşliğinde birebir test edin.</p>
+        </div>
+
+        <div class="trainer-booking-wrap">
+          <form id="fitnessBookingForm">
+            <div class="form-row">
+              <div class="form-col">
+                <label for="selectedTrainer">Tercih Edilen Eğitmen</label>
+                <select id="selectedTrainer" class="form-control">
+                  <option value="ece">Ece Yılmaz (Master Pilates Eğitmeni — 12 Yıl)</option>
+                  <option value="burak">Burak Demir (Kuvvet & Kondisyon Koçu — 9 Yıl)</option>
+                  <option value="selin">Selin Kaya (Yoga & Mobilite Danışmanı — 7 Yıl)</option>
+                </select>
+              </div>
+              <div class="form-col">
+                <label for="selectedDiscipline">Hedeflenen Disiplin</label>
+                <select id="selectedDiscipline" class="form-control">
+                  <option value="reformer">Birebir Reformer Pilates</option>
+                  <option value="duet">Düet Reformer (İki Kişi)</option>
+                  <option value="fonksiyonel">Fonksiyonel Kuvvet & Kardiyo</option>
+                  <option value="omurga">Skolyoz / Kifoz Medikal Egzersiz</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <label for="fitClientName">Adınız Soyadınız</label>
+                <input type="text" id="fitClientName" class="form-control" placeholder="Adınız Soyadınız" required>
+              </div>
+              <div class="form-col">
+                <label for="fitClientPhone">Telefon Numaranız</label>
+                <input type="tel" id="fitClientPhone" class="form-control" placeholder="05XX XXX XX XX" required>
+              </div>
+            </div>
+            <button type="submit" class="btn-fit-primary">Ücretsiz Deneme Seansını Rezerve Et →</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Amenities Strip -->
+    <section class="amenities-strip">
+      <div class="wrap">
+        <div class="amenities-grid">
+          <div class="amenity-card">
+            <div class="amenity-icon">🚿</div>
+            <div>
+              <strong>Bireysel Duş Kabinleri</strong>
+              <p>L'Occitane bakım ürünleri ve özel giyinme alanları.</p>
+            </div>
+          </div>
+          <div class="amenity-card">
+            <div class="amenity-icon">💨</div>
+            <div>
+              <strong>Dyson Saç Bakımı</strong>
+              <p>Antrenman sonrası hızlı ve konforlu hazırlanma üniteleri.</p>
+            </div>
+          </div>
+          <div class="amenity-card">
+            <div class="amenity-icon">🥤</div>
+            <div>
+              <strong>Organik Detoks Barı</strong>
+              <p>Taze soğuk sıkım yeşil içecekler ve protein shakeler.</p>
+            </div>
+          </div>
+          <div class="amenity-card">
+            <div class="amenity-icon">🔒</div>
+            <div>
+              <strong>Akıllı Şifreli Dolap</strong>
+              <p>Temassız dijital kilitli güvenli kişisel saklama alanları.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-backdrop" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">⚡</div>
+      <h3>Rezervasyonunuz Alındı</h3>
+      <p id="modalMsg">
+        Seans kaydınız oluşturuldu.
+      </p>
+      <button type="button" class="btn-modal-close" onclick="closeFitModal()">Tamam</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Dinamik Pilates & Fitness</h4>
+          <p>Maksimum 6 kişilik butik reformer seansları, klinik postür analizi ve bireysel fonksiyonel koçluk.</p>
+          <p style="margin-top: 1rem; color: var(--lime-kinetic); font-weight: 700;">Rezervasyon: 0212 770 12 30</p>
+        </div>
+        <div class="footer-col">
+          <h4>Stüdyo Saatleri</h4>
+          <ul>
+            <li>Hafta İçi: 07:00 - 21:30</li>
+            <li>Cumartesi: 09:00 - 18:00</li>
+            <li>Pazar: 10:00 - 16:00 (Yalnızca Özel Seans)</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Konumumuz</h4>
+          <ul>
+            <li>Bağdat Caddesi No: 342 Erenköy / Kadıköy</li>
+            <li>İstanbul / Türkiye</li>
+            <li>E-Posta: hello@dinamikpilates.com.tr</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış sektörel bir interaktif demo vitrinidir. Gerçek bir üyelik kaydı ve ödeme tahsilatı yapılmaz. © 2026 Dinamik Pilates & Fitness Demosu.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- FITNESS & PILATES İNTERAKTİF MOTORU ---
+    function bookClassSlot(className, timeSlot, classId) {
+      const card = document.querySelector(`.class-card[data-class-id="${classId}"]`);
+      if (!card) return;
+      const quotaEl = card.querySelector('.quota-num');
+      let currentQuota = parseInt(quotaEl.textContent, 10);
+      
+      if (currentQuota <= 0) {
+        alert('Bu dersin kontenjanı tamamen dolmuştur. Yedek listeye kaydolmak için arayabilirsiniz.');
+        return;
+      }
+      
+      currentQuota -= 1;
+      quotaEl.textContent = currentQuota;
+      if (currentQuota === 0) {
+        card.querySelector('.quota-text').innerHTML = '<span style="color:#ef4444;font-weight:700;">KONTENJAN DOLDU (Yedek)</span>';
+        const btn = card.querySelector('.btn-book-class');
+        btn.disabled = true;
+        btn.textContent = 'Kontenjan Dolu';
+      }
+
+      const modal = document.getElementById('successModal');
+      const modalMsg = document.getElementById('modalMsg');
+      if (modal && modalMsg) {
+        modalMsg.innerHTML = `<strong>${className}</strong> (${timeSlot}) için yeriniz rezerve edildi! Kalan kontenjan güncellendi. Stüdyo resepsiyonumuz ders öncesi teyit SMS’i iletecektir.`;
+        modal.style.display = 'grid';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Gün Sekmeleri Değişimi
+      const dayTabs = document.querySelectorAll('.day-tab');
+      const classCards = document.querySelectorAll('.class-card');
+
+      dayTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          dayTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const selectedDay = tab.dataset.day;
+
+          classCards.forEach(card => {
+            card.style.display = (card.dataset.day === selectedDay) ? 'flex' : 'none';
+          });
+        });
+      });
+
+      // 2. BMI & Kalori Hesaplama
+      const hInput = document.getElementById('fitHeight');
+      const wInput = document.getElementById('fitWeight');
+      const aInput = document.getElementById('fitAge');
+      const actSelect = document.getElementById('fitActivity');
+      const goalSelect = document.getElementById('fitGoal');
+      let selectedGender = 'k';
+
+      document.querySelectorAll('.btn-gender').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.btn-gender').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedGender = btn.dataset.gender;
+          runFitnessCalc();
+        });
+      });
+
+      function runFitnessCalc() {
+        if (!hInput || !wInput || !aInput || !actSelect || !goalSelect) return;
+        const h = Number(hInput.value) / 100;
+        const w = Number(wInput.value);
+        const age = Number(aInput.value) || 28;
+        const act = Number(actSelect.value) || 1.375;
+        const goal = goalSelect.value;
+
+        if (h <= 0 || w <= 0) return;
+
+        // BMI
+        const bmi = (w / (h * h)).toFixed(1);
+        const bmiEl = document.getElementById('bmiVal');
+        const statusEl = document.getElementById('bmiStatus');
+        if (bmiEl) bmiEl.textContent = bmi;
+
+        if (statusEl) {
+          if (bmi < 18.5) { statusEl.textContent = 'Zayıf / Kilo Alımı Desteklenmeli'; statusEl.className = 'bmi-status warn'; }
+          else if (bmi < 25) { statusEl.textContent = 'İdeal Form Aralığında'; statusEl.className = 'bmi-status normal'; }
+          else if (bmi < 30) { statusEl.textContent = 'Fazla Kilolu / Sıkılaşma Önerilir'; statusEl.className = 'bmi-status warn'; }
+          else { statusEl.textContent = 'Yüksek BMI / Yoğun Kardiyo & Reformer'; statusEl.className = 'bmi-status alert'; }
+        }
+
+        // Mifflin-St Jeor BMR
+        let bmr = 0;
+        if (selectedGender === 'e') {
+          bmr = 10 * w + 6.25 * (h * 100) - 5 * age + 5;
+        } else {
+          bmr = 10 * w + 6.25 * (h * 100) - 5 * age - 161;
+        }
+        let tdee = bmr * act;
+        if (goal === 'lose') tdee -= 400;
+        if (goal === 'gain') tdee += 300;
+
+        const bmrEl = document.getElementById('bmrVal');
+        const tdeeEl = document.getElementById('tdeeVal');
+        if (bmrEl) bmrEl.textContent = Math.round(bmr).toLocaleString('tr-TR') + ' kcal/gün';
+        if (tdeeEl) tdeeEl.textContent = Math.round(tdee).toLocaleString('tr-TR') + ' kcal/gün';
+
+        const fitRec = document.getElementById('fitRecommendation');
+        if (fitRec) {
+          if (goal === 'lose') {
+            fitRec.textContent = 'Haftada 3 Seans HIIT & Athletic Burn + 1 Seans Reformer Esneme ile kalori açığı ve yağ yakımı hızlandırılmalıdır.';
+          } else if (goal === 'gain') {
+            fitRec.textContent = 'Haftada 3 Seans Power Reformer + 1 Seans Fonksiyonel Kuvvet ile kas hipertrofisi ve güç artışı hedeflenmelidir.';
+          } else {
+            fitRec.textContent = 'Haftada 3 Seans Reformer Pilates + 1 Seans Fonksiyonel Esneme ile omurga hizalanması ve dengeli kas tonusu önerilmektedir.';
+          }
+        }
+      }
+
+      [hInput, wInput, aInput, actSelect, goalSelect].forEach(el => {
+        if (el) el.addEventListener('input', runFitnessCalc);
+      });
+      runFitnessCalc();
+
+      // 3. Deneme Randevusu Formu
+      const fitForm = document.getElementById('fitnessBookingForm');
+      if (fitForm) {
+        fitForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('fitClientName').value;
+          const trainer = document.getElementById('selectedTrainer').selectedOptions[0].text;
+          const disc = document.getElementById('selectedDiscipline').selectedOptions[0].text;
+
+          const modal = document.getElementById('successModal');
+          const modalMsg = document.getElementById('modalMsg');
+          if (modal && modalMsg) {
+            modalMsg.innerHTML = `Sayın <strong>${name}</strong>, <strong>${trainer}</strong> eşliğinde <em>${disc}</em> ücretsiz deneme seansınız oluşturuldu! Stüdyo koordinatörümüz seans saatinizi teyit etmek için arayacaktır.`;
+            modal.style.display = 'grid';
+          }
+          fitForm.reset();
+        });
+      }
+    });
+
+    function closeFitModal() {
+      const modal = document.getElementById('successModal');
+      if (modal) modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

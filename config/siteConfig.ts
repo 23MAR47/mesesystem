@@ -36,7 +36,7 @@ export interface SubscriptionPlan {
 export const siteConfig = {
   brand: {
     name: 'MESE SYSTEM',
-    tagline: 'Tasarım ve yazılım stüdyosu, İstanbul',
+    tagline: 'Tasarım ve yazılım stüdyosu',
     logoText: 'M',
   },
   contact: {
@@ -115,13 +115,6 @@ export const siteConfig = {
         icon: 'Languages',
       },
       {
-        id: 'ai',
-        name: 'Yapay zekâ özelliği',
-        description: 'İhtiyaca uygun yapay zekâ entegrasyonu.',
-        price: 0,
-        icon: 'Bot',
-      },
-      {
         id: 'seo',
         name: 'İleri düzey SEO',
         description: 'Teknik SEO çalışmaları.',
@@ -162,17 +155,17 @@ export const siteConfig = {
       description:
         'Randevu sistemi ve doktor profilleri ile modern diş kliniği sitesi.',
       image: 'vita-dental',
-      liveUrl: 'https://demo.terneon.com/vita-dental',
+      liveUrl: 'https://demo.mesesystem.com/vita-dental',
       features: ['Online randevu', 'Doktor profilleri', 'Blog'],
     },
     {
-      id: 'medicana-health',
-      title: 'Medicana Sağlık',
+      id: 'deva-saglik',
+      title: 'Deva Sağlık Merkezi',
       category: 'saglik',
       categoryLabel: 'Sağlık & Klinik',
       description: 'Çoklu dil desteği ve tahlil sonuç sorgulama ile hastane sitesi.',
       image: 'medicana-health',
-      liveUrl: 'https://demo.terneon.com/medicana-health',
+      liveUrl: 'https://demo.mesesystem.com/deva-saglik',
       features: ['Tahlil sorgulama', 'Çoklu dil', 'E-randevu'],
     },
     {
@@ -182,7 +175,7 @@ export const siteConfig = {
       categoryLabel: 'E-Ticaret',
       description: 'Kategori filtreleri, sepet ve hızlı ödeme akışı ile moda mağazası.',
       image: 'novashop',
-      liveUrl: 'https://demo.terneon.com/novashop',
+      liveUrl: 'https://demo.mesesystem.com/novashop',
       features: ['Sepet & ödeme', 'Kategori filtreleri', 'Ürün arama'],
     },
     {
@@ -192,7 +185,7 @@ export const siteConfig = {
       categoryLabel: 'E-Ticaret',
       description: 'Teknoloji ürünleri için karşılaştırma ve taksit seçenekli e-ticaret.',
       image: 'teknohub',
-      liveUrl: 'https://demo.terneon.com/teknohub',
+      liveUrl: 'https://demo.mesesystem.com/teknohub',
       features: ['Ürün karşılaştırma', 'Taksit seçenekleri', 'Kargo takibi'],
     },
     {
@@ -202,7 +195,7 @@ export const siteConfig = {
       categoryLabel: 'Güzellik Merkezi',
       description: 'Önce/sonra galerisi ve paket fiyat listesi ile güzellik merkezi.',
       image: 'lumiere-beauty',
-      liveUrl: 'https://demo.terneon.com/lumiere-beauty',
+      liveUrl: 'https://demo.mesesystem.com/lumiere-beauty',
       features: ['Önce/sonra galerisi', 'Paket fiyatları', 'Online rezervasyon'],
     },
     {
@@ -212,7 +205,7 @@ export const siteConfig = {
       categoryLabel: 'Güzellik Merkezi',
       description: 'Huzurlu tasarımı ve hediye kartı sistemi ile spa merkezi sitesi.',
       image: 'aura-spa',
-      liveUrl: 'https://demo.terneon.com/aura-spa',
+      liveUrl: 'https://demo.mesesystem.com/aura-spa',
       features: ['Hediye kartı', 'Terapi listesi', 'Online rezervasyon'],
     },
     {
@@ -222,7 +215,7 @@ export const siteConfig = {
       categoryLabel: 'Otel & Konaklama',
       description: 'Rezervasyon motoru ve oda turu ile butik otel sitesi.',
       image: 'azure-hotel',
-      liveUrl: 'https://demo.terneon.com/azure-hotel',
+      liveUrl: 'https://demo.mesesystem.com/azure-hotel',
       features: ['Rezervasyon motoru', '360° oda turu', 'Misafir yorumları'],
     },
     {
@@ -232,7 +225,7 @@ export const siteConfig = {
       categoryLabel: 'Otel & Konaklama',
       description: 'Çoklu dil ve aktivite takvimi ile sahil resortu sitesi.',
       image: 'sunset-bay',
-      liveUrl: 'https://demo.terneon.com/sunset-bay',
+      liveUrl: 'https://demo.mesesystem.com/sunset-bay',
       features: ['Aktivite takvimi', 'Çoklu dil', 'Promosyon kodları'],
     },
     {
@@ -242,7 +235,7 @@ export const siteConfig = {
       categoryLabel: 'Otel & Konaklama',
       description: 'Kapadokya mağara oteli için özel taş mimari görsel vitrini, 360° süit turu ve canlı rezervasyon.',
       image: 'sakli-cave-house',
-      liveUrl: 'https://demo.terneon.com/sakli-cave-house',
+      liveUrl: 'https://demo.mesesystem.com/sakli-cave-house',
       features: ['Mağara süit turu', 'Canlı rezervasyon', 'VIP transfer'],
     },
     {
@@ -252,7 +245,7 @@ export const siteConfig = {
       categoryLabel: 'Kafe & Restoran',
       description: 'İnteraktif menü ve masa QR siparişi ile üçüncü nesil kahveci.',
       image: 'brew-lab',
-      liveUrl: 'https://demo.terneon.com/brew-lab',
+      liveUrl: 'https://demo.mesesystem.com/brew-lab',
       features: ['QR menü', 'Masa siparişi', 'Sadakat programı'],
     },
     {
@@ -262,7 +255,7 @@ export const siteConfig = {
       categoryLabel: 'Kafe & Restoran',
       description: 'Online rezervasyon ve şube haritası ile restoran zinciri sitesi.',
       image: 'mangal-evi',
-      liveUrl: 'https://demo.terneon.com/mangal-evi',
+      liveUrl: 'https://demo.mesesystem.com/mangal-evi',
       features: ['Online rezervasyon', 'Şube haritası', 'Menü yönetimi'],
     },
     {
@@ -272,7 +265,7 @@ export const siteConfig = {
       categoryLabel: 'Kurumsal',
       description: 'Yatırımcı ilişkileri ve kurumsal kimlik sunumu ile holding sitesi.',
       image: 'atlas-holding',
-      liveUrl: 'https://demo.terneon.com/atlas-holding',
+      liveUrl: 'https://demo.mesesystem.com/atlas-holding',
       features: ['Yatırımcı ilişkileri', 'Basın odası', 'Kariyer sayfası'],
     },
     {
@@ -282,7 +275,7 @@ export const siteConfig = {
       categoryLabel: 'Kurumsal',
       description: 'Vaka çalışmaları ve danışman formları ile B2B danışmanlık sitesi.',
       image: 'vertex-danismanlik',
-      liveUrl: 'https://demo.terneon.com/vertex-danismanlik',
+      liveUrl: 'https://demo.mesesystem.com/vertex-danismanlik',
       features: ['Vaka çalışmaları', 'Teklif formu', 'E-bülten'],
     },
   ] as DemoProject[],
@@ -306,7 +299,7 @@ export const siteConfig = {
       step: '02',
       title: 'Tasarım',
       description:
-        'Markanıza özel, neon dokunuşlu ve dönüşüm odaklı tasarım konseptleri sunuyoruz.',
+        'Markanıza özel, modern dokunuşlu ve dönüşüm odaklı tasarım konseptleri sunuyoruz.',
       icon: 'PenTool',
     },
     {
@@ -337,8 +330,8 @@ export const siteConfig = {
     {
       id: 'badge-teslim',
       icon: 'Rocket',
-      title: '14 Günde Teslim',
-      description: 'Onaylanan tasarımlar ortalama 14 gün içinde yayında.',
+      title: 'Hızlı Teslimat',
+      description: 'Onaylanan tasarımlar en kısa sürede yayında.',
     },
     {
       id: 'badge-destek',

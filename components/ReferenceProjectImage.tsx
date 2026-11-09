@@ -16,6 +16,7 @@ interface ReferenceProjectImageProps {
   sizes?: string
   priority?: boolean
   mobile?: boolean
+  autoScroll?: boolean
 }
 
 export default function ReferenceProjectImage({
@@ -24,6 +25,7 @@ export default function ReferenceProjectImage({
   sizes = '100vw',
   priority = false,
   mobile = false,
+  autoScroll = false,
 }: ReferenceProjectImageProps) {
   const [imageFailed, setImageFailed] = useState(false)
 
@@ -53,14 +55,18 @@ export default function ReferenceProjectImage({
       {imageSrc ? (
         <Image
           src={imageSrc}
-          alt=""
+          alt={`${project.name} web sitesi ve mobil arayüz demosu`}
           fill
           sizes={sizes}
           unoptimized
           priority={priority}
           loading="eager"
           onError={() => setImageFailed(true)}
-          className="object-cover object-top transition-[object-position] duration-[3500ms] ease-in-out group-hover:object-bottom"
+          className={
+            autoScroll
+              ? 'object-cover animate-mockup-scroll'
+              : 'object-cover object-top transition-[object-position] duration-[3500ms] ease-in-out group-hover:object-bottom'
+          }
         />
       ) : (
         <>

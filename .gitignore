@@ -13,3 +13,7 @@ yarn-error.log*
 next-env.d.ts
 _eraslan-walkthrough-video/
 *.zip
+.agents/
+.skills/
+public/mobile-test-*.png
+

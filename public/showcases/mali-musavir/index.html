@@ -1,0 +1,1374 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06110e">
+  <meta name="description" content="Denge Mali Müşavirlik — 2026 Vergi ve SGK beyanname takvimi, Limited vs Şahıs şirketi kuruluş ve vergi simülatörü, mevzuat sirküleri. MESE SYSTEM sektörel vitrin demosu.">
+  <title>Denge Mali Müşavirlik — Mali Müşavirlik & Vergi Danışmanlığı Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-ledger: #06110e;
+      --bg-ledger-deep: #030807;
+      --panel-ledger: #0d1e19;
+      --panel-ledger-hover: #122822;
+      --card-ledger: #0f231d;
+      --card-border: rgba(16, 185, 129, 0.22);
+      --card-border-hover: rgba(16, 185, 129, 0.5);
+      --emerald-tax: #059669;
+      --emerald-glow: #10b981;
+      --emerald-tint: rgba(16, 185, 129, 0.15);
+      --amber-deadline: #f59e0b;
+      --cyan-num: #34d399;
+      --text-silver: #e2e8f0;
+      --ink-muted: #8b9eb0;
+      --ink-dim: #64748b;
+      --line-subtle: rgba(255, 255, 255, 0.08);
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      background: var(--bg-ledger);
+      color: var(--text-silver);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; cursor: pointer; }
+    ::selection { background: var(--emerald-glow); color: #030807; }
+    :focus-visible { outline: 2px solid var(--emerald-glow); outline-offset: 3px; }
+
+    .wrap {
+      width: min(1200px, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Top Demo Notice Bar */
+    .demo-bar {
+      padding: .65rem 1rem;
+      background: var(--bg-ledger-deep);
+      color: #6ee7b7;
+      text-align: center;
+      font-size: .8rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .demo-pill {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--cyan-num);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(6, 17, 14, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+    }
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--emerald-glow), #047857);
+      display: grid;
+      place-items: center;
+      color: #030807;
+      font-weight: 800;
+      box-shadow: 0 0 16px var(--emerald-tint);
+    }
+    .brand-mark svg { width: 24px; height: 24px; }
+    .brand-subtitle {
+      font-size: .72rem;
+      color: var(--cyan-num);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      display: block;
+      margin-top: -2px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: .9rem;
+      font-weight: 500;
+    }
+    .nav-links a {
+      color: var(--ink-muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan-num); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--emerald-glow), #059669);
+      color: #030807 !important;
+      font-weight: 700;
+      padding: .65rem 1.35rem;
+      border-radius: 6px;
+      letter-spacing: .02em;
+      box-shadow: 0 4px 14px var(--emerald-tint);
+      transition: all .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35); }
+
+    /* Hero Section */
+    .hero {
+      padding: 5.5rem 0 4.5rem;
+      position: relative;
+      background: radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 75%, rgba(13, 30, 25, 0.8) 0%, transparent 50%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .badge-finance {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--card-border);
+      color: var(--cyan-num);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.18;
+      margin-bottom: 1.25rem;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span.emerald-text {
+      background: linear-gradient(135deg, var(--cyan-num), #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 1.1rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-emerald {
+      background: linear-gradient(135deg, var(--emerald-glow), #059669);
+      color: #030807;
+      font-weight: 700;
+      padding: .85rem 1.8rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 18px var(--emerald-tint);
+      transition: all .2s;
+    }
+    .btn-emerald:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(16, 185, 129, 0.35); }
+    .btn-outline-emerald {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text-silver);
+      font-weight: 600;
+      padding: .85rem 1.6rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .2s;
+    }
+    .btn-outline-emerald:hover { background: rgba(16, 185, 129, 0.1); border-color: var(--cyan-num); }
+
+    .finance-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-border);
+    }
+    .f-stat strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      color: var(--cyan-num);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .f-stat span {
+      font-size: .82rem;
+      color: var(--ink-muted);
+    }
+
+    .hero-side-card {
+      position: relative;
+    }
+    .hero-ledger-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--card-border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      background: var(--panel-ledger);
+    }
+    .hero-ledger-frame img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+    .floating-turmob {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      background: rgba(13, 30, 25, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--emerald-glow);
+      padding: 1rem 1.3rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .floating-turmob .turmob-icon { font-size: 1.8rem; }
+    .floating-turmob strong { display: block; font-size: .92rem; color: #fff; }
+    .floating-turmob span { font-size: .78rem; color: var(--cyan-num); }
+
+    /* Section Headings */
+    .sec-label {
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--cyan-num);
+      background: var(--emerald-tint);
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      margin-bottom: .85rem;
+    }
+    .sec-center-head {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3.5rem;
+    }
+    .sec-center-head h2 {
+      font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .85rem;
+      letter-spacing: -0.01em;
+    }
+    .sec-center-head p {
+      color: var(--ink-muted);
+      font-size: 1.05rem;
+    }
+
+    /* ========================================================
+       COMPONENT 1: 2026 VERGİ VE SGK BEYANNAME TAKVİMİ
+       ======================================================== */
+    .calendar-section {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, var(--bg-ledger) 0%, var(--bg-ledger-deep) 100%);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .calendar-filters {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .company-type-tabs {
+      display: flex;
+      gap: .65rem;
+      flex-wrap: wrap;
+    }
+    .tax-tab {
+      background: var(--panel-ledger);
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .65rem 1.3rem;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .tax-tab:hover { border-color: var(--emerald-glow); color: #fff; }
+    .tax-tab.active {
+      background: var(--emerald-glow);
+      color: #030807;
+      border-color: var(--emerald-glow);
+      font-weight: 700;
+      box-shadow: 0 0 14px var(--emerald-tint);
+    }
+    .active-month-badge {
+      font-family: var(--font-mono);
+      font-size: .84rem;
+      font-weight: 600;
+      color: var(--cyan-num);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--card-border);
+      padding: 6px 14px;
+      border-radius: 6px;
+    }
+
+    .tax-agenda-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .agenda-card {
+      background: var(--panel-ledger);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.6rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      transition: all .2s;
+    }
+    .agenda-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateX(4px);
+    }
+    .agenda-card.urgent {
+      border-left: 4px solid var(--amber-deadline);
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, var(--panel-ledger) 100%);
+    }
+    .agenda-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 8, 7, 0.6);
+      border: 1px solid var(--line-subtle);
+      padding: .75rem 1.25rem;
+      border-radius: 8px;
+      min-width: 100px;
+      text-align: center;
+    }
+    .d-day {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+    .d-month {
+      font-size: .75rem;
+      color: var(--cyan-num);
+      margin-top: 4px;
+    }
+    .agenda-content {
+      flex-grow: 1;
+    }
+    .agenda-badges {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: .5rem;
+    }
+    .tax-code {
+      font-family: var(--font-mono);
+      font-size: .76rem;
+      font-weight: 700;
+      color: var(--cyan-num);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .risk-badge {
+      font-size: .76rem;
+      font-weight: 700;
+      color: #fef08a;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .status-badge {
+      font-size: .76rem;
+      color: var(--ink-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .agenda-content h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .35rem;
+    }
+    .agenda-content p {
+      font-size: .9rem;
+      color: var(--ink-muted);
+    }
+    .btn-reminder {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--emerald-glow);
+      color: var(--cyan-num);
+      font-size: .84rem;
+      font-weight: 700;
+      padding: .65rem 1.25rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+    .btn-reminder:hover {
+      background: var(--emerald-glow);
+      color: #030807;
+    }
+
+    /* ========================================================
+       COMPONENT 2: LİMİTED VS. ŞAHIS VERGİ SİMÜLATÖRÜ
+       ======================================================== */
+    .simulator-section {
+      padding: 5rem 0;
+      position: relative;
+    }
+    .company-calculator-box {
+      background: var(--panel-ledger);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .calc-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .calc-header h3 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .65rem;
+    }
+    .calc-header p {
+      color: var(--ink-muted);
+      font-size: .98rem;
+    }
+
+    .calc-body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .calc-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .calc-field {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+    .field-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .field-head label {
+      font-size: .9rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .field-head strong {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      color: var(--cyan-num);
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: #1c332b;
+      border-radius: 3px;
+      outline: none;
+      accent-color: var(--emerald-glow);
+    }
+    .calc-checkbox-row label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: .85rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .calc-checkbox-row input {
+      margin-top: 3px;
+      accent-color: var(--emerald-glow);
+    }
+
+    .calc-results-panel {
+      background: rgba(3, 8, 7, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .compare-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .comp-col {
+      background: var(--panel-ledger);
+      border: 1px solid var(--line-subtle);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .comp-col h4 {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+    .cost-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: .85rem;
+    }
+    .cost-row span {
+      font-size: .76rem;
+      color: var(--ink-muted);
+    }
+    .cost-row strong {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .cost-row strong.highlight {
+      color: var(--cyan-num);
+      font-size: 1.3rem;
+    }
+
+    .advisor-recommendation {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid var(--emerald-glow);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .rec-icon { font-size: 1.5rem; }
+    .rec-text strong {
+      display: block;
+      font-size: .92rem;
+      color: var(--cyan-num);
+      margin-bottom: 4px;
+    }
+    .rec-text p {
+      font-size: .85rem;
+      color: var(--text-silver);
+      line-height: 1.55;
+    }
+    .btn-ledger-action {
+      background: linear-gradient(135deg, var(--emerald-glow), #059669);
+      color: #030807;
+      font-weight: 700;
+      padding: .85rem 1.5rem;
+      border-radius: 6px;
+      border: none;
+      width: 100%;
+      transition: all .2s;
+    }
+    .btn-ledger-action:hover {
+      box-shadow: 0 4px 18px var(--emerald-tint);
+    }
+
+    /* ========================================================
+       COMPONENT 3: MEVZUAT VE SİRKÜLER BÜLTENİ ARŞİVİ
+       ======================================================== */
+    .circulars-section {
+      padding: 5rem 0;
+      background: var(--bg-ledger-deep);
+      border-top: 1px solid var(--card-border);
+    }
+    .circulars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .circular-item {
+      background: var(--panel-ledger);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      transition: all .2s;
+    }
+    .circular-item:hover {
+      border-color: var(--emerald-glow);
+      transform: translateY(-3px);
+    }
+    .circ-no {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--cyan-num);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 3px 10px;
+      border-radius: 4px;
+      align-self: flex-start;
+      margin-bottom: 1rem;
+    }
+    .circular-item h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .75rem;
+      line-height: 1.4;
+    }
+    .circular-item p {
+      font-size: .9rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+    .circ-date {
+      font-size: .78rem;
+      color: var(--ink-dim);
+      font-family: var(--font-mono);
+    }
+
+    /* Consultation Form Section */
+    .onboarding-section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--card-border);
+      background: var(--bg-ledger);
+    }
+    .onboarding-card {
+      background: var(--panel-ledger);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .onboarding-card h3 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+      margin-bottom: .5rem;
+    }
+    .onboarding-card p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-col label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .form-control {
+      background: rgba(3, 8, 7, 0.8);
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: .8rem 1rem;
+      color: #fff;
+      font-size: .95rem;
+    }
+    .form-control:focus {
+      border-color: var(--emerald-glow);
+      outline: none;
+    }
+    .btn-onboarding-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--emerald-glow), #059669);
+      color: #030807;
+      font-weight: 800;
+      padding: .95rem;
+      border-radius: 6px;
+      border: none;
+      margin-top: 1rem;
+      transition: all .2s;
+    }
+    .btn-onboarding-submit:hover {
+      box-shadow: 0 4px 18px var(--emerald-tint);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 8, 7, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      place-items: center;
+      padding: 1.5rem;
+    }
+    .modal-box {
+      background: var(--panel-ledger);
+      border: 2px solid var(--emerald-glow);
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+    .modal-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .modal-box h3 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .85rem;
+    }
+    .modal-box p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .modal-box p strong { color: var(--cyan-num); }
+    .btn-modal-close {
+      background: var(--emerald-glow);
+      color: #030807;
+      font-weight: 700;
+      padding: .75rem 2rem;
+      border-radius: 6px;
+      border: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-ledger-deep);
+      border-top: 1px solid var(--card-border);
+      padding: 4.5rem 0 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-col h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .footer-col p {
+      color: var(--ink-muted);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li {
+      color: var(--ink-muted);
+      font-size: .88rem;
+      margin-bottom: .5rem;
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--line-subtle);
+      padding-top: 2rem;
+      text-align: center;
+      font-size: .82rem;
+      color: var(--ink-dim);
+      line-height: 1.7;
+    }
+    .footer-bottom strong { color: var(--cyan-num); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .calc-body-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .circulars-grid { grid-template-columns: 1fr; }
+      .agenda-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .compare-columns { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .finance-stats { grid-template-columns: 1fr; }
+      .onboarding-card { padding: 1.5rem; }
+      .modal-box { padding: 1.75rem; }
+      .nav-links { display: none; }
+      .company-calculator-box { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Demo Notice Bar -->
+  <div class="demo-bar">
+    <span class="demo-pill">Mali Müşavirlik Vitrini</span>
+    <span>Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış temsili bir finans ve mali müşavirlik demo vitrinidir. Gerçek bir müşavirlik sözleşmesi kurulmaz.</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap">
+      <nav class="nav">
+        <a href="#ust" class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M3 3v18h18M7 16h8M7 11h12M7 6h4"/>
+            </svg>
+          </div>
+          <div>
+            Denge Mali Müşavirlik
+            <span class="brand-subtitle">Vergi & Finans Danışmanlığı</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="#vergi-takvimi">Vergi Takvimi</a>
+          <a href="#kurulus-hesaplayici">Şirket Simülatörü</a>
+          <a href="#sirkuler-arsivi">Mevzuat Bülteni</a>
+          <a href="#mali-danisma" class="nav-cta">Ön Görüşme Başlat →</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="ust">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="badge-finance">
+              📊 TÜRMOB Sicilli SMMM Kadrosu & 2026 Mevzuat Uyumu
+            </div>
+            <h1>
+              Rasyonel Vergi Planlaması, Mali Denetim & <span class="emerald-text">2026 Büyüme Mimarisi</span>
+            </h1>
+            <p class="hero-lead">
+              Limited, A.Ş. ve teknopark girişimleriniz için yasal vergi avantajları, enflasyon düzeltmesi yönetimi ve zamanında sıfır riskli beyanname disiplini sağlıyoruz.
+            </p>
+            <div class="hero-actions">
+              <a href="#kurulus-hesaplayici" class="btn-emerald">
+                Limited vs. Şahıs Simülatörü ↓
+              </a>
+              <a href="#vergi-takvimi" class="btn-outline-emerald">
+                2026 Vergi Takvimini İncele
+              </a>
+            </div>
+            <div class="finance-stats">
+              <div class="f-stat">
+                <strong>240+</strong>
+                <span>Aktif Kurumsal Mükellef</span>
+              </div>
+              <div class="f-stat">
+                <strong>₺1.2B+</strong>
+                <span>Yıllık Denetlenen Matrah</span>
+              </div>
+              <div class="f-stat">
+                <strong>%100</strong>
+                <span>Zamanında Yasal Bildirim</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-ledger-frame">
+              <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80" alt="Mali Müşavirlik Denetim ve Bilanço Masası">
+            </div>
+            <div class="floating-turmob">
+              <div class="turmob-icon">💼</div>
+              <div>
+                <strong>TÜRMOB & İSMMMO Tescilli</strong>
+                <span>VUK 355 Cezalarına Karşı Tam Güvence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 1: 2026 VERGİ VE SGK BEYANNAME TAKVİMİ -->
+    <section class="calendar-section" id="vergi-takvimi">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-label">Yasal Mevzuat Takibi</span>
+          <h2>2026 Vergi & SGK Beyanname Takvimi</h2>
+          <p>Gecikme zammı ve VUK 355 özel usulsüzlük cezalarına maruz kalmamanız için kritik bildirim günleri.</p>
+        </div>
+
+        <div class="calendar-filters">
+          <div class="company-type-tabs" id="taxTabs">
+            <button class="tax-tab active" data-type="all">Tüm Şirketler</button>
+            <button class="tax-tab" data-type="ltd">Limited & A.Ş.</button>
+            <button class="tax-tab" data-type="sahis">Şahıs İşletmesi</button>
+            <button class="tax-tab" data-type="serbest">Serbest Meslek</button>
+          </div>
+          <div class="month-selector">
+            <span class="active-month-badge">Şubat / Mart 2026 Dönemi</span>
+          </div>
+        </div>
+
+        <div class="tax-agenda-grid" id="taxAgenda">
+          <!-- Bildirim 1 -->
+          <div class="agenda-card urgent" data-type="ltd,sahis,serbest">
+            <div class="agenda-date">
+              <span class="d-day">26</span>
+              <span class="d-month">Şubat 2026</span>
+            </div>
+            <div class="agenda-content">
+              <div class="agenda-badges">
+                <span class="tax-code">KOD: 0003</span>
+                <span class="risk-badge">🚨 Son 4 Gün Kaldı</span>
+              </div>
+              <h4>Muhtasar ve Prim Hizmet Beyannamesi (MPHB)</h4>
+              <p>Ocak 2026 dönemine ait çalışan SGK bildirimleri ve stopaj gelir vergisi beyanı ve ödemesi.</p>
+            </div>
+            <button type="button" class="btn-reminder" onclick="setTaxReminder('Muhtasar ve Prim Hizmet Beyannamesi', '26 Şubat 2026')">Hatırlatıcı Kur</button>
+          </div>
+
+          <!-- Bildirim 2 -->
+          <div class="agenda-card" data-type="ltd,sahis,serbest">
+            <div class="agenda-date">
+              <span class="d-day">28</span>
+              <span class="d-month">Şubat 2026</span>
+            </div>
+            <div class="agenda-content">
+              <div class="agenda-badges">
+                <span class="tax-code">KOD: 0015</span>
+                <span class="status-badge">Standart Dönem</span>
+              </div>
+              <h4>KDV-1 ve KDV-2 Katma Değer Vergisi Beyannamesi</h4>
+              <p>Tüm mükellefler için bir önceki aya ait fatura ve tevkifat KDV bildirimlerinin verilmesi ve ödenmesi.</p>
+            </div>
+            <button type="button" class="btn-reminder" onclick="setTaxReminder('KDV-1 ve KDV-2 Beyannamesi', '28 Şubat 2026')">Hatırlatıcı Kur</button>
+          </div>
+
+          <!-- Bildirim 3 -->
+          <div class="agenda-card" data-type="ltd">
+            <div class="agenda-date">
+              <span class="d-day">17</span>
+              <span class="d-month">Mart 2026</span>
+            </div>
+            <div class="agenda-content">
+              <div class="agenda-badges">
+                <span class="tax-code">KOD: 0033</span>
+                <span class="status-badge">Üç Aylık Periyot</span>
+              </div>
+              <h4>4. Dönem Geçici Vergi Beyannamesi</h4>
+              <p>Kurumlar ve ticari kazanç sahipleri için 2025 yılı son geçici vergi matrah bildirim ve mahsup süreci.</p>
+            </div>
+            <button type="button" class="btn-reminder" onclick="setTaxReminder('4. Dönem Geçici Vergi', '17 Mart 2026')">Hatırlatıcı Kur</button>
+          </div>
+
+          <!-- Bildirim 4 -->
+          <div class="agenda-card" data-type="sahis,serbest">
+            <div class="agenda-date">
+              <span class="d-day">31</span>
+              <span class="d-month">Mart 2026</span>
+            </div>
+            <div class="agenda-content">
+              <div class="agenda-badges">
+                <span class="tax-code">KOD: 0001</span>
+                <span class="status-badge">Yıllık Beyan</span>
+              </div>
+              <h4>Yıllık Gelir Vergisi Beyannamesi (Şahıs & Serbest Meslek)</h4>
+              <p>2025 takvim yılı kazançlarına ilişkin gelir vergisi 1. taksit beyan ve ödeme süreci.</p>
+            </div>
+            <button type="button" class="btn-reminder" onclick="setTaxReminder('Yıllık Gelir Vergisi Beyannamesi', '31 Mart 2026')">Hatırlatıcı Kur</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 2: LİMİTED VS. ŞAHIS VERGİ SİMÜLATÖRÜ -->
+    <section class="simulator-section" id="kurulus-hesaplayici">
+      <div class="wrap">
+        <div class="company-calculator-box">
+          <div class="calc-header">
+            <h3>Limited Şirket mi, Şahıs Firması mı?</h3>
+            <p>Aylık cironuz ve tahmini giderlerinize göre 2026 yasal vergisel yükünüzü ve en avantajlı şirket modelini hesaplayın.</p>
+          </div>
+
+          <div class="calc-body-grid">
+            <div class="calc-inputs">
+              <div class="calc-field">
+                <div class="field-head">
+                  <label for="monthlyRevenue">Aylık Tahmini Ciro (KDV Hariç):</label>
+                  <strong id="valRevenue">₺150.000</strong>
+                </div>
+                <input type="range" id="monthlyRevenue" min="20000" max="1000000" step="10000" value="150000">
+              </div>
+
+              <div class="calc-field">
+                <div class="field-head">
+                  <label for="monthlyExpense">Aylık Belgelenebilir Gider:</label>
+                  <strong id="valExpense">₺40.000</strong>
+                </div>
+                <input type="range" id="monthlyExpense" min="5000" max="500000" step="5000" value="40000">
+              </div>
+
+              <div class="calc-field">
+                <div class="field-head">
+                  <label for="employeeCount">Sigortalı Çalışan Sayısı:</label>
+                  <strong id="valEmployees">1 Kişi</strong>
+                </div>
+                <input type="range" id="employeeCount" min="0" max="15" step="1" value="1">
+              </div>
+
+              <div class="calc-checkbox-row">
+                <label>
+                  <input type="checkbox" id="youngIncentive">
+                  <span>Genç Girişimci İstisnası (29 yaş altı — 3 yıl boyunca yıllık ₺350.000 kazanç istisnası + 1 yıl Bağkur primi desteği)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Comparison Output Panel -->
+            <div class="calc-results-panel">
+              <div class="compare-columns">
+                <div class="comp-col sahis-col">
+                  <h4>Şahıs İşletmesi</h4>
+                  <div class="cost-row">
+                    <span>İlk Kuruluş Noter/Tescil:</span>
+                    <strong>₺4.850</strong>
+                  </div>
+                  <div class="cost-row">
+                    <span>Yıllık Gelir Vergisi Dilimi:</span>
+                    <strong id="sahisTaxRate">%27 Ortalama</strong>
+                  </div>
+                  <div class="cost-row">
+                    <span>Yıllık Tahmini Vergi:</span>
+                    <strong id="sahisTaxTotal" class="highlight">₺356.400</strong>
+                  </div>
+                </div>
+
+                <div class="comp-col ltd-col">
+                  <h4>Limited Şirket (LTD)</h4>
+                  <div class="cost-row">
+                    <span>İlk Kuruluş Tescil/Oda:</span>
+                    <strong>₺18.500</strong>
+                  </div>
+                  <div class="cost-row">
+                    <span>Kurumlar Vergisi Oranı:</span>
+                    <strong>%25 Sabit</strong>
+                  </div>
+                  <div class="cost-row">
+                    <span>Yıllık Tahmini Vergi:</span>
+                    <strong id="ltdTaxTotal" class="highlight">₺330.000</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="advisor-recommendation" id="calcRecommendation">
+                <span class="rec-icon">💡</span>
+                <div class="rec-text">
+                  <strong>Müşavir Tavsiyesi:</strong>
+                  <p id="recMessage">Bu ciro ve kâr yapısında Limited Şirket kurmak, sabit %25 kurumlar vergisi sayesinde vergi avantajı sağlamaktadır.</p>
+                </div>
+              </div>
+              
+              <button type="button" class="btn-ledger-action" onclick="document.getElementById('mali-danisma').scrollIntoView({behavior:'smooth'})">Bu Yapı İçin Kuruluş Dosyası Başlat →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 3: MEVZUAT VE SİRKÜLER BÜLTENİ ARŞİVİ -->
+    <section class="circulars-section" id="sirkuler-arsivi">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-label">Mevzuat Masası</span>
+          <h2>2026 Vergi Sirkülerleri & Tebliğ Özetleri</h2>
+          <p>Resmi Gazete'de yayımlanan güncel kanun hükümleri ve işletmenizi ilgilendiren mali düzenlemeler.</p>
+        </div>
+
+        <div class="circulars-grid">
+          <div class="circular-item">
+            <span class="circ-no">Sirküler: 2026/08</span>
+            <h4>Enflasyon Düzeltmesi ve Sabit Kıymet Değerleme Esasları</h4>
+            <p>Mali tabloların enflasyona göre düzeltilmesinde vergisiz geçiş istisnaları ve amortisman matrahı hesaplama kılavuzu.</p>
+            <span class="circ-date">12 Şubat 2026</span>
+          </div>
+
+          <div class="circular-item">
+            <span class="circ-no">Sirküler: 2026/05</span>
+            <h4>2026 Asgari Ücret Vergi İstisnası ve AGİ Mahsubu</h4>
+            <p>Tüm çalışanlar için asgari ücrete kadar olan kazançların gelir ve damga vergisinden istisna tutulması uygulama rehberi.</p>
+            <span class="circ-date">28 Ocak 2026</span>
+          </div>
+
+          <div class="circular-item">
+            <span class="circ-no">Sirküler: 2026/02</span>
+            <h4>E-Fatura ve E-Defter Zorunluluk Ciroları Güncellemesi</h4>
+            <p>5 Milyon TL ve üzeri brüt satış hasılatına sahip işletmelerin zorunlu e-belge geçiş takvimi ve yaptırımları.</p>
+            <span class="circ-date">10 Ocak 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consultation Onboarding Form -->
+    <section class="onboarding-section" id="mali-danisma">
+      <div class="wrap">
+        <div class="onboarding-card">
+          <h3>Kuruluş & Mali Müşavirlik Ön Görüşmesi</h3>
+          <p>Şirket yapınızı planlamak, vergi teşviklerinden yararlanmak ve defter devri için bilgilerinizi iletin.</p>
+          <form id="taxConsultForm">
+            <div class="form-row">
+              <div class="form-col">
+                <label for="companyName">Firma / Girişim Adı</label>
+                <input type="text" id="companyName" class="form-control" placeholder="Örn: Atlas Teknoloji Ltd." required>
+              </div>
+              <div class="form-col">
+                <label for="consultType">Talep Edilen Hizmet</label>
+                <select id="consultType" class="form-control" required>
+                  <option value="kurulus">Yeni Limited / Şahıs Şirketi Kuruluşu</option>
+                  <option value="defter">Mevcut Şirketin Defter Devri & Müşavirlik</option>
+                  <option value="vergi-plan">Vergi Optimizasyonu & Teşvik Danışmanlığı</option>
+                  <option value="enflasyon">Enflasyon Düzeltmesi Özel Denetimi</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <label for="contactPerson">Yetkili Adı Soyadı</label>
+                <input type="text" id="contactPerson" class="form-control" placeholder="Adınız Soyadınız" required>
+              </div>
+              <div class="form-col">
+                <label for="contactPhone">Telefon Numarası</label>
+                <input type="tel" id="contactPhone" class="form-control" placeholder="05XX XXX XX XX" required>
+              </div>
+            </div>
+            <button type="submit" class="btn-onboarding-submit">Ön Değerlendirme Talebini Gönder →</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-backdrop" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">📊</div>
+      <h3>Talebiniz Alındı</h3>
+      <p id="modalMsg">
+        Mali müşavirimiz inceleme sonrası tarafınıza dönüş yapacaktır.
+      </p>
+      <button type="button" class="btn-modal-close" onclick="closeTaxModal()">Tamam</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Denge Mali Müşavirlik</h4>
+          <p>Şirket kuruluşu, vergi planlaması ve finansal raporlamada 18 yıllık TÜRMOB tescilli mesleki deneyim.</p>
+          <p style="margin-top: 1rem; color: var(--cyan-num); font-weight: 600;">Santral: 0212 650 30 40</p>
+        </div>
+        <div class="footer-col">
+          <h4>Çalışma Saatleri</h4>
+          <ul>
+            <li>Hafta İçi: 08:30 - 18:00</li>
+            <li>Cumartesi: 09:00 - 13:00 (Beyanname Dönemleri)</li>
+            <li>Pazar: Kapalı</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Ofis Adresimiz</h4>
+          <ul>
+            <li>Şişli Merkez / Halaskargazi Cad. No: 94 Kat: 5</li>
+            <li>İstanbul / Türkiye</li>
+            <li>E-Posta: bilgi@dengemusavirlik.com.tr</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış sektörel bir interaktif demo vitrinidir. Gerçek bir mali müşavirlik sözleşmesi kurulmaz. © 2026 Denge Mali Müşavirlik Demosu.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- MALİ MÜŞAVİRLİK İNTERAKTİF MOTORU ---
+    function setTaxReminder(taxName, date) {
+      const modal = document.getElementById('successModal');
+      const modalMsg = document.getElementById('modalMsg');
+      if (modal && modalMsg) {
+        modalMsg.innerHTML = `<strong>${taxName}</strong> (${date}) için takvim uyarınız oluşturuldu. Son güne 48 saat kala sistem hatırlatması e-posta adresinize gönderilecektir.`;
+        modal.style.display = 'grid';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Vergi Takvimi Filtresi
+      const taxTabs = document.querySelectorAll('.tax-tab');
+      const agendaCards = document.querySelectorAll('.agenda-card');
+
+      taxTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          taxTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const selectedType = tab.dataset.type;
+
+          agendaCards.forEach(card => {
+            if (selectedType === 'all') {
+              card.style.display = 'flex';
+            } else {
+              const types = card.dataset.type.split(',');
+              card.style.display = types.includes(selectedType) ? 'flex' : 'none';
+            }
+          });
+        });
+      });
+
+      // 2. Limited / Şahıs Simülatör Motoru
+      const revInput = document.getElementById('monthlyRevenue');
+      const expInput = document.getElementById('monthlyExpense');
+      const empInput = document.getElementById('employeeCount');
+      const incentiveCheck = document.getElementById('youngIncentive');
+
+      function calculateTaxSimulation() {
+        if (!revInput || !expInput || !empInput) return;
+        const rev = Number(revInput.value);
+        const exp = Number(expInput.value);
+        const emps = Number(empInput.value);
+        const hasIncentive = incentiveCheck ? incentiveCheck.checked : false;
+
+        document.getElementById('valRevenue').textContent = '₺' + rev.toLocaleString('tr-TR');
+        document.getElementById('valExpense').textContent = '₺' + exp.toLocaleString('tr-TR');
+        document.getElementById('valEmployees').textContent = emps + ' Kişi';
+
+        const monthlyProfit = Math.max(0, rev - exp - (emps * 28000));
+        const annualProfit = monthlyProfit * 12;
+
+        // Şahıs Gelir Vergisi (Dilimli Hesaplama)
+        let taxableSahis = annualProfit;
+        if (hasIncentive) {
+          taxableSahis = Math.max(0, taxableSahis - 350000);
+        }
+        let sahisTax = 0;
+        if (taxableSahis <= 110000) sahisTax = taxableSahis * 0.15;
+        else if (taxableSahis <= 230000) sahisTax = 16500 + (taxableSahis - 110000) * 0.20;
+        else if (taxableSahis <= 580000) sahisTax = 40500 + (taxableSahis - 230000) * 0.27;
+        else if (taxableSahis <= 3000000) sahisTax = 135000 + (taxableSahis - 580000) * 0.35;
+        else sahisTax = 982000 + (taxableSahis - 3000000) * 0.40;
+
+        // Limited Şirket Kurumlar Vergisi (%25 Sabit)
+        const ltdTax = annualProfit * 0.25;
+
+        const sahisEl = document.getElementById('sahisTaxTotal');
+        const ltdEl = document.getElementById('ltdTaxTotal');
+        if (sahisEl) sahisEl.textContent = '₺' + Math.round(sahisTax).toLocaleString('tr-TR');
+        if (ltdEl) ltdEl.textContent = '₺' + Math.round(ltdTax).toLocaleString('tr-TR');
+
+        const recMessage = document.getElementById('recMessage');
+        if (recMessage) {
+          if (hasIncentive && annualProfit < 600000) {
+            recMessage.innerHTML = `<strong>Genç Girişimci Şahıs Firması Önerilir!</strong> 350.000 TL kazanç istisnası ve Bağkur prim desteği sayesinde şahıs firması bu aşamada yılda yaklaşık <strong>₺${Math.round(Math.max(0, ltdTax - sahisTax)).toLocaleString('tr-TR')}</strong> daha az vergi ödetir.`;
+          } else if (annualProfit > 650000) {
+            recMessage.innerHTML = `<strong>Limited Şirket (LTD) Kurmanız Avantajlı!</strong> Yıllık kârınız arttıkça şahıs firmasında %40 vergi dilimine girersiniz. Limited şirkette sabit %25 kurumlar vergisi ile yıllık yaklaşık <strong>₺${Math.round(Math.max(0, sahisTax - ltdTax)).toLocaleString('tr-TR')}</strong> net vergi tasarrufu sağlarsınız.`;
+          } else {
+            recMessage.innerHTML = `Mevcut ciro/kâr dengesinde iki model vergisel olarak yakındır. Kurumsal prestij için Limited Şirket, hızlı kuruluş için Şahıs firması değerlendirilebilir.`;
+          }
+        }
+      }
+
+      [revInput, expInput, empInput, incentiveCheck].forEach(el => {
+        if (el) el.addEventListener('input', calculateTaxSimulation);
+      });
+      calculateTaxSimulation();
+
+      // 3. Ön Görüşme Formu
+      const taxForm = document.getElementById('taxConsultForm');
+      if (taxForm) {
+        taxForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const comp = document.getElementById('companyName').value;
+          const service = document.getElementById('consultType').selectedOptions[0].text;
+          const phone = document.getElementById('contactPhone').value;
+
+          const modal = document.getElementById('successModal');
+          const modalMsg = document.getElementById('modalMsg');
+          if (modal && modalMsg) {
+            modalMsg.innerHTML = `<strong>${comp}</strong> için <em>${service}</em> ön inceleme başvurunuz oluşturuldu. SMMM denetçimiz <strong>${phone}</strong> üzerinden çalışma dosyanızı başlatmak için iletişime geçecektir.`;
+            modal.style.display = 'grid';
+          }
+          taxForm.reset();
+        });
+      }
+    });
+
+    function closeTaxModal() {
+      const modal = document.getElementById('successModal');
+      if (modal) modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

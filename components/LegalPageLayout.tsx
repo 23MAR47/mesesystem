@@ -162,7 +162,7 @@ export default function LegalPageLayout({
             </div>
             <div>
               <span className="text-stone-400 font-medium">Son Güncelleme:</span>{' '}
-              <span className="text-stone-300">
+              <span className="text-stone-300" suppressHydrationWarning>
                 {new Date().toLocaleDateString('tr-TR', {
                   day: 'numeric',
                   month: 'long',

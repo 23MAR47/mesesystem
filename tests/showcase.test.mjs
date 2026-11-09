@@ -94,9 +94,9 @@ describe('14 extracted showcase demos', () => {
   });
 });
 
-describe('13 industry demo sites', () => {
+describe('19 industry demo sites', () => {
   it('keeps standalone demos available, interactive, and linked from the master index', () => {
-    assert.equal(INDUSTRY_DEMOS_META.length, 13);
+    assert.equal(INDUSTRY_DEMOS_META.length, 19);
     const master = fs.readFileSync(path.join(SHOWCASES_DIR, 'index.html'), 'utf8');
     const projectConfig = fs.readFileSync(path.join(ROOT, 'config', 'showcaseProjects.ts'), 'utf8');
 

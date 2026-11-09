@@ -1,5 +1,5 @@
 /**
- * terneon/config/siteConfig.ts yapı doğrulama testleri.
+ * config/siteConfig.ts yapı doğrulama testleri.
  *
  * Tek kaynak olarak kullanılan site yapılandırmasının şeklini,
  * fiyatların pozitifliğini ve id benzersizliğini denetler.
@@ -59,7 +59,7 @@ describe("siteConfig — fiyatlandırma", () => {
   });
 
   it("ek özellikler belirtilen kapsam ve fiyatlarla tanımlıdır", () => {
-    expect(siteConfig.pricing.addons.map((a) => a.price)).toEqual([3000, 0, 0, 3000]);
+    expect(siteConfig.pricing.addons.map((a) => a.price)).toEqual([3000, 0, 3000]);
     expect(allNonNegative(siteConfig.pricing.addons.map((a) => a.price))).toBeTruthy();
   });
 

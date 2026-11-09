@@ -1,8 +1,8 @@
 services:
-  terneon:
+  mesesystem:
     build: .
-    image: terneon:local
-    container_name: terneon
+    image: mesesystem:local
+    container_name: mesesystem
     restart: unless-stopped
     ports:
       - "3003:3003"

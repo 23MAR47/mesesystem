@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07080a">
+  <meta name="description" content="Vizyon Fotoğraf & Prodüksiyon — Tam ekran EXIF lookbook ve lightbox galeri, profesyonel sinema ekipman parkı ve çekim paketi konfigüratörü. MESE SYSTEM sektörel vitrin demosu.">
+  <title>Vizyon Fotoğraf & Prodüksiyon — Fotoğraf Stüdyosu & Prodüksiyon Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-darkroom: #07080a;
+      --bg-darkroom-deep: #030405;
+      --panel-darkroom: #101216;
+      --panel-darkroom-hover: #161920;
+      --card-darkroom: #14171e;
+      --card-border: rgba(245, 158, 11, 0.22);
+      --card-border-hover: rgba(245, 158, 11, 0.55);
+      --amber-film: #f59e0b;
+      --amber-bright: #fbbf24;
+      --amber-glow: rgba(245, 158, 11, 0.18);
+      --rec-red: #ef4444;
+      --titanium-chrome: #94a3b8;
+      --text-pure: #f8fafc;
+      --ink-muted: #94a3b8;
+      --ink-dim: #64748b;
+      --line-subtle: rgba(255, 255, 255, 0.08);
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      background: var(--bg-darkroom);
+      color: var(--text-pure);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; cursor: pointer; }
+    ::selection { background: var(--amber-film); color: #07080a; }
+    :focus-visible { outline: 2px solid var(--amber-film); outline-offset: 3px; }
+
+    .wrap {
+      width: min(1200px, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Top Demo Notice Bar */
+    .demo-bar {
+      padding: .65rem 1rem;
+      background: var(--bg-darkroom-deep);
+      color: #fde68a;
+      text-align: center;
+      font-size: .8rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .demo-pill {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--amber-film);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 8, 10, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+    }
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--amber-film), #b45309);
+      display: grid;
+      place-items: center;
+      color: #07080a;
+      box-shadow: 0 0 16px var(--amber-glow);
+    }
+    .brand-mark svg { width: 24px; height: 24px; }
+    .brand-subtitle {
+      font-size: .72rem;
+      color: var(--amber-bright);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      display: block;
+      margin-top: -2px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+    .nav-links a {
+      color: var(--ink-muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--amber-bright); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--amber-film), var(--amber-bright));
+      color: #07080a !important;
+      font-weight: 800;
+      padding: .65rem 1.35rem;
+      border-radius: 6px;
+      letter-spacing: .02em;
+      box-shadow: 0 4px 14px var(--amber-glow);
+      transition: all .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
+
+    /* Hero Section */
+    .hero {
+      padding: 5.5rem 0 4.5rem;
+      position: relative;
+      background: radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 75%, rgba(16, 18, 22, 0.8) 0%, transparent 50%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .rec-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    .rec-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--rec-red);
+      box-shadow: 0 0 10px var(--rec-red);
+      animation: recBlink 1.5s infinite;
+    }
+    @keyframes recBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span.amber-text {
+      background: linear-gradient(135deg, var(--amber-film), #fde047);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 1.1rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-amber {
+      background: linear-gradient(135deg, var(--amber-film), var(--amber-bright));
+      color: #07080a;
+      font-weight: 800;
+      padding: .85rem 1.8rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 18px var(--amber-glow);
+      transition: all .2s;
+    }
+    .btn-amber:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(245, 158, 11, 0.4); }
+    .btn-outline-amber {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text-pure);
+      font-weight: 600;
+      padding: .85rem 1.6rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .2s;
+    }
+    .btn-outline-amber:hover { background: rgba(245, 158, 11, 0.1); border-color: var(--amber-film); }
+
+    .photo-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-border);
+    }
+    .ph-stat strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--amber-bright);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .ph-stat span {
+      font-size: .82rem;
+      color: var(--ink-muted);
+    }
+
+    .hero-side-card {
+      position: relative;
+    }
+    .hero-camera-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--card-border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      background: var(--panel-darkroom);
+    }
+    .hero-camera-frame img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+    .floating-gear-badge {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      background: rgba(16, 18, 22, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--amber-film);
+      padding: 1rem 1.3rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .floating-gear-badge .cam-icon { font-size: 1.8rem; }
+    .floating-gear-badge strong { display: block; font-size: .92rem; color: #fff; }
+    .floating-gear-badge span { font-size: .78rem; color: var(--amber-bright); font-family: var(--font-mono); }
+
+    /* Section Headings */
+    .sec-kicker {
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--amber-bright);
+      background: var(--amber-glow);
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      margin-bottom: .85rem;
+    }
+    .sec-center-head {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3.5rem;
+    }
+    .sec-center-head h2 {
+      font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .85rem;
+      letter-spacing: -0.01em;
+    }
+    .sec-center-head p {
+      color: var(--ink-muted);
+      font-size: 1.05rem;
+    }
+
+    /* ========================================================
+       COMPONENT 1: TAM EKRAN LOOKBOOK & LIGHTBOX GALERİ
+       ======================================================== */
+    .lookbook-section {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, var(--bg-darkroom) 0%, var(--bg-darkroom-deep) 100%);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .lookbook-filters {
+      display: flex;
+      justify-content: center;
+      gap: .65rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .lb-filter {
+      background: var(--panel-darkroom);
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .65rem 1.4rem;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .lb-filter:hover { border-color: var(--amber-film); color: #fff; }
+    .lb-filter.active {
+      background: var(--amber-film);
+      color: #07080a;
+      border-color: var(--amber-film);
+      font-weight: 800;
+      box-shadow: 0 0 14px var(--amber-glow);
+    }
+
+    .lookbook-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .lookbook-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: var(--panel-darkroom);
+      cursor: pointer;
+      aspect-ratio: 4 / 3;
+      transition: all .3s;
+    }
+    .lookbook-item:hover {
+      border-color: var(--amber-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+    }
+    .lookbook-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    .lookbook-item:hover img {
+      transform: scale(1.05);
+    }
+    .photo-hud-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(7, 8, 10, 0.95) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      z-index: 2;
+    }
+    .hud-category {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--amber-bright);
+      margin-bottom: 4px;
+    }
+    .photo-hud-overlay h4 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .hud-exif {
+      font-family: var(--font-mono);
+      font-size: .76rem;
+      color: var(--titanium-chrome);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 4, 5, 0.96);
+      backdrop-filter: blur(12px);
+      z-index: 120;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--line-subtle);
+      color: #fff;
+      font-size: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .lightbox-close:hover {
+      background: var(--amber-film);
+      color: #07080a;
+    }
+    .lightbox-content {
+      max-width: 1000px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .lightbox-content img {
+      max-height: 70vh;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+      margin-bottom: 1.25rem;
+    }
+    .lightbox-hud {
+      text-align: center;
+    }
+    .lightbox-hud h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .mono-hud {
+      font-family: var(--font-mono);
+      font-size: .88rem;
+      color: var(--amber-bright);
+    }
+
+    /* ========================================================
+       COMPONENT 2: PRO EKİPMAN PARKI MATRİSİ
+       ======================================================== */
+    .gear-section {
+      padding: 5rem 0;
+      position: relative;
+    }
+    .gear-tabs {
+      display: flex;
+      justify-content: center;
+      gap: .65rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .gear-tab {
+      background: var(--panel-darkroom);
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .65rem 1.4rem;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .gear-tab:hover { border-color: var(--amber-film); color: #fff; }
+    .gear-tab.active {
+      background: var(--amber-film);
+      color: #07080a;
+      border-color: var(--amber-film);
+      font-weight: 800;
+      box-shadow: 0 0 14px var(--amber-glow);
+    }
+
+    .gear-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .gear-card {
+      background: var(--panel-darkroom);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: all .2s;
+    }
+    .gear-card:hover {
+      border-color: var(--amber-bright);
+      transform: translateY(-3px);
+    }
+    .gear-tag {
+      font-family: var(--font-mono);
+      font-size: .74rem;
+      font-weight: 700;
+      color: var(--amber-bright);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 3px 8px;
+      border-radius: 4px;
+      align-self: flex-start;
+      margin-bottom: 1rem;
+    }
+    .gear-card h4 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .65rem;
+    }
+    .gear-card p {
+      font-size: .9rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+
+    /* ========================================================
+       COMPONENT 3: ÇEKİM ÖZELLEŞTİRİCİ SİHİRBAZ
+       ======================================================== */
+    .customizer-section {
+      padding: 5rem 0;
+      background: var(--bg-darkroom-deep);
+      border-top: 1px solid var(--card-border);
+    }
+    .shoot-customizer-box {
+      background: var(--panel-darkroom);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .customizer-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .customizer-header h3 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .65rem;
+    }
+    .customizer-header p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+    }
+
+    .customizer-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .shoot-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .c-field label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .88rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: .5rem;
+    }
+    .c-field label strong {
+      font-family: var(--font-mono);
+      color: var(--amber-bright);
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(3, 4, 5, 0.8);
+      border: 1px solid var(--line-subtle);
+      border-radius: 6px;
+      padding: .8rem 1rem;
+      color: #fff;
+      font-size: .95rem;
+    }
+    .form-control:focus {
+      border-color: var(--amber-film);
+      outline: none;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: #252a36;
+      border-radius: 3px;
+      outline: none;
+      accent-color: var(--amber-film);
+    }
+
+    .addons-check-list {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+    .addons-check-list label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(3, 4, 5, 0.6);
+      border: 1px solid var(--line-subtle);
+      padding: .85rem 1rem;
+      border-radius: 6px;
+      font-size: .88rem;
+      cursor: pointer;
+      color: var(--text-pure);
+      transition: all .2s;
+    }
+    .addons-check-list label:hover { border-color: var(--amber-film); }
+    .addons-check-list input { accent-color: var(--amber-film); }
+
+    .shoot-summary-box {
+      background: rgba(3, 4, 5, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .price-readout {
+      text-align: center;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+    .price-readout span {
+      display: block;
+      font-size: .8rem;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+    }
+    .price-readout strong {
+      font-family: var(--font-mono);
+      font-size: 2.4rem;
+      color: var(--amber-bright);
+      font-weight: 900;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .btn-darkroom-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--amber-film), var(--amber-bright));
+      color: #07080a;
+      font-weight: 800;
+      padding: 1rem;
+      border-radius: 6px;
+      border: none;
+      margin-top: .5rem;
+      transition: all .2s;
+    }
+    .btn-darkroom-submit:hover { box-shadow: 0 4px 18px var(--amber-glow); }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 4, 5, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      place-items: center;
+      padding: 1.5rem;
+    }
+    .modal-box {
+      background: var(--panel-darkroom);
+      border: 2px solid var(--amber-film);
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+    .modal-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .modal-box h3 { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: .85rem; }
+    .modal-box p { color: var(--ink-muted); font-size: .95rem; line-height: 1.6; margin-bottom: 2rem; }
+    .modal-box p strong { color: var(--amber-bright); }
+    .btn-modal-close {
+      background: var(--amber-film);
+      color: #07080a;
+      font-weight: 800;
+      padding: .75rem 2rem;
+      border-radius: 6px;
+      border: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-darkroom-deep);
+      border-top: 1px solid var(--card-border);
+      padding: 4.5rem 0 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-col h4 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 1rem; }
+    .footer-col p { color: var(--ink-muted); font-size: .9rem; line-height: 1.7; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { color: var(--ink-muted); font-size: .88rem; margin-bottom: .5rem; }
+    .footer-bottom {
+      border-top: 1px solid var(--line-subtle);
+      padding-top: 2rem;
+      text-align: center;
+      font-size: .82rem;
+      color: var(--ink-dim);
+      line-height: 1.7;
+    }
+    .footer-bottom strong { color: var(--amber-bright); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .lookbook-grid { grid-template-columns: 1fr 1fr; }
+      .gear-card-grid { grid-template-columns: 1fr; }
+      .customizer-body { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .lookbook-grid { grid-template-columns: 1fr; }
+      .photo-stats { grid-template-columns: 1fr; }
+      .lookbook-filter-bar { gap: .4rem; }
+      .filter-btn { padding: .5rem 1rem; font-size: .8rem; }
+      .modal-box { padding: 1.75rem; }
+      .nav-links { display: none; }
+      .shoot-customizer-box { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Demo Notice Bar -->
+  <div class="demo-bar">
+    <span class="demo-pill">Prodüksiyon Vitrini</span>
+    <span>Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış temsili bir fotoğraf ve sinema prodüksiyon demo vitrinidir. Gerçek bir çekim sözleşmesi ve ödeme alınmaz.</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap">
+      <nav class="nav">
+        <a href="#ust" class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+          <div>
+            Vizyon Fotoğraf & Prodüksiyon
+            <span class="brand-subtitle">Sinematik Stüdyo & Lookbook</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="#lookbook">Lookbook & Galeri</a>
+          <a href="#ekipman-parki">Ekipman Parkı</a>
+          <a href="#rezervasyon" class="nav-cta">Çekim Bütçesi Hesapla →</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="ust">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="rec-indicator">
+              <span class="rec-dot"></span>
+              4K DCI CINEMA LOOKBOOK & RAW STILLS
+            </div>
+            <h1>
+              Işığın, Duygunun ve <span class="amber-text">Zamanın Sinematik Kaydı</span>
+            </h1>
+            <p class="hero-lead">
+              Düğün belgeselleri, editoryal moda lookbookları ve kurumsal reklam prodüksiyonlarında Sony FX3 Cinema Line ve Hasselblad optik gücüyle hikâyenizi ölümsüzleştiriyoruz.
+            </p>
+            <div class="hero-actions">
+              <a href="#lookbook" class="btn-amber">
+                Lookbook Galerisi ↓
+              </a>
+              <a href="#rezervasyon" class="btn-outline-amber">
+                Paket Özelleştir & Rezervasyon
+              </a>
+            </div>
+            <div class="photo-stats">
+              <div class="ph-stat">
+                <strong>18</strong>
+                <span>Uluslararası Ödül</span>
+              </div>
+              <div class="ph-stat">
+                <strong>600+</strong>
+                <span>Düğün & Moda Çekimi</span>
+              </div>
+              <div class="ph-stat">
+                <strong>100MP</strong>
+                <span>Orta Format Çözünürlük</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-camera-frame">
+              <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80" alt="Sinematik Kamera ve Aydınlatma Seti">
+            </div>
+            <div class="floating-gear-badge">
+              <div class="cam-icon">🎥</div>
+              <div>
+                <strong>Sony Cinema Line & Hasselblad</strong>
+                <span>15+ Stop Dinamik Aralık & 10-bit 4:2:2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 1: LOOKBOOK & LIGHTBOX GALERİ -->
+    <section class="lookbook-section" id="lookbook">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-kicker">Sanatsal Seçki</span>
+          <h2>Tam Ekran Portfolyo & Visual Lookbook</h2>
+          <p>Kategori filtrelerini kullanarak çekimlerimizi inceleyin; fotoğrafa tıklayarak vizör EXIF parametrelerini tam ekranda görüntüleyin.</p>
+        </div>
+
+        <div class="lookbook-filters" id="photoFilters">
+          <button class="lb-filter active" data-cat="all">Tüm Çalışmalar</button>
+          <button class="lb-filter" data-cat="wedding">Düğün Hikâyesi</button>
+          <button class="lb-filter" data-cat="fashion">Moda & Editoryal</button>
+          <button class="lb-filter" data-cat="commercial">Ticari Reklam</button>
+          <button class="lb-filter" data-cat="drone">Mimari & Drone</button>
+        </div>
+
+        <div class="lookbook-grid" id="lookbookGrid">
+          <!-- Fotoğraf 1: Düğün -->
+          <div class="lookbook-item" data-cat="wedding" data-full="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85" data-title="Kapadokya Gün Doğumu Düğün Hikâyesi" data-exif="Sony FX3 · 50mm f/1.2 GM · 1/800s · ISO 100">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Kapadokya Düğün Çekimi">
+            <div class="photo-hud-overlay">
+              <span class="hud-category">Düğün Hikâyesi</span>
+              <h4>Kapadokya Gün Doğumu</h4>
+              <span class="hud-exif">Sony FX3 · 50mm f/1.2 GM · ISO 100</span>
+            </div>
+          </div>
+
+          <!-- Fotoğraf 2: Moda -->
+          <div class="lookbook-item" data-cat="fashion" data-full="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=85" data-title="Sonbahar Kapsül Koleksiyon Lookbook" data-exif="Sony A7R V · 85mm f/1.4 GM · 1/400s · ISO 64">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80" alt="Moda Editoryal Çekim">
+            <div class="photo-hud-overlay">
+              <span class="hud-category">Moda & Lookbook</span>
+              <h4>Kapsül Koleksiyon Editoryal</h4>
+              <span class="hud-exif">Sony A7R V · 85mm f/1.4 GM · ISO 64</span>
+            </div>
+          </div>
+
+          <!-- Fotoğraf 3: Ticari -->
+          <div class="lookbook-item" data-cat="commercial" data-full="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&q=85" data-title="Lüks Saat Reklam & Ürün Prodüksiyonu" data-exif="Hasselblad X2D · 120mm Macro · 1/125s · f/8 · ISO 100">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" alt="Lüks Saat Ürün Çekimi">
+            <div class="photo-hud-overlay">
+              <span class="hud-category">Ticari Reklam</span>
+              <h4>Lüks Saat Reklam Çekimi</h4>
+              <span class="hud-exif">Hasselblad X2D · 120mm Macro · f/8</span>
+            </div>
+          </div>
+
+          <!-- Fotoğraf 4: Drone -->
+          <div class="lookbook-item" data-cat="drone" data-full="https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=1600&q=85" data-title="Boğaz Hattı Kentsel & Mimari Hava Çekimi" data-exif="DJI Inspire 3 · Zenmuse X9-8K Air · 24mm · ISO 200">
+            <img src="https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=800&q=80" alt="Boğaz Drone Çekimi">
+            <div class="photo-hud-overlay">
+              <span class="hud-category">Mimari & Drone</span>
+              <h4>Boğaz Hattı 8K Hava Çekimi</h4>
+              <span class="hud-exif">DJI Inspire 3 · Zenmuse X9-8K · ISO 200</span>
+            </div>
+          </div>
+
+          <!-- Fotoğraf 5: Düğün -->
+          <div class="lookbook-item" data-cat="wedding" data-full="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1600&q=85" data-title="Tarihi Yarımada Düğün Belgeseli" data-exif="Sony FX3 · 35mm f/1.4 GM · 1/500s · ISO 160">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Tarihi Yarımada Düğün">
+            <div class="photo-hud-overlay">
+              <span class="hud-category">Düğün Hikâyesi</span>
+              <h4>Tarihi Yarımada Dış Çekim</h4>
+              <span class="hud-exif">Sony FX3 · 35mm f/1.4 GM · ISO 160</span>
+            </div>
+          </div>
+
+          <!-- Fotoğraf 6: Moda -->
+          <div class="lookbook-item" data-cat="fashion" data-full="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=85" data-title="Haute Couture Dergi Kapağı" data-exif="Hasselblad X2D · 80mm f/1.9 · 1/250s · ISO 100">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" alt="Haute Couture Moda">
+            <div class="photo-hud-overlay">
+              <span class="hud-category">Moda & Editoryal</span>
+              <h4>Haute Couture Dergi Kapağı</h4>
+              <span class="hud-exif">Hasselblad X2D · 80mm f/1.9 · ISO 100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="photoLightbox">
+      <button class="lightbox-close" id="lbClose">✕</button>
+      <div class="lightbox-content">
+        <img src="" id="lbImg" alt="Büyük Görsel">
+        <div class="lightbox-hud">
+          <h3 id="lbTitle">Görsel Başlığı</h3>
+          <p id="lbExif" class="mono-hud">Kamera & Lens Detayları</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPONENT 2: PRO EKİPMAN PARKI MATRİSİ -->
+    <section class="gear-section" id="ekipman-parki">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-kicker">Prodüksiyon Gücü</span>
+          <h2>Sinema ve Fotoğraf Ekipman Parkımız</h2>
+          <p>Her çekimde en yüksek dinamik aralık ve renk doğruluğu sağlayan endüstri standardı optik ve aydınlatma donanımımız.</p>
+        </div>
+
+        <div class="gear-tabs">
+          <button class="gear-tab active" data-gear="cam">Kameralar & Sensörler</button>
+          <button class="gear-tab" data-gear="lens">Sinematik Lensler</button>
+          <button class="gear-tab" data-gear="light">Işık & Atmosfer</button>
+          <button class="gear-tab" data-gear="air">Hava & Gimbal</button>
+        </div>
+
+        <div class="gear-card-grid" id="gearDisplay">
+          <!-- Kamera 1 -->
+          <div class="gear-card">
+            <span class="gear-tag">Ana Sinema Gövdesi</span>
+            <h4>Sony FX3 Cinema Line</h4>
+            <p>Tam kare 12.1 MP arkadan aydınlatmalı Exmor R CMOS sensör. 15+ stop dinamik aralık ve 4K 120fps 10-bit 4:2:2 dahili kayıt.</p>
+          </div>
+          <!-- Kamera 2 -->
+          <div class="gear-card">
+            <span class="gear-tag">Yüksek Çözünürlük</span>
+            <h4>Sony Alpha 7R V (61 MP)</h4>
+            <p>Yapay zeka destekli otomatik netleme ve 61 milyon piksel ile billboard ve editoryal baskı kalitesinde 16-bit ham RAW çekim.</p>
+          </div>
+          <!-- Kamera 3 -->
+          <div class="gear-card">
+            <span class="gear-tag">Orta Format Prestij</span>
+            <h4>Hasselblad X2D 100C</h4>
+            <p>100 megapiksel orta format sensör, 16 bit renk derinliği ve doğal renk kalibrasyonu ile eşsiz editoryal portre dokusu.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 3: ÇEKİM REZERVASYON SİHİRBAZI -->
+    <section class="customizer-section" id="rezervasyon">
+      <div class="wrap">
+        <div class="shoot-customizer-box">
+          <div class="customizer-header">
+            <h3>Çekim Paketinizi Özelleştirin</h3>
+            <p>Çekim türü, saat süresi ve prodüksiyon eklentilerini seçerek anlık net bütçeyi hesaplayın.</p>
+          </div>
+
+          <div class="customizer-body">
+            <div class="shoot-controls">
+              <div class="c-field">
+                <label for="shootTypeSelect">Çekim Türü</label>
+                <select id="shootTypeSelect" class="form-control">
+                  <option value="dugun" data-base="18000">Tüm Gün Düğün Belgeseli & Dış Çekim</option>
+                  <option value="moda" data-base="14000">Moda & Lookbook Stüdyo Çekimi</option>
+                  <option value="reklam" data-base="16000">Kurumsal Tanıtım Filmi & Ürün Prodüksiyonu</option>
+                  <option value="portre" data-base="7500">Bireysel Kreatif Portre Seansı</option>
+                </select>
+              </div>
+
+              <div class="c-field">
+                <label for="shootHours">Çekim Süresi: <strong id="valHours">6 Saat</strong></label>
+                <input type="range" id="shootHours" min="2" max="12" step="1" value="6">
+              </div>
+
+              <div class="addons-check-list">
+                <label><input type="checkbox" id="addDrone" data-addon="4000"> 4K Lisanslı Drone Hava Çekimi (+₺4.000)</label>
+                <label><input type="checkbox" id="addSecondOp" data-addon="5000"> 2. Kameraman & Gimbal Operatörü (+₺5.000)</label>
+                <label><input type="checkbox" id="addSameDay" data-addon="3000"> Aynı Gece Teaser Montajı (Instagram Reels) (+₺3.000)</label>
+                <label><input type="checkbox" id="addAlbum" data-addon="4500"> El Yapımı Hakiki Deri Fine-Art Panoramik Albüm (+₺4.500)</label>
+              </div>
+            </div>
+
+            <div class="shoot-summary-box">
+              <div class="price-readout">
+                <span>Tahmini Prodüksiyon Bedeli</span>
+                <strong id="finalShootPrice">₺22.000</strong>
+              </div>
+              <form id="shootOrderForm">
+                <div class="form-group">
+                  <label for="shootClientName">Adınız Soyadınız / Markanız</label>
+                  <input type="text" id="shootClientName" class="form-control" required placeholder="Adınız Soyadınız">
+                </div>
+                <div class="form-group">
+                  <label for="shootClientPhone">Telefon Numaranız</label>
+                  <input type="tel" id="shootClientPhone" class="form-control" required placeholder="05XX XXX XX XX">
+                </div>
+                <div class="form-group">
+                  <label for="shootDate">Planlanan Çekim Tarihi</label>
+                  <input type="date" id="shootDate" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-darkroom-submit">Çekim Takvimini Rezerve Et →</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-backdrop" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">🎬</div>
+      <h3>Rezervasyon Talebiniz Alındı</h3>
+      <p id="modalMsg">
+        Çekim takvimi kaydınız oluşturuldu.
+      </p>
+      <button type="button" class="btn-modal-close" onclick="closeDarkroomModal()">Tamam</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Vizyon Fotoğraf & Prodüksiyon</h4>
+          <p>Sinematik düğün belgeselleri, editoryal moda lookbookları ve üst düzey reklam filmi prodüksiyonu.</p>
+          <p style="margin-top: 1rem; color: var(--amber-bright); font-weight: 700;">Stüdyo: 0212 430 80 90</p>
+        </div>
+        <div class="footer-col">
+          <h4>Çalışma Saatleri</h4>
+          <ul>
+            <li>Stüdyo Görüşmeleri: 10:00 - 19:00</li>
+            <li>Çekim Saatleri: 7/24 Esnek Prodüksiyon</li>
+            <li>Post-Prodüksiyon Teslim: 14 İş Günü</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Stüdyo Adresimiz</h4>
+          <ul>
+            <li>Karaköy Rıhtım Cad. Fransız Geçidi No: 12 Kat: 3</li>
+            <li>Beyoğlu / İstanbul</li>
+            <li>E-Posta: visual@vizyonproduksiyon.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış sektörel bir interaktif demo vitrinidir. Gerçek bir çekim sözleşmesi ve ödeme tahsilatı yapılmaz. © 2026 Vizyon Fotoğraf & Prodüksiyon Demosu.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- FOTOĞRAFÇI & PRODÜKSİYON MOTORU ---
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Lookbook Filtreleme ve Lightbox
+      const filters = document.querySelectorAll('.lb-filter');
+      const items = document.querySelectorAll('.lookbook-item');
+      const lbModal = document.getElementById('photoLightbox');
+      const lbImg = document.getElementById('lbImg');
+      const lbTitle = document.getElementById('lbTitle');
+      const lbExif = document.getElementById('lbExif');
+      const lbClose = document.getElementById('lbClose');
+
+      filters.forEach(f => {
+        f.addEventListener('click', () => {
+          filters.forEach(btn => btn.classList.remove('active'));
+          f.classList.add('active');
+          const cat = f.dataset.cat;
+          items.forEach(it => {
+            it.style.display = (cat === 'all' || it.dataset.cat === cat) ? 'block' : 'none';
+          });
+        });
+      });
+
+      items.forEach(it => {
+        it.addEventListener('click', () => {
+          if (!lbModal) return;
+          lbImg.src = it.dataset.full;
+          lbTitle.textContent = it.dataset.title;
+          lbExif.textContent = it.dataset.exif;
+          lbModal.style.display = 'flex';
+        });
+      });
+
+      if (lbClose) {
+        lbClose.addEventListener('click', () => {
+          lbModal.style.display = 'none';
+        });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lbModal) {
+          lbModal.style.display = 'none';
+        }
+      });
+
+      // 2. Ekipman Parkı Sekmeleri
+      const gearTabs = document.querySelectorAll('.gear-tab');
+      const gearDisplay = document.getElementById('gearDisplay');
+      const gearData = {
+        cam: [
+          { tag: 'Ana Sinema Gövdesi', title: 'Sony FX3 Cinema Line', desc: 'Tam kare 12.1 MP arkadan aydınlatmalı Exmor R CMOS sensör. 15+ stop dinamik aralık ve 4K 120fps 10-bit 4:2:2 dahili kayıt.' },
+          { tag: 'Yüksek Çözünürlük', title: 'Sony Alpha 7R V (61 MP)', desc: 'Yapay zeka destekli otomatik netleme ve 61 milyon piksel ile billboard ve editoryal baskı kalitesinde 16-bit ham RAW çekim.' },
+          { tag: 'Orta Format Prestij', title: 'Hasselblad X2D 100C', desc: '100 megapiksel orta format sensör, 16 bit renk derinliği ve doğal renk kalibrasyonu ile eşsiz editoryal portre dokusu.' }
+        ],
+        lens: [
+          { tag: 'Portre & Bokeh Ustası', title: 'Sony 50mm & 85mm f/1.2 GM', desc: 'Mikro kontrast ve sinematik sığ alan derinliğinde dünyanın en keskin f/1.2 diyafram lensleri.' },
+          { tag: 'Geniş Açı Mimari', title: 'Sony 16-35mm f/2.8 GM II', desc: 'Sıfır distorsiyon ve kenardan kenara jilet keskinliğinde mimari ve iç mekan çekimleri.' },
+          { tag: 'Orta Format Optik', title: 'Hasselblad XCD 80mm f/1.9', desc: 'Merkezi yaprak örtücü sayesinde 1/2000s flaş senkronizasyonu ve doğal bokeh.' }
+        ],
+        light: [
+          { tag: 'Ana Gün Işığı', title: 'Aputure LS 600d Pro', desc: '600W güçlü COB LED ile gün ışığını stüdyoda veya dış mekanda tam güç simüle etme gücü.' },
+          { tag: 'RGB Renk Paneli', title: 'Aputure Nova P600c', desc: 'Sinematik ambiyans ve kreatif moda çekimlerinde tam spektrum renk kontrolü.' },
+          { tag: 'Taşınabilir Akü', title: 'Nanlite Pavotube II 30X', desc: 'Kablosuz piksel efektli tüp ışıklarla mobil mekanlarda pratik ışıklandırma.' }
+        ],
+        air: [
+          { tag: '8K Sinema Drone', title: 'DJI Inspire 3 (Zenmuse X9-8K)', desc: 'Tam kare 8K CinemaDNG ve ProRes RAW kayıt kabiliyetli lisanslı hava sineması.' },
+          { tag: '4 Eksenli Sinema Gimbal', title: 'DJI Ronin 4D 6K', desc: 'Dahili Z-ekseni stabilizasyonu ve LiDAR odaklama ile sarsıntısız sinematik hareketler.' },
+          { tag: 'Kompakt Gimbal', title: 'DJI RS3 Pro & Wireless Focus', desc: 'Tek operatörlü dinamik takip sahneleri için karbon fiber hafif stabilizasyon.' }
+        ]
+      };
+
+      gearTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          gearTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const category = tab.dataset.gear;
+          const itemsArr = gearData[category];
+          if (itemsArr && gearDisplay) {
+            gearDisplay.innerHTML = itemsArr.map(item => `
+              <div class="gear-card">
+                <span class="gear-tag">${item.tag}</span>
+                <h4>${item.title}</h4>
+                <p>${item.desc}</p>
+              </div>
+            `).join('');
+          }
+        });
+      });
+
+      // 3. Çekim Bütçesi Hesaplama
+      const typeSelect = document.getElementById('shootTypeSelect');
+      const hoursSlider = document.getElementById('shootHours');
+      const hourLabel = document.getElementById('valHours');
+      const priceDisplay = document.getElementById('finalShootPrice');
+
+      function updateShootCalculation() {
+        if (!typeSelect || !hoursSlider) return;
+        const base = Number(typeSelect.selectedOptions[0].dataset.base);
+        const hrs = Number(hoursSlider.value);
+        if (hourLabel) hourLabel.textContent = hrs + ' Saat';
+
+        const extraHoursCost = (hrs - 6) * 1500;
+
+        let addonCost = 0;
+        ['addDrone', 'addSecondOp', 'addSameDay', 'addAlbum'].forEach(id => {
+          const cb = document.getElementById(id);
+          if (cb && cb.checked) addonCost += Number(cb.dataset.addon);
+        });
+
+        const total = Math.max(5000, base + extraHoursCost + addonCost);
+        if (priceDisplay) priceDisplay.textContent = '₺' + total.toLocaleString('tr-TR');
+      }
+
+      [typeSelect, hoursSlider].forEach(el => {
+        if (el) el.addEventListener('input', updateShootCalculation);
+      });
+      document.querySelectorAll('.addons-check-list input').forEach(cb => {
+        cb.addEventListener('change', updateShootCalculation);
+      });
+      updateShootCalculation();
+
+      const today = new Date().toISOString().split('T')[0];
+      const dateInput = document.getElementById('shootDate');
+      if (dateInput) {
+        dateInput.min = today;
+        dateInput.value = today;
+      }
+
+      // Rezervasyon Formu
+      const shootForm = document.getElementById('shootOrderForm');
+      if (shootForm) {
+        shootForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('shootClientName').value;
+          const phone = document.getElementById('shootClientPhone').value;
+          const date = document.getElementById('shootDate').value;
+          const total = priceDisplay ? priceDisplay.textContent : '';
+
+          const modal = document.getElementById('successModal');
+          const modalMsg = document.getElementById('modalMsg');
+          if (modal && modalMsg) {
+            modalMsg.innerHTML = `Sayın <strong>${name}</strong>, <strong>${date}</strong> tarihi için <strong>${total}</strong> tutarındaki prodüksiyon rezervasyon talebiniz kaydedildi. Prodüksiyon amirimiz <strong>${phone}</strong> üzerinden çekim akışı için iletişime geçecektir.`;
+            modal.style.display = 'grid';
+          }
+          shootForm.reset();
+        });
+      }
+    });
+
+    function closeDarkroomModal() {
+      const modal = document.getElementById('successModal');
+      if (modal) modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

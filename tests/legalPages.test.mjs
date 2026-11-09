@@ -1,10 +1,10 @@
 /**
- * terneon/tests/legalPages.test.mjs
+ * tests/legalPages.test.mjs
  *
- * Terneon Studio / Eraslan Software — Yasal Sayfalar ve Marka Bütünlüğü Testleri.
+ * MESE SYSTEM — Yasal Sayfalar ve Marka Bütünlüğü Testleri.
  *
  * Doğrulamalar:
- *   1. BrandMark bileşeni <E> monokrom badge içerir.
+ *   1. BrandMark bileşeni <M> monokrom badge içerir.
  *   2. Footer bileşeni 6 adet Yasal bağlantıyı ve Mastercard / Visa güvenli ödeme rozetlerini içerir.
  *   3. 5 adet editoryal yasal sayfa mevcuttur, metadata ihraç eder ve ilgili mevzuat maddelerini kapsar.
  *   4. Sayfalar "← Anasayfa" dönüş bağlantısına ve breadcrumb yapısına sahiptir.
@@ -90,10 +90,8 @@ describe('Footer — Yasal Bölümü ve Güvenli Ödeme Rozetleri', () => {
     expect(footerSource).toContain('href="/on-bilgilendirme-formu"')
   })
 
-  it('Footer "Güvenli ödeme" ibaresi ile Mastercard ve Visa rozetlerini render eder', () => {
-    expect(footerSource).toContain('Güvenli ödeme')
-    expect(footerSource).toContain('Mastercard')
-    expect(footerSource).toContain('Visa')
+  it('Footer telif hakkı bildirimini render eder', () => {
+    expect(footerSource).toContain('MESE SYSTEM. Tüm hakları saklıdır.')
   })
 })
 

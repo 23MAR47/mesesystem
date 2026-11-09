@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b12">
+  <meta name="description" content="Adalet Hukuk Bürosu — Asimetrik bento grid uzmanlık alanları, emsal Yargıtay kararları bülteni ve gizli dava ön değerlendirme sihirbazı. MESE SYSTEM sektörel vitrin demosu.">
+  <title>Adalet Hukuk Bürosu — Hukuk Bürosu & Dava Danışmanlığı Demosu</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-legal: #070b12;
+      --bg-legal-deep: #04070b;
+      --panel-legal: #0f1623;
+      --panel-legal-hover: #151f30;
+      --card-legal: #121c2b;
+      --card-border: rgba(197, 160, 89, 0.22);
+      --card-border-hover: rgba(197, 160, 89, 0.55);
+      --gold-legal: #c5a059;
+      --gold-bright: #dfbe7a;
+      --gold-glow: rgba(197, 160, 89, 0.16);
+      --parchment: #f7f5ee;
+      --ink-muted: #9ba4b0;
+      --ink-dim: #64748b;
+      --line-subtle: rgba(255, 255, 255, 0.08);
+      --font-serif: 'Playfair Display', Georgia, "Times New Roman", Garamond, serif;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      background: var(--bg-legal);
+      color: var(--parchment);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; cursor: pointer; }
+    ::selection { background: var(--gold-legal); color: #04070b; }
+    :focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+
+    .wrap {
+      width: min(1200px, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Top Demo Notice Bar */
+    .demo-bar {
+      padding: .65rem 1rem;
+      background: var(--bg-legal-deep);
+      color: var(--gold-bright);
+      text-align: center;
+      font-size: .8rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .demo-pill {
+      background: rgba(197, 160, 89, 0.15);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      color: var(--gold-bright);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 11, 18, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+    }
+    .nav {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: .02em;
+    }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--gold-bright), #8c6e32);
+      display: grid;
+      place-items: center;
+      color: #070b12;
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+    .brand-mark svg { width: 26px; height: 26px; }
+    .brand-subtitle {
+      font-family: var(--font-sans);
+      font-size: .72rem;
+      color: var(--gold-legal);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      display: block;
+      margin-top: -2px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: .9rem;
+      font-weight: 500;
+    }
+    .nav-links a {
+      color: var(--ink-muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold-bright); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold-legal), var(--gold-bright));
+      color: #070b12 !important;
+      font-weight: 700;
+      padding: .65rem 1.35rem;
+      border-radius: 6px;
+      letter-spacing: .02em;
+      box-shadow: 0 4px 14px var(--gold-glow);
+      transition: all .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(197, 160, 89, 0.35); }
+
+    /* Hero Section */
+    .hero {
+      padding: 5.5rem 0 4.5rem;
+      position: relative;
+      background: radial-gradient(circle at 85% 15%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 75%, rgba(15, 22, 35, 0.8) 0%, transparent 50%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .badge-legal {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(197, 160, 89, 0.1);
+      border: 1px solid var(--card-border);
+      color: var(--gold-bright);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.3rem, 4.4vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 1.25rem;
+      color: #fff;
+    }
+    .hero h1 span.gold-text {
+      background: linear-gradient(135deg, var(--gold-bright), #b89347);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 1.12rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-legal), var(--gold-bright));
+      color: #070b12;
+      font-weight: 700;
+      padding: .85rem 1.8rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 18px var(--gold-glow);
+      transition: all .2s;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(197, 160, 89, 0.35); }
+    .btn-outline-gold {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--parchment);
+      font-weight: 600;
+      padding: .85rem 1.6rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .2s;
+    }
+    .btn-outline-gold:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--gold-bright); }
+
+    .legal-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-border);
+    }
+    .l-stat strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--gold-bright);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .l-stat span {
+      font-size: .82rem;
+      color: var(--ink-muted);
+    }
+
+    .hero-side-card {
+      position: relative;
+    }
+    .hero-seal-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--card-border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      background: var(--panel-legal);
+    }
+    .hero-seal-frame img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+    .floating-seal {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      background: rgba(15, 22, 35, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--gold-bright);
+      padding: 1rem 1.3rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .floating-seal .seal-icon { font-size: 1.8rem; color: var(--gold-bright); }
+    .floating-seal strong { display: block; font-size: .92rem; color: #fff; font-family: var(--font-serif); }
+    .floating-seal span { font-size: .78rem; color: var(--gold-legal); }
+
+    /* Section Headings */
+    .sec-kicker {
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--gold-bright);
+      background: var(--gold-glow);
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      margin-bottom: .85rem;
+    }
+    .sec-center-head {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3.5rem;
+    }
+    .sec-center-head h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .85rem;
+    }
+    .sec-center-head p {
+      color: var(--ink-muted);
+      font-size: 1.05rem;
+    }
+
+    /* ========================================================
+       COMPONENT 1: ASİMETRİK BENTO GRID UZMANLIK ALANLARI
+       ======================================================== */
+    .bento-section {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, var(--bg-legal) 0%, var(--bg-legal-deep) 100%);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .legal-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .bento-card {
+      background: var(--panel-legal);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 2.2rem;
+      transition: all .25s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .bento-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    }
+    .bento-span-2 {
+      grid-column: span 2;
+    }
+    .bento-hero-card {
+      background: linear-gradient(135deg, var(--panel-legal) 0%, #172438 100%);
+      border: 1px solid var(--gold-bright);
+      box-shadow: 0 0 25px var(--gold-glow);
+    }
+    .bento-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    .bento-badge {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gold-bright);
+      background: rgba(197, 160, 89, 0.12);
+      border: 1px solid var(--card-border);
+      padding: 3px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: .85rem;
+    }
+    .case-count {
+      font-size: .8rem;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+    .bento-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      color: #fff;
+      margin-bottom: .85rem;
+    }
+    .bento-card p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+    .bento-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .bento-tags span {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line-subtle);
+      font-size: .76rem;
+      color: var(--parchment);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .btn-bento-filter {
+      background: rgba(197, 160, 89, 0.12);
+      border: 1px solid var(--gold-legal);
+      color: var(--gold-bright);
+      font-weight: 700;
+      font-size: .86rem;
+      padding: .65rem 1.2rem;
+      border-radius: 6px;
+      align-self: flex-start;
+      transition: all .2s;
+    }
+    .btn-bento-filter:hover {
+      background: var(--gold-legal);
+      color: #070b12;
+    }
+    .bento-stat {
+      padding-top: 1rem;
+      border-top: 1px solid var(--line-subtle);
+      margin-top: auto;
+    }
+    .bento-stat strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--gold-bright);
+      line-height: 1.1;
+    }
+    .bento-stat span {
+      font-size: .78rem;
+      color: var(--ink-muted);
+    }
+
+    /* ========================================================
+       COMPONENT 2: EMSAL KARAR BÜLTENİ (İÇTİHAT VİTRİNİ)
+       ======================================================== */
+    .precedent-section {
+      padding: 5rem 0;
+      position: relative;
+    }
+    .precedent-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .search-box input {
+      width: 100%;
+      background: var(--panel-legal);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1rem 1.4rem;
+      color: #fff;
+      font-size: 1rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-box input:focus {
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 15px var(--gold-glow);
+      outline: none;
+    }
+    .category-pills {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .pill-btn {
+      background: var(--panel-legal);
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .6rem 1.25rem;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .pill-btn:hover { border-color: var(--gold-legal); color: #fff; }
+    .pill-btn.active {
+      background: var(--gold-legal);
+      color: #070b12;
+      border-color: var(--gold-legal);
+      font-weight: 700;
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
+
+    .precedent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .precedent-card {
+      background: var(--panel-legal);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: border-color .2s;
+    }
+    .precedent-card:hover { border-color: var(--gold-bright); }
+    .prec-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .prec-tag {
+      font-size: .74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .prec-tag.ceza { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .prec-tag.is { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .prec-tag.gayrimenkul { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .prec-tag.ticaret { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .prec-court {
+      font-size: .84rem;
+      color: var(--gold-bright);
+      font-weight: 600;
+    }
+    .prec-date {
+      font-size: .8rem;
+      color: var(--ink-dim);
+      margin-left: auto;
+    }
+    .precedent-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: #fff;
+      margin-bottom: .65rem;
+    }
+    .prec-summary {
+      color: var(--ink-muted);
+      font-size: .95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .prec-outcome {
+      background: rgba(197, 160, 89, 0.08);
+      border-left: 3px solid var(--gold-bright);
+      padding: .65rem 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: .88rem;
+      color: #fff;
+    }
+    .prec-outcome strong { color: var(--gold-bright); }
+
+    /* ========================================================
+       COMPONENT 3: GİZLİ DAVA ÖN DEĞERLENDİRME SİHİRBAZI
+       ======================================================== */
+    .wizard-section {
+      padding: 5rem 0;
+      background: var(--bg-legal-deep);
+      border-top: 1px solid var(--card-border);
+    }
+    .legal-wizard-card {
+      background: var(--panel-legal);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 860px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .wizard-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .wizard-badge {
+      display: inline-block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      background: var(--gold-glow);
+      border: 1px solid var(--card-border);
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    .wizard-header h3 {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      color: #fff;
+      margin-bottom: .65rem;
+    }
+    .wizard-header p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+    .wizard-steps-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line-subtle);
+    }
+    .step-dot {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--ink-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-dot.active {
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .wizard-step {
+      display: none;
+    }
+    .wizard-step.active {
+      display: block;
+    }
+    .w-label {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+    .w-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .w-option-card {
+      background: rgba(7, 11, 18, 0.7);
+      border: 1.5px solid var(--line-subtle);
+      border-radius: 10px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .w-option-card input[type="radio"] {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      accent-color: var(--gold-legal);
+    }
+    .w-option-card:hover {
+      border-color: var(--gold-legal);
+    }
+    .w-option-card strong {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 4px;
+      padding-right: 24px;
+    }
+    .w-option-card small {
+      font-size: .8rem;
+      color: var(--ink-muted);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: .88rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: .5rem;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(7, 11, 18, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: .85rem 1.1rem;
+      color: #fff;
+      font-size: .95rem;
+    }
+    .form-control:focus {
+      border-color: var(--gold-bright);
+      outline: none;
+    }
+    .evidence-checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem;
+    }
+    .evidence-checkboxes label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(7, 11, 18, 0.6);
+      border: 1px solid var(--line-subtle);
+      padding: .75rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .88rem;
+      color: var(--parchment);
+    }
+    .evidence-checkboxes input {
+      accent-color: var(--gold-legal);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-col label {
+      display: block;
+      font-size: .88rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: .5rem;
+    }
+    .privacy-note {
+      font-size: .82rem;
+      color: var(--gold-bright);
+      background: rgba(197, 160, 89, 0.08);
+      border: 1px solid var(--card-border);
+      padding: .75rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .w-btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .btn-w-next, .btn-w-submit {
+      background: linear-gradient(135deg, var(--gold-legal), var(--gold-bright));
+      color: #070b12;
+      font-weight: 700;
+      padding: .85rem 1.8rem;
+      border-radius: 6px;
+      border: none;
+      transition: all .2s;
+    }
+    .btn-w-next:hover, .btn-w-submit:hover {
+      box-shadow: 0 4px 18px var(--gold-glow);
+    }
+    .btn-w-prev {
+      background: transparent;
+      border: 1px solid var(--line-subtle);
+      color: var(--ink-muted);
+      padding: .85rem 1.4rem;
+      border-radius: 6px;
+      transition: all .2s;
+    }
+    .btn-w-prev:hover { border-color: var(--gold-legal); color: #fff; }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 11, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      place-items: center;
+      padding: 1.5rem;
+    }
+    .modal-box {
+      background: var(--panel-legal);
+      border: 2px solid var(--gold-bright);
+      border-radius: 16px;
+      max-width: 540px;
+      width: 100%;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+    .modal-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .modal-box h3 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: .85rem;
+    }
+    .modal-box p {
+      color: var(--ink-muted);
+      font-size: .95rem;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+    .modal-box p strong { color: var(--gold-bright); }
+    .btn-modal-close {
+      background: var(--gold-legal);
+      color: #070b12;
+      font-weight: 700;
+      padding: .75rem 2rem;
+      border-radius: 6px;
+      border: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-legal-deep);
+      border-top: 1px solid var(--card-border);
+      padding: 4.5rem 0 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-col h4 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .footer-col p {
+      color: var(--ink-muted);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li {
+      color: var(--ink-muted);
+      font-size: .88rem;
+      margin-bottom: .5rem;
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--line-subtle);
+      padding-top: 2rem;
+      text-align: center;
+      font-size: .82rem;
+      color: var(--ink-dim);
+      line-height: 1.7;
+    }
+    .footer-bottom strong { color: var(--gold-bright); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .legal-bento-grid { grid-template-columns: 1fr; }
+      .bento-span-2 { grid-column: span 1; }
+      .w-options-grid { grid-template-columns: 1fr; }
+      .evidence-checkboxes { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .form-row { grid-template-columns: 1fr; }
+      .legal-stats { grid-template-columns: 1fr; }
+      .prec-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .prec-date { margin-left: 0; }
+      .modal-box { padding: 1.75rem; }
+      .nav-links { display: none; }
+      .legal-wizard-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Demo Notice Bar -->
+  <div class="demo-bar">
+    <span class="demo-pill">Hukuk Vitrini</span>
+    <span>Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış temsili bir hukuk bürosu demo vitrinidir. Gerçek bir vekalet ilişkisi kurulmaz.</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap">
+      <nav class="nav">
+        <a href="#ust" class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3v18M3 7l9-4 9 4M6 13l-3-6h6l-3 6a3 3 0 01-6 0zM18 19l-3-6h6l-3 6a3 3 0 01-6 0z"/>
+            </svg>
+          </div>
+          <div>
+            Adalet Hukuk Bürosu
+            <span class="brand-subtitle">Avukatlık & Hukuki Danışmanlık</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="#uzmanliklar">Uzmanlıklar (Bento)</a>
+          <a href="#emsal-kararlar">Emsal Kararlar</a>
+          <a href="#on-degerlendirme" class="nav-cta">Gizli Dosya Ön İnceleme →</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="ust">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="badge-legal">
+              ⚖️ Avukatlık Kanunu m.36 Sır Saklama Güvencesi
+            </div>
+            <h1>
+              Stratejik Dava Savunması & <span class="gold-text">Yüksek Yargı İçtihat Otoritesi</span>
+            </h1>
+            <p class="hero-lead">
+              Ağır ceza yargılamaları, ticari şirket uyuşmazlıkları ve gayrimenkul ihtilaflarında 22 yıllık kıdemli dava avukatlarımızla haklarınızı emsal kararlar ışığında koruyoruz.
+            </p>
+            <div class="hero-actions">
+              <a href="#uzmanliklar" class="btn-gold">
+                Uzmanlık Bento Izgarası ↓
+              </a>
+              <a href="#on-degerlendirme" class="btn-outline-gold">
+                Gizli Dava Sihirbazı
+              </a>
+            </div>
+            <div class="legal-stats">
+              <div class="l-stat">
+                <strong>22 Yıl</strong>
+                <span>Baro Sicilli Dava Kıdemi</span>
+              </div>
+              <div class="l-stat">
+                <strong>480+</strong>
+                <span>Kazanılmış Emsal Karar</span>
+              </div>
+              <div class="l-stat">
+                <strong>₺1.8B+</strong>
+                <span>Korunan Ticari Sözleşme</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-seal-frame">
+              <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1000&q=80" alt="Adalet Hukuk Bürosu Kütüphanesi">
+            </div>
+            <div class="floating-seal">
+              <div class="seal-icon">📜</div>
+              <div>
+                <strong>İstanbul Barosu Sicili</strong>
+                <span>Tam Gizlilik ve Meslek İlkeleri Taahhüdü</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 1: ASİMETRİK BENTO GRID UZMANLIK ALANLARI -->
+    <section class="bento-section" id="uzmanliklar">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-kicker">Hukuki Disiplinler</span>
+          <h2>Asimetrik Bento Grid Uzmanlık Alanlarımız</h2>
+          <p>Her biri alanında en az 10 yıl kıdemli avukatlarımızca yönetilen ihtisas masaları.</p>
+        </div>
+
+        <div class="legal-bento-grid">
+          <!-- Bento 1: Ağır Ceza (Geniş Kart) -->
+          <div class="bento-card bento-span-2 bento-hero-card">
+            <div class="bento-header">
+              <span class="bento-badge">Öncelikli Disiplin</span>
+              <span class="case-count">480+ Sonuçlanmış Dava</span>
+            </div>
+            <h3>Ceza Hukuku & Ağır Ceza Savunması</h3>
+            <p>Soruşturma evresinden Yargıtay temyiz aşamasına kadar; ekonomik suçlar, zimmet, kaçakçılık ve ağır ceza yargılamalarında stratejik savunma yönetimi.</p>
+            <div class="bento-tags">
+              <span>Soruşturma Müdafiiliği</span>
+              <span>Tutukluluğa İtiraz</span>
+              <span>Beyaz Yaka Suçları</span>
+            </div>
+            <button type="button" class="btn-bento-filter" data-category="ceza">İlgili Emsal Kararları İncele ↓</button>
+          </div>
+
+          <!-- Bento 2: Ticaret & Şirketler -->
+          <div class="bento-card">
+            <span class="bento-badge">Kurumsal Danışmanlık</span>
+            <h3>Ticaret & Şirketler Hukuku</h3>
+            <p>Şirket birleşme & devralmaları (M&A), pay sahipleri sözleşmeleri, konkordato ve uluslararası tahkim uyuşmazlıkları.</p>
+            <div class="bento-stat">
+              <strong>₺320M+</strong>
+              <span>Yönetilen Sözleşme Portföyü</span>
+            </div>
+          </div>
+
+          <!-- Bento 3: Gayrimenkul & İmar -->
+          <div class="bento-card">
+            <span class="bento-badge">Ayni Haklar</span>
+            <h3>Gayrimenkul & Kentsel Dönüşüm</h3>
+            <p>Tapu iptal ve tescil davaları, kat karşılığı inşaat uyuşmazlıkları, ecrimisil ve kamulaştırmasız el atma ihtilafları.</p>
+            <div class="bento-stat">
+              <strong>%94</strong>
+              <span>Lehe Sonuçlanan Tahliye & Tapu Kararı</span>
+            </div>
+          </div>
+
+          <!-- Bento 4: İş Hukuku -->
+          <div class="bento-card">
+            <span class="bento-badge">İş Mahkemeleri</span>
+            <h3>İş Hukuku & Toplu Sözleşmeler</h3>
+            <p>Kıdem, ihbar, işe iade ve sendikal uyuşmazlıklarda işveren risk analizi veya üst düzey yönetici tazminat davaları.</p>
+            <div class="bento-stat">
+              <strong>1.200+</strong>
+              <span>Başarılı Arabuluculuk Anlaşması</span>
+            </div>
+          </div>
+
+          <!-- Bento 5: KVKK & Bilişim (Geniş Kart) -->
+          <div class="bento-card bento-span-2">
+            <div class="bento-header">
+              <span class="bento-badge">Dijital Hukuk</span>
+              <span class="case-count">VERBİS & Siber İhlal Masası</span>
+            </div>
+            <h3>KVKK, Bilişim & Fikri Mülkiyet</h3>
+            <p>Kişisel verilerin korunması uyum projeleri, yazılım telif hakkı ihlalleri, alan adı uyuşmazlıkları ve siber suç savunmaları.</p>
+            <div class="bento-tags">
+              <span>Fikri Sınai Haklar</span>
+              <span>VERBİS Denetimi</span>
+              <span>Telif İhlali & Yazılım</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 2: EMSAL KARAR BÜLTENİ (İÇTİHAT VİTRİNİ) -->
+    <section class="precedent-section" id="emsal-kararlar">
+      <div class="wrap">
+        <div class="sec-center-head">
+          <span class="sec-kicker">Kazanılmış Emsaller</span>
+          <h2>İçtihat Vitrini & Emsal Karar Bülteni</h2>
+          <p>Yargıtay ve Bölge Adliye Mahkemeleri nezdinde müvekkillerimiz lehine oluşturduğumuz örnek kararlar.</p>
+        </div>
+
+        <div class="precedent-controls">
+          <div class="search-box">
+            <input type="text" id="precedentSearch" placeholder="Anahtar kelime ara (Örn: Kıdem, Tahliye, Beraat, Delil)...">
+          </div>
+          <div class="category-pills" id="precedentPills">
+            <button class="pill-btn active" data-cat="all">Tüm İçtihatlar</button>
+            <button class="pill-btn" data-cat="ceza">Ceza</button>
+            <button class="pill-btn" data-cat="ticaret">Ticaret</button>
+            <button class="pill-btn" data-cat="gayrimenkul">Gayrimenkul</button>
+            <button class="pill-btn" data-cat="is">İş Hukuku</button>
+          </div>
+        </div>
+
+        <div class="precedent-list" id="precedentList">
+          <!-- Emsal 1 -->
+          <article class="precedent-card" data-cat="ceza">
+            <div class="prec-head">
+              <span class="prec-tag ceza">Ceza Hukuku</span>
+              <span class="prec-court">Yargıtay 7. Ceza Dairesi · 2024/1429 K.</span>
+              <span class="prec-date">Ekim 2024</span>
+            </div>
+            <h4>Kaçakçılık İddiasında Arama Kararının Hukuka Aykırılığı Nedeniyle Beraat</h4>
+            <p class="prec-summary">Müvekkilin işyerinde yapılan aramada usule uygun hakim kararı olmaksızın elde edilen delillerin hükme esas alınamayacağı yönündeki itirazımız kabul edilerek beraat kararı tescil edilmiştir.</p>
+            <div class="prec-outcome"><strong>Sonuç:</strong> Müvekkil Hakkında Beraat & Elkoyulan Ticari Malların İadesi</div>
+          </article>
+
+          <!-- Emsal 2 -->
+          <article class="precedent-card" data-cat="is">
+            <div class="prec-head">
+              <span class="prec-tag is">İş Hukuku</span>
+              <span class="prec-court">İstanbul BAM 28. Hukuk Dairesi · 2024/882 K.</span>
+              <span class="prec-date">Aralık 2024</span>
+            </div>
+            <h4>Yönetici Personelin Fazla Mesai ve Prim Alacaklarının Banka Kayıtlarıyla Tahsili</h4>
+            <p class="prec-summary">Şirket sözleşmesinde fazla mesainin ücrete dahil olduğuna dair maddenin üst düzey yöneticinin primli çalışma modelinde uygulanamayacağı ispatlanmıştır.</p>
+            <div class="prec-outcome"><strong>Sonuç:</strong> ₺1.450.000 Brüt Alacağın En Yüksek Mevduat Faiziyle Tahsili</div>
+          </article>
+
+          <!-- Emsal 3 -->
+          <article class="precedent-card" data-cat="gayrimenkul">
+            <div class="prec-head">
+              <span class="prec-tag gayrimenkul">Gayrimenkul</span>
+              <span class="prec-court">Yargıtay 3. Hukuk Dairesi · 2025/312 K.</span>
+              <span class="prec-date">Ocak 2025</span>
+            </div>
+            <h4>Gereksinim Nedeniyle Tahliye Davasında Samimiyet Karinesinin Çürütülmesi</h4>
+            <p class="prec-summary">Kiraya verenin aynı ilçe sınırları içerisinde oturmaya elverişli başkaca boş taşınmazlarının bulunduğu tespit edilerek haksız tahliye davası reddettirilmiştir.</p>
+            <div class="prec-outcome"><strong>Sonuç:</strong> Tahliye Talebinin Reddi ve Yargılama Giderlerinin Davacıya Yükletilmesi</div>
+          </article>
+
+          <!-- Emsal 4 -->
+          <article class="precedent-card" data-cat="ticaret">
+            <div class="prec-head">
+              <span class="prec-tag ticaret">Ticaret Hukuku</span>
+              <span class="prec-court">Yargıtay 11. Hukuk Dairesi · 2024/2910 K.</span>
+              <span class="prec-date">Kasım 2024</span>
+            </div>
+            <h4>Haksız Rekabet Nedeniyle Alan Adı ve Marka İhlalinde İhtiyati Tedbir</h4>
+            <p class="prec-summary">Müvekkilin tescilli markasını taklit eden yabancı menşeili e-ticaret sitesine Türkiye'den erişimin engellenmesi ve stoktaki taklit ürünlere tedbiren el konulması sağlanmıştır.</p>
+            <div class="prec-outcome"><strong>Sonuç:</strong> İhtiyati Tedbir Kararının Kesinleşmesi & ₺850.000 Maddi/Manevi Tazminat</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT 3: GİZLİ DAVA ÖN DEĞERLENDİRME SİHİRBAZI -->
+    <section class="wizard-section" id="on-degerlendirme">
+      <div class="wrap">
+        <div class="legal-wizard-card">
+          <div class="wizard-header">
+            <div class="wizard-badge">🔒 Avukatlık Kanunu m.36 Güvencesiyle</div>
+            <h3>Gizli Dava & Uyuşmazlık Ön Değerlendirme Sihirbazı</h3>
+            <p>Hukuki durumunuzu 3 adımda analiz edelim; dosyanızın zamanaşımı ve delil durumunu ön incelemeye alalım.</p>
+            <div class="wizard-steps-indicator">
+              <span class="step-dot active" data-step="1">1. Uyuşmazlık Türü</span>
+              <span class="step-dot" data-step="2">2. Mevcut Aşama & Delil</span>
+              <span class="step-dot" data-step="3">3. Randevu & İletişim</span>
+            </div>
+          </div>
+
+          <form id="legalAssessmentWizard">
+            <!-- Step 1 -->
+            <div class="wizard-step active" id="wStep1">
+              <label class="w-label">Uyuşmazlık Konusu Nedir?</label>
+              <div class="w-options-grid">
+                <label class="w-option-card">
+                  <input type="radio" name="caseType" value="ceza" checked>
+                  <strong>Ceza Soruşturması / Ağır Ceza Davası</strong>
+                  <small>İfadeye çağrılma, tutuklama, kovuşturma süreci</small>
+                </label>
+                <label class="w-option-card">
+                  <input type="radio" name="caseType" value="ticaret">
+                  <strong>Ticari Uyuşmazlık / Şirket Alacağı</strong>
+                  <small>Cari hesap, haksız rekabet, şirketler ihtilafı</small>
+                </label>
+                <label class="w-option-card">
+                  <input type="radio" name="caseType" value="gayrimenkul">
+                  <strong>Gayrimenkul / Tapu / Kira İhtilafı</strong>
+                  <small>Tahliye, tapu iptali, ecrimisil davaları</small>
+                </label>
+                <label class="w-option-card">
+                  <input type="radio" name="caseType" value="is">
+                  <strong>İş Mahkemesi / İşe İade / Kıdem</strong>
+                  <small>Haksız fesih, kıdem tazminatı, mobbing</small>
+                </label>
+              </div>
+              <div class="w-btn-group" style="justify-content: flex-end;">
+                <button type="button" class="btn-w-next" onclick="nextLegalStep(2)">2. Adıma İlerle: Süreç & Deliller →</button>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="wizard-step" id="wStep2">
+              <label class="w-label">Dosyanın Hukuki Aşaması ve Delilleriniz</label>
+              <div class="form-group">
+                <label for="caseStage">Mevcut Hukuki Aşama</label>
+                <select id="caseStage" class="form-control">
+                  <option value="tebligat">Henüz dava açılmadı (İhtarname / Tebligat aşaması)</option>
+                  <option value="arabulucu">Dava açıldı (İlk Derece Mahkemesinde devam ediyor)</option>
+                  <option value="istinaf">İstinaf / Yargıtay Temyiz İncelemesinde</option>
+                  <option value="acil">Acil Yakalama / Gözaltı / İhtiyati Haciz var</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Elinizdeki Yazılı Deliller</label>
+                <div class="evidence-checkboxes">
+                  <label><input type="checkbox" value="sozlesme" checked> Islak İmzalı Sözleşme / Protokol</label>
+                  <label><input type="checkbox" value="dekont" checked> Banka Dekontu / Fatura Kayıtları</label>
+                  <label><input type="checkbox" value="yazisma"> Noter İhtarnamesi / E-Posta / Mesaj</label>
+                  <label><input type="checkbox" value="sahit"> Tanık / Bilirkişi Raporu</label>
+                </div>
+              </div>
+              <div class="w-btn-group">
+                <button type="button" class="btn-w-prev" onclick="nextLegalStep(1)">← Geri</button>
+                <button type="button" class="btn-w-next" onclick="nextLegalStep(3)">3. Adıma İlerle: İletişim & Gizlilik →</button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="wizard-step" id="wStep3">
+              <label class="w-label">Yetkili İletişim Bilgileriniz</label>
+              <p class="privacy-note">Bilgileriniz sadece dosyanızı inceleyecek ortak avukatımıza şifreli olarak ulaştırılır. 3. şahıslarla asla paylaşılmaz.</p>
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="legalClientName">Adınız Soyadınız / Kurum Ünvanı</label>
+                  <input type="text" id="legalClientName" class="form-control" required placeholder="Avukat görüşmesi için adınız">
+                </div>
+                <div class="form-col">
+                  <label for="legalClientPhone">Gizli İletişim Numarası</label>
+                  <input type="tel" id="legalClientPhone" class="form-control" required placeholder="05XX XXX XX XX">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="legalMeetingType">Görüşme Tercihi</label>
+                <select id="legalMeetingType" class="form-control">
+                  <option value="ofis">Levent Merkez Ofisimizde Yüz Yüze</option>
+                  <option value="video">Şifreli Online Video Konferans</option>
+                  <option value="telefon">Gizli Telefon Görüşmesi</option>
+                </select>
+              </div>
+              <div class="w-btn-group">
+                <button type="button" class="btn-w-prev" onclick="nextLegalStep(2)">← Geri</button>
+                <button type="submit" class="btn-w-submit">Gizli Ön Değerlendirme Talebini İlet →</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-backdrop" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">⚖️</div>
+      <h3>Ön İnceleme Talebiniz Kaydedildi</h3>
+      <p id="modalMsg">
+        Hukuki durumunuz incelemeye alındı.
+      </p>
+      <button type="button" class="btn-modal-close" onclick="closeLegalModal()">Tamam</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Adalet Hukuk Bürosu</h4>
+          <p>Yüksek yargı tecrübesi, ticari uyuşmazlık tahkimi ve ceza savunmasında 22 yıllık kurumsal hukuk güveni.</p>
+          <p style="margin-top: 1rem; color: var(--gold-bright); font-weight: 600;">Santral: 0212 880 44 10</p>
+        </div>
+        <div class="footer-col">
+          <h4>Çalışma Saatleri</h4>
+          <ul>
+            <li>Hafta İçi: 09:00 - 18:30</li>
+            <li>Acil Gözaltı / İfade: 7/24 Nöbetçi Avukat Hattı</li>
+            <li>Cumartesi: Randevulu Müzakere</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Ofis Adresimiz</h4>
+          <ul>
+            <li>Büyükdere Caddesi No: 185 Kanyon Plaza Kat: 14</li>
+            <li>Levent / Beşiktaş / İstanbul</li>
+            <li>E-Posta: danisma@adalethukuk.gen.tr</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        Bu sayfa <strong>MESE SYSTEM</strong> tarafından tasarlanmış sektörel bir interaktif demo vitrinidir. Gerçek bir vekalet ilişkisi kurulmaz. © 2026 Adalet Hukuk Bürosu Demosu.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- HUKUK BÜROSU İNTERAKTİF MOTORU ---
+    function nextLegalStep(target) {
+      document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+      
+      const targetStep = document.getElementById('wStep' + target);
+      const targetDot = document.querySelector(`.step-dot[data-step="${target}"]`);
+      if (targetStep) targetStep.classList.add('active');
+      if (targetDot) targetDot.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Bento kartından içtihat filtresine yönlendirme
+      document.querySelectorAll('.btn-bento-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = btn.dataset.category;
+          const targetPill = document.querySelector(`.pill-btn[data-cat="${cat}"]`);
+          if (targetPill) targetPill.click();
+          const emsalSec = document.getElementById('emsal-kararlar');
+          if (emsalSec) emsalSec.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // 2. Emsal Karar Arama ve Kategori Filtreleme
+      const searchInput = document.getElementById('precedentSearch');
+      const cards = document.querySelectorAll('.precedent-card');
+      const pills = document.querySelectorAll('.pill-btn');
+
+      function filterPrecedents() {
+        const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+        const activeCat = document.querySelector('.pill-btn.active')?.dataset.cat || 'all';
+
+        cards.forEach(card => {
+          const matchesCat = (activeCat === 'all' || card.dataset.cat === activeCat);
+          const text = card.textContent.toLowerCase();
+          const matchesQuery = !query || text.includes(query);
+          card.style.display = (matchesCat && matchesQuery) ? 'block' : 'none';
+        });
+      }
+
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          filterPrecedents();
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', filterPrecedents);
+      }
+
+      // 3. Gizli Sihirbaz Gönderimi
+      const wizardForm = document.getElementById('legalAssessmentWizard');
+      if (wizardForm) {
+        wizardForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('legalClientName').value;
+          const phone = document.getElementById('legalClientPhone').value;
+          const meeting = document.getElementById('legalMeetingType').selectedOptions[0].text;
+
+          const modal = document.getElementById('successModal');
+          const modalMsg = document.getElementById('modalMsg');
+          if (modal && modalMsg) {
+            modalMsg.innerHTML = `Sayın <strong>${name}</strong>, dosya ön inceleme talebiniz Avukatlık Kanunu Madde 36 sır saklama yükümlülüğü çerçevesinde şifrelenmiştir. Ortak avukatımız <strong>${phone}</strong> üzerinden <em>${meeting}</em> için tarafınızla gizlilik içinde irtibat kuracaktır.`;
+            modal.style.display = 'grid';
+          }
+          wizardForm.reset();
+          nextLegalStep(1);
+        });
+      }
+    });
+
+    function closeLegalModal() {
+      const modal = document.getElementById('successModal');
+      if (modal) modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

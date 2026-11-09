@@ -269,6 +269,48 @@ export const INDUSTRY_DEMOS_META = [
     accent: '#55798a',
     desc: 'Araç kataloğu, tarih seçimi ve örnek kiralama talebi.',
   },
+  {
+    slug: 'dis-klinigi',
+    title: 'İnci Diş Polikliniği',
+    sector: 'Klinik',
+    accent: '#0284c7',
+    desc: 'Hekim kadrosu, implant/estetik diş hizmetleri ve online randevu sistemi.',
+  },
+  {
+    slug: 'hukuk-burosu',
+    title: 'Adalet Hukuk Bürosu',
+    sector: 'Hukuk',
+    accent: '#c5a059',
+    desc: 'Dava ve uzmanlık alanları, kurumsal danışmanlık talep formu ve mevzuat rehberi.',
+  },
+  {
+    slug: 'mali-musavir',
+    title: 'Denge Mali Müşavirlik',
+    sector: 'Mali Müşavirlik',
+    accent: '#059669',
+    desc: 'Şirket kuruluşu maliyet hesaplayıcısı, vergi takvimi ve online ön görüşme formu.',
+  },
+  {
+    slug: 'fitness',
+    title: 'Dinamik Pilates & Fitness',
+    sector: 'Fitness',
+    accent: '#ea580c',
+    desc: 'Birebir reformer pilates, grup ders takvimi ve ücretsiz deneme seansı randevusu.',
+  },
+  {
+    slug: 'temizlik',
+    title: 'Pırıltı Profesyonel Temizlik',
+    sector: 'Temizlik',
+    accent: '#0891b2',
+    desc: 'Ev/ofis temizliği, alan bazlı anlık fiyat teklifi ve hızlı servis akışı.',
+  },
+  {
+    slug: 'fotografci',
+    title: 'Vizyon Fotoğraf & Prodüksiyon',
+    sector: 'Fotoğrafçılık',
+    accent: '#d97706',
+    desc: 'Düğün/ürün çekimi, etkileşimli fotoğraf galerisi ve stüdyo rezervasyon formu.',
+  },
 ];
 
 const SKIP_DIRS = new Set(['.git', '.next', 'node_modules', 'dist', 'build', 'coverage']);
@@ -431,7 +473,7 @@ function generatePage(project) {
   <a class="skip-link" href="#main">İçeriğe geç</a>
   <div class="shell">
     <header class="topbar">
-      <a class="brand" href="/#anasayfa" aria-label="Terneon ana sayfa"><span class="mark">${escapeHtml(project.title.slice(0, 1))}</span><span>${title}</span></a>
+      <a class="brand" href="/#anasayfa" aria-label="MESE SYSTEM ana sayfa"><span class="mark">${escapeHtml(project.title.slice(0, 1))}</span><span>${title}</span></a>
       <nav class="site-nav" aria-label="Sayfa bölümleri"><a class="tab" href="#hikaye">Hikâye</a><a class="tab" href="#yaklasim">Yaklaşım</a><a class="tab" href="#deneyim">Deneyim</a></nav>
       <a class="back" href="/#referanslar">← Tüm projeler</a>
     </header>
@@ -573,9 +615,9 @@ function generateMasterIndex() {
       <span class="open">Demo sayfasını aç →</span>
     </a>`).join('');
   return `<!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Terneon — Proje demoları</title>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MESE SYSTEM — Proje demoları</title>
 <style>*{box-sizing:border-box}body{margin:0;background:#080b12;color:#f4f4f5;font-family:Inter,ui-sans-serif,system-ui,sans-serif}.shell{max-width:1120px;margin:auto;padding:36px 24px}.top{border-bottom:1px solid #ffffff20;padding-bottom:24px}.top a{color:#94a3b8;text-decoration:none;font-size:12px}.top p{color:#aab3be;max-width:620px;line-height:1.6}.top h1{margin:24px 0 8px;font-size:clamp(34px,6vw,56px);letter-spacing:-.04em}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:26px}.card{--accent:#22d3ee;display:flex;flex-direction:column;min-height:218px;padding:19px;border:1px solid color-mix(in srgb,var(--accent) 27%,#26303b);border-radius:16px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 8%,#10141c),#ffffff04);color:inherit;text-decoration:none;transition:transform .16s,border-color .16s}.card:hover{border-color:var(--accent);transform:translateY(-2px)}.number{color:var(--accent);font:10px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.12em}.card h2{font-size:18px;margin:16px 0 8px}.card p{color:#aab3be;font-size:12px;line-height:1.55;margin:0 0 18px}.open{margin-top:auto;color:var(--accent);font-size:12px;font-weight:650}footer{margin-top:30px;color:#8792a0;font-size:11px}@media(max-width:600px){.shell{padding:24px 16px}}</style></head>
-<body><main class="shell"><header class="top"><a href="/#referanslar">← Terneon portfolyosuna dön</a><h1>Türkiye'den proje demoları</h1><p>${projects.length} farklı sektör için özgün ve etkileşimli arayüz örneklerini keşfedin. Örnek veriler ve işlemler gerçek bir hizmete bağlanmaz.</p></header><section class="grid" aria-label="Proje demoları">${cards}</section><footer>Terneon portfolyo vitrini · Etkileşimli konseptler</footer></main></body></html>`;
+<body><main class="shell"><header class="top"><a href="/#referanslar">← MESE SYSTEM portfolyosuna dön</a><h1>Türkiye'den proje demoları</h1><p>${projects.length} farklı sektör için özgün ve etkileşimli arayüz örneklerini keşfedin. Örnek veriler ve işlemler gerçek bir hizmete bağlanmaz.</p></header><section class="grid" aria-label="Proje demoları">${cards}</section><footer>MESE SYSTEM portfolyo vitrini · Etkileşimli konseptler</footer></main></body></html>`;
 }
 
 function main() {

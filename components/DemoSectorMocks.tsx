@@ -83,7 +83,7 @@ export function CyberpunkSaaSTemplate({ isMobile }: { isMobile: boolean }) {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-cyan opacity-75" />
             <span className="relative inline-flex h-3 w-3 rounded-full bg-neon-cyan" />
           </span>
-          <span className="font-mono text-xs font-bold text-white">TERNEON-GRID v4.8</span>
+          <span className="font-mono text-xs font-bold text-white">MESE-GRID v4.8</span>
           <span className="rounded bg-neon-cyan/10 px-2 py-0.5 text-[10px] font-semibold text-neon-cyan">
             99.99% KESİNTİSİZLİK
           </span>
@@ -301,7 +301,7 @@ export function Web3CryptoTemplate({ isMobile }: { isMobile: boolean }) {
   const tokens = [
     { id: 'ETH', name: 'Ethereum', symbol: 'ETH', price: '$3,420.50', change: '+5.4%', balance: '8.42 ETH', val: '$28,800.61' },
     { id: 'SOL', name: 'Solana', symbol: 'SOL', price: '$184.20', change: '+12.8%', balance: '45.0 SOL', val: '$8,289.00' },
-    { id: 'NEON', name: 'Terneon Cyber', symbol: 'NEON', price: '$42.10', change: '+24.6%', balance: '240.0 NEON', val: '$10,104.00' },
+    { id: 'NEON', name: 'Mese Cyber', symbol: 'NEON', price: '$42.10', change: '+24.6%', balance: '240.0 NEON', val: '$10,104.00' },
     { id: 'BTC', name: 'Bitcoin', symbol: 'BTC', price: '$91,400.00', change: '+3.1%', balance: '0.19 BTC', val: '$17,366.00' },
   ]
 
@@ -718,7 +718,7 @@ export function AiAgencyTemplate({ isMobile }: { isMobile: boolean }) {
       {/* Agency Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <div>
-          <span className="font-display text-sm font-bold text-pink-400">TERNEON SYNTH-AI</span>
+          <span className="font-display text-sm font-bold text-pink-400">MESE SYNTH-AI</span>
           <span className="ml-2 text-[10px] text-slate-400">Kreatif Prompt Stüdyosu</span>
         </div>
         <span className="rounded-full bg-pink-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-pink-400">
@@ -1054,7 +1054,7 @@ export function LuxuryBrandTemplate({ isMobile }: { isMobile: boolean }) {
     },
     {
       title: 'Look 02 — Platinum Silk Kimono',
-      sub: 'Maison Terneon Haute Couture',
+      sub: 'Maison Mese Haute Couture',
       desc: 'El dokuması ışıl ışıl optik ipek kumaş, manyetik titanyum toka detayları.',
       price: '€6,200',
       availability: 'Sadece Davetiye ile',
@@ -1084,7 +1084,7 @@ export function LuxuryBrandTemplate({ isMobile }: { isMobile: boolean }) {
       {/* Luxury Maison Header */}
       <div className="border-b border-amber-500/20 pb-3 text-center">
         <span className="font-serif text-sm tracking-[0.25em] text-amber-300 uppercase">
-          Maison Terneon · Paris · Istanbul
+          Maison Mese · Paris · Istanbul
         </span>
         <div className="text-[10px] tracking-widest text-slate-400 uppercase mt-0.5">
           Haute Couture & Private Atelier

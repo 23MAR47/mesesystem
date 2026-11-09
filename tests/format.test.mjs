@@ -1,5 +1,5 @@
 /**
- * terneon/lib/format.ts birim testleri.
+ * lib/format.ts birim testleri.
  *
  * tr-TR yerel ayarlarıyla para ve sayı biçimlendirmesini doğrular.
  *

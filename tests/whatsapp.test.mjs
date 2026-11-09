@@ -1,5 +1,5 @@
 /**
- * terneon/lib/whatsapp.ts birim testleri.
+ * lib/whatsapp.ts birim testleri.
  *
  * `buildWhatsAppQuoteHref` saf bir fonksiyondur (window'a dokunmaz);
  * `openWhatsApp*` fonksiyonları window.open kullandığı için test edilmez.
@@ -14,7 +14,7 @@ import siteConfig from "../config/siteConfig.ts";
 
 // Test verileri — siteConfig'teki gerçek öğeler
 const service = siteConfig.pricing.services[0]; // Portfolyo, 9000
-const addons = [siteConfig.pricing.addons[0], siteConfig.pricing.addons[3]]; // panel 3000, SEO 3000
+const addons = [siteConfig.pricing.addons[0], siteConfig.pricing.addons[2]]; // panel 3000, SEO 3000
 const monthly = siteConfig.pricing.subscription.monthly;
 const yearly = siteConfig.pricing.subscription.yearly;
 

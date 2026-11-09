@@ -7,7 +7,7 @@ import ProcessSection from '@/components/ProcessSection'
 import PriceCalculator from '@/components/PriceCalculator'
 import TestimonialsAndFaq from '@/components/TestimonialsAndFaq'
 
-export default function TerneonPage() {
+export default function MeseSystemPage() {
   return (
     <div className="editorial-theme flex flex-col bg-[#f7f4ed] text-slate-900">
       <Hero />

@@ -1,4 +1,4 @@
-# Terneon — Birim Testleri
+# MESE SYSTEM — Birim Testleri
 
 Sıfır bağımlılıklı (npm paketi yok) birim testleri. Node 24'ün yerleşik
 TypeScript type-stripping özelliği sayesinde `.ts` kaynak dosyaları doğrudan
@@ -7,9 +7,9 @@ import edilir; derleme adımı gerekmez.
 ## Çalıştırma
 
 ```bash
-node terneon/tests/run-tests.mjs
+node tests/run-tests.mjs
 # yalnızca bir dosyayı çalıştırmak için:
-node terneon/tests/run-tests.mjs --only format
+node tests/run-tests.mjs --only format
 ```
 
 Çıkış kodu `0` = tüm testler geçti, `1` = en az bir test başarısız.
@@ -29,7 +29,7 @@ Ağ erişimi gerekmez.
 
 `lib/whatsapp.ts` gibi kaynak dosyalar `@/config/siteConfig` biçiminde import
 yapar (Next.js `tsconfig paths`). Test ortamında bu takma ad, `harness.mjs`
-içinde Node 24'ün `module.registerHooks` API'si ile terneon kök dizinine
+içinde Node 24'ün `module.registerHooks` API'si ile proje kök dizinine
 eşlenir. Bu yüzden test dosyalarında `harness.mjs` importu her zaman test
 edilen modülün importundan **önce** gelmelidir.
 

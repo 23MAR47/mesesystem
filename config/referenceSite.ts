@@ -1,12 +1,9 @@
 export type PortfolioFilter =
-  | 'Sağlık'
-  | 'Fitness'
-  | 'E Ticaret'
-  | 'Güzellik'
-  | 'Veterinerlik'
-  | 'Konaklama'
-  | 'Diş Hekimliği'
-  | 'Diğer'
+  | 'Hizmet & Randevu'
+  | 'E-Ticaret & Menü'
+  | 'Teknik Servis'
+  | 'Konaklama & Yapı'
+  | 'Kurumsal & Danışmanlık'
 
 export interface PortfolioProject {
   id: string
@@ -20,453 +17,243 @@ export interface PortfolioProject {
 }
 
 export const PORTFOLIO_FILTERS: PortfolioFilter[] = [
-  'Sağlık',
-  'Fitness',
-  'E Ticaret',
-  'Güzellik',
-  'Veterinerlik',
-  'Konaklama',
-  'Diş Hekimliği',
-  'Diğer',
+  'Hizmet & Randevu',
+  'E-Ticaret & Menü',
+  'Teknik Servis',
+  'Konaklama & Yapı',
+  'Kurumsal & Danışmanlık',
 ]
-
-const preview = (id: string) =>
-  `https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F${id}%2Fdesktop.jpg&w=640&q=75`
 
 export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
   {
-    id: 'pres-dis',
-    name: 'Pres Diş',
-    category: 'Sağlık',
-    label: 'Sağlık',
-    subtitle: 'Ağız & Diş Sağlığı',
+    id: 'berber',
+    name: 'Keskin Hat',
+    category: 'Hizmet & Randevu',
+    label: 'Berber',
+    subtitle: 'Berber ve Randevu Sistemi',
     description:
-      "Pres Diş için tasarlanan bu modern web sitesi, Bursa'daki iki şubesinde ağız ve diş sağlığı hizmetleri sunarak ücretsiz ilk muayene imkanı sağlar.",
-    href: 'https://presdis.vercel.app/',
-    previewImage: '/projects/pres-dis.jpg',
+      'Hizmet listesi, usta seçimi, şeffaf fiyatlandırma ve anlık online randevu talebi sunan modern berber sitesi.',
+    href: '/showcases/berber/index.html',
+    previewImage: '/projects/berber.jpg',
   },
   {
-    id: 'gustav',
-    name: 'Gustav',
-    category: 'Diğer',
-    label: 'Kafe',
-    subtitle: 'Kafe & Tatlıcı',
+    id: 'emlak',
+    name: 'Aralık Emlak',
+    category: 'Konaklama & Yapı',
+    label: 'Emlak',
+    subtitle: 'Emlak ve İlan Platformu',
     description:
-      "Gustav Coffee & Dessert için tasarlanan bu modern web sitesi, Milas'ta kahve, waffle ve tatlı çeşitleri sunarak online sipariş ve mekan bilgilerini kolayca erişilebilir kılar.",
-    href: 'https://gustav-murex.vercel.app/',
-    previewImage: '/projects/gustav.jpg',
+      'Filtrelenebilir portföy, detaylı ilan sayfaları, konum haritası ve doğrudan WhatsApp üzerinden danışman iletişim akışı.',
+    href: '/showcases/emlak/index.html',
+    previewImage: '/projects/emlak.jpg',
   },
   {
-    id: 'sakli-cave-house',
-    name: 'Saklı Cave House',
-    category: 'Konaklama',
-    label: 'Otelcilik',
-    subtitle: 'Kapadokya Mağara Oteli',
+    id: 'qr-menu',
+    name: 'Yosun Restoran',
+    category: 'E-Ticaret & Menü',
+    label: 'Restoran',
+    subtitle: 'Restoran ve Dijital QR Menü',
     description:
-      "Saklı Cave House için tasarlanan bu demo, Kapadokya'daki mağara ve taş odaları tanıtırken, interaktif bir oda seçimi ve filtreleme aracı sunar.",
-    href: 'https://saklicave-house.vercel.app/',
-    previewImage: '/projects/sakli-cave-house.jpg',
+      'Masa başında hızlı sipariş, alerjen uyarıları, kategori filtreleri ve görsel ağırlıklı dijital restoran menüsü.',
+    href: '/showcases/qr-menu/index.html',
+    previewImage: '/projects/qr-menu.jpg',
   },
   {
-    id: 'diyetoloji',
-    name: 'Diyetoloji',
-    category: 'Diğer',
-    label: 'Beslenme',
-    subtitle: 'Günlük Diyet Teslimatı',
+    id: 'kuafor',
+    name: 'Doku Kuaför',
+    category: 'Hizmet & Randevu',
+    label: 'Kuaför',
+    subtitle: 'Kuaför ve Saç Tasarım Stüdyosu',
     description:
-      'Diyetoloji için tasarlanan bu demo, çeşitli diyet ve detoks paketlerini sunarken, kullanıcının ihtiyacına uygun paketi bulmasını sağlayan interaktif bir sihirbaz içerir.',
-    href: 'https://diyetoloji.vercel.app/',
-    previewImage: '/projects/diyetoloji.jpg',
+      'Saç bakım paketleri, stil seçkisi, uzman kadro profilleri ve çalışma saatlerine göre akıllı randevu takvimi.',
+    href: '/showcases/kuafor/index.html',
+    previewImage: '/projects/kuafor.jpg',
   },
   {
-    id: 'ceren-sude',
-    name: 'Ceren Sude',
-    category: 'Fitness',
-    label: 'Fitness',
-    subtitle: 'Personal Trainer & Koçluk',
-    description:
-      'Ceren Sude için tasarlanan bu modern web sitesi, birebir ve online koçluk hizmetleri sunarak kişiselleştirilmiş antrenman programları ve beslenme rehberliği sağlar.',
-    href: 'https://www.ptcerensude.com/',
-    previewImage: '/projects/ceren-sude.jpg',
-  },
-  {
-    id: 'zenn-studio',
-    name: 'Zenn Studio',
-    category: 'Fitness',
-    label: 'Fitness',
-    subtitle: 'Pilates & Fitness Stüdyosu, İstanbul',
-    description:
-      'Zenn Studio için tasarlanan bu demo, çeşitli fitness branşlarını ve kişiselleştirilmiş ders önerisi sunan interaktif bir aracı içerir.',
-    href: 'https://zennstudio.vercel.app/',
-    previewImage: '/projects/zenn-studio.jpg',
-  },
-  {
-    id: 'ciftlik-kasabi',
-    name: 'Çiftlik Kasabı',
-    category: 'Diğer',
-    label: 'Et Ürünleri',
-    subtitle: 'Et Ürünleri & Online Sipariş',
-    description:
-      'Çiftlik Kasabı için tasarlanan bu web sitesi, Kızılcahamam ve Karabük şubelerinde kuzu, dana eti ve kendi üretimleri şarküteri ürünlerini sunarken, online sipariş ve mangal hesabı aracıyla alışverişi kolaylaştırır.',
-    href: 'https://ciftlikkasabi.com/',
-    previewImage: preview('207d487f-e602-4bf6-8291-7977685d7f1c'),
-  },
-  {
-    id: 'nisa-atelier',
-    name: 'Nisa Atelier',
-    category: 'E Ticaret',
-    label: 'E Ticaret',
-    subtitle: 'Moda & Butik',
-    description:
-      "Nisa Atelier için tasarlanan bu zarif web sitesi, Nişantaşı'ndaki butiğinde özenle seçilmiş kumaşlardan, sınırlı sayıda üretilen zamansız kadın giyim koleksiyonlarını sunar.",
-    href: 'https://eraslan-landingler.vercel.app/',
-    previewImage: '/projects/nisa-atelier.jpg',
-  },
-  {
-    id: 'saye-beauty-atelier',
-    name: 'Saye Beauty Atelier',
-    category: 'Güzellik',
+    id: 'guzellik-salonu',
+    name: 'Nilüfer Oda',
+    category: 'Hizmet & Randevu',
     label: 'Güzellik',
-    subtitle: 'Güzellik & Bakım Atölyesi',
+    subtitle: 'Güzellik ve Kişisel Bakım Salonu',
     description:
-      "Saye Beauty Atelier için tasarlanan bu zarif web sitesi, Suadiye'de saç, cilt, tırnak ve kirpik için kişiye özel güzellik hizmetleri sunuyor.",
-    href: 'https://eraslan-landingler-xlt3-eta.vercel.app/',
-    previewImage: '/projects/saye-beauty-atelier.jpg',
+      'Cilt bakımı, tırnak tasarımı ve masaj hizmetleri için paket karşılaştırma ve seans rezervasyonu sağlayan vitrin.',
+    href: '/showcases/guzellik-salonu/index.html',
+    previewImage: '/projects/guzellik-salonu.jpg',
   },
   {
-    id: 'meltem-yachts',
-    name: 'Meltem Yachts',
-    category: 'Diğer',
-    label: 'Denizcilik',
-    subtitle: 'Yat Üretimi & Tasarım',
+    id: 'otel',
+    name: 'Yamaç Konak',
+    category: 'Konaklama & Yapı',
+    label: 'Otel',
+    subtitle: 'Butik Otel ve Konaklama',
     description:
-      "Meltem Yachts için tasarlanan bu prestijli web sitesi, Bodrum Turgutreis'teki atölyesinde 38-60 ft yelkenli yat modellerini sunar.",
-    href: 'https://meltem-yachts.vercel.app/',
-    previewImage: '/projects/meltem-yachts.jpg',
+      'Oda türleri, manzara seçenekleri, sezonluk fiyat tablosu ve hızlı rezervasyon talebi oluşturan otel tanıtım sitesi.',
+    href: '/showcases/otel/index.html',
+    previewImage: '/projects/otel.jpg',
   },
   {
-    id: 'baygun-veteriner',
-    name: 'Baygün Veteriner Kliniği',
-    category: 'Veterinerlik',
-    label: 'Veterinerlik',
-    subtitle: 'Veterinerlik & Hayvan Sağlığı',
+    id: 'oto-servis',
+    name: 'Vites Atölye',
+    category: 'Teknik Servis',
+    label: 'Oto Servis',
+    subtitle: 'Oto Servis ve Periyodik Bakım',
     description:
-      "Baygün Veteriner Kliniği için tasarlanan bu modern web sitesi, Eskişehir'de 7/24 acil servis dahil kapsamlı veterinerlik hizmetleri sunuyor.",
-    href: 'https://eraslan-landingler-ui2z.vercel.app/',
-    previewImage: '/projects/baygun-veteriner.jpg',
+      'Periyodik bakım paketleri, şeffaf arıza tespit adımları ve plaka bazlı online servis randevu formu.',
+    href: '/showcases/oto-servis/index.html',
+    previewImage: '/projects/oto-servis.jpg',
   },
   {
-    id: 'ece-pilates-yoga',
-    name: 'Ece Pilates & Yoga',
-    category: 'Diğer',
-    label: 'Spor',
-    subtitle: 'Pilates & Yoga Stüdyosu',
+    id: 'market',
+    name: 'Aralık Market',
+    category: 'E-Ticaret & Menü',
+    label: 'Market',
+    subtitle: 'Online Market ve Hızlı Teslimat',
     description:
-      "Ece Pilates & Yoga için tasarlanan bu modern web sitesi, 4. Levent'te butik pilates ve yoga derslerini kişiye özel programlar ve online randevu sistemiyle sunar.",
-    href: 'https://ece-pilates-yoga.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=%2Fportfolio%2Fece-pilates-yoga-vercel-app.jpg&w=640&q=75&dpl=dpl_49zUrZ48hMS5o6UsJF9rzED9hy5q',
+      'Hızlı ürün arama, reyon filtreleri, sepet yönetimi ve aynı gün adrese teslimat sipariş akışı.',
+    href: '/showcases/market/index.html',
+    previewImage: '/projects/market.jpg',
   },
   {
-    id: 'dr-leyla-sarigul',
-    name: 'Dr. Leyla Sarıgül',
-    category: 'Sağlık',
-    label: 'Sağlık',
-    subtitle: 'Psikiyatri & Ruh Sağlığı',
+    id: 'kuruyemis',
+    name: 'Çıtır & Çekirdek',
+    category: 'E-Ticaret & Menü',
+    label: 'E-Ticaret',
+    subtitle: 'Kuruyemiş ve Gurme Lezzetler',
     description:
-      'Dr. Leyla Sarıgül için tasarlanan bu zarif web sitesi, erişkin psikiyatrisi alanında depresyon, anksiyete ve uyku sorunlarına yönelik profesyonel destek sunuyor.',
-    href: 'https://psikiyatri-zeta.vercel.app/',
-    previewImage: '/projects/dr-leyla-sarigul.jpg',
+      'Gramaj seçimi, taze kavrulmuş ürün kataloğu ve Türkiye geneli kargo entegrasyonuna hazır online sipariş sitesi.',
+    href: '/showcases/kuruyemis/index.html',
+    previewImage: '/projects/kuruyemis.jpg',
   },
   {
-    id: 'aura-reformer',
-    name: 'Aura Reformer',
-    category: 'Diğer',
-    label: 'Wellness',
-    subtitle: 'Pilates & Wellness',
+    id: 'insaat',
+    name: 'Hat Çizgisi',
+    category: 'Konaklama & Yapı',
+    label: 'İnşaat',
+    subtitle: 'Mimarlık ve İnşaat Portföyü',
     description:
-      'Aura Reformer Studio için tasarlanan bu lüks web sitesi, zarafet ve gücü birleştiren butik reformer pilates deneyimini sunuyor.',
-    href: 'https://pilates-demo-woad.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=%2Fportfolio%2Fpilates-demo-woad-vercel-app.jpg&w=640&q=75&dpl=dpl_49zUrZ48hMS5o6UsJF9rzED9hy5q',
+      'Devam eden ve tamamlanan projeler için yüksek çözünürlüklü fotoğraf galerisi, kat planları ve kurumsal künye.',
+    href: '/showcases/insaat/index.html',
+    previewImage: '/projects/insaat.jpg',
   },
   {
-    id: 'cinar-veteriner',
-    name: 'Çınar Veteriner Kliniği',
-    category: 'Veterinerlik',
-    label: 'Veterinerlik',
-    subtitle: 'Veterinerlik & Hayvan Sağlığı',
+    id: 'elektrikci',
+    name: 'Akım Elektrik',
+    category: 'Teknik Servis',
+    label: 'Elektrik',
+    subtitle: 'Elektrikçi ve Saha Hizmeti',
     description:
-      'Çınar Veteriner Kliniği için tasarlanan bu zarif web sitesi, kedi, köpek ve egzotik hayvanlar için muayeneden cerrahiye kadar kapsamlı veterinerlik hizmetleri sunuyor.',
-    href: 'https://veterinerlik-coral.vercel.app/',
-    previewImage: '/projects/cinar-veteriner.jpg',
+      '7/24 acil arıza servisi, aydınlatma ve kompanzasyon projeleri için tek tıkla doğrudan keşif çağrı akışı.',
+    href: '/showcases/elektrikci/index.html',
+    previewImage: '/projects/elektrikci.jpg',
   },
   {
-    id: 'asya-demo-klinik',
-    name: 'Asya Demo Klinik',
-    category: 'Sağlık',
-    label: 'Sağlık',
-    subtitle: 'Estetik Diş Hekimliği & Klinik',
+    id: 'tesisatci',
+    name: 'İyi Akış Tesisat',
+    category: 'Teknik Servis',
+    label: 'Tesisat',
+    subtitle: 'Sıhhi Tesisat ve Servis',
     description:
-      'Dr. Asya Türker için tasarlanan bu modern klinik portalı, estetik diş hekimliği hizmetlerini ve uluslararası hasta deneyimini zarifçe sunuyor.',
-    href: 'https://asya-turker-demo.vercel.app/tr',
-    previewImage: '/projects/asya-demo-klinik.jpg',
+      'Tıkanıklık açma, petek temizliği ve kaçak tespiti için acil servis butonları ve şeffaf işçilik garantisi.',
+    href: '/showcases/tesisatci/index.html',
+    previewImage: '/projects/tesisatci.jpg',
   },
   {
-    id: 'gloss-club',
-    name: 'Gloss Club',
-    category: 'Güzellik',
-    label: 'Güzellik',
-    subtitle: 'Tırnak & Kirpik Bakımı',
+    id: 'rent-a-car',
+    name: 'Rota Araç Kiralama',
+    category: 'Hizmet & Randevu',
+    label: 'Rent a Car',
+    subtitle: 'Araç Kiralama ve Rezervasyon',
     description:
-      "Gloss Club için tasarlanan bu zarif web sitesi, Moda'daki nail & lash barın kalıcı oje, ipek kirpik gibi hizmetlerini online tırnak tasarlama ve randevu alma kolaylığıyla sunar.",
-    href: 'https://glos-club.vercel.app/',
-    previewImage: '/projects/gloss-club.jpg',
+      'Geniş araç filosu, tarih ve lokasyon seçimi, kasko paketleri ve anında rezervasyon ön onayı sunan araç kiralama sitesi.',
+    href: '/showcases/rent-a-car/index.html',
+    previewImage: '/projects/rent-a-car.jpg',
   },
   {
-    id: 'maison-elysee',
-    name: 'Maison Elysée',
-    category: 'Konaklama',
-    label: 'Konaklama',
-    subtitle: 'Butik Otel & Termal Spa',
+    id: 'dis-klinigi',
+    name: 'İnci Diş Polikliniği',
+    category: 'Hizmet & Randevu',
+    label: 'Diş Kliniği',
+    subtitle: 'Diş Kliniği ve Online Randevu Sistemi',
     description:
-      'Maison Elysée için tasarlanan bu lüks butik otel web sitesi, Fransız zarafeti ile şifalı termal suları harmanlayan eşsiz bir konaklama deneyimi sunuyor.',
-    href: 'https://hotel-demo-three-livid.vercel.app/',
-    previewImage: '/projects/maison-elysee.jpg',
+      'Hekim kadrosu, implant/estetik diş hizmetleri ve online randevu sistemi sunan kurumsal diş sağlığı vitrini.',
+    href: '/showcases/dis-klinigi/index.html',
+    previewImage: '/projects/dis-klinigi.jpg',
   },
   {
-    id: 'orsa-yachts',
-    name: 'ORSA Yachts',
-    category: 'Diğer',
-    label: 'Yat Üretimi',
-    subtitle: 'Yat Üretimi & Tasarım',
+    id: 'hukuk-burosu',
+    name: 'Adalet Hukuk Bürosu',
+    category: 'Kurumsal & Danışmanlık',
+    label: 'Hukuk',
+    subtitle: 'Hukuk Bürosu ve Dava Danışmanlığı',
     description:
-      "ORSA Yachts için tasarlanan bu prestijli web sitesi, Antalya Serbest Bölge'de üretilen 19-37 metre motoryat ve explorer modellerini sunar.",
-    href: 'https://orsa-yachts.vercel.app/',
-    previewImage: '/projects/orsa-yachts.jpg',
+      'Dava ve uzmanlık alanları, kurumsal danışmanlık talep formu ve mevzuat rehberi sunan saygın avukatlık vitrini.',
+    href: '/showcases/hukuk-burosu/index.html',
+    previewImage: '/projects/hukuk-burosu.jpg',
   },
   {
-    id: 'pearl-dental',
-    name: 'Pearl Dental',
-    category: 'Diş Hekimliği',
-    label: 'Diş Hekimliği',
-    subtitle: 'Diş Hekimliği & Gülüş Tasarımı',
+    id: 'mali-musavir',
+    name: 'Denge Mali Müşavirlik',
+    category: 'Kurumsal & Danışmanlık',
+    label: 'Mali Müşavir',
+    subtitle: 'Mali Müşavirlik ve Vergi Danışmanlığı',
     description:
-      'Pearl Dental için tasarlanan bu zarif web sitesi, modern teknolojiyle acısız diş tedavisi ve estetik gülüş tasarımını bir araya getirerek kusursuz bir deneyim sunuyor.',
-    href: 'https://demo-dis-klinigi.vercel.app/',
-    previewImage: '/projects/pearl-dental.jpg',
+      'Şirket kuruluş maliyet hesaplayıcısı, vergi takvimi ve online ön görüşme randevusu sağlayan finansal çözüm platformu.',
+    href: '/showcases/mali-musavir/index.html',
+    previewImage: '/projects/mali-musavir.jpg',
   },
   {
-    id: 'collina',
-    name: 'Collina',
-    category: 'Diğer',
-    label: 'Tekstil',
-    subtitle: 'Spor Giyim & Üretim',
+    id: 'fitness',
+    name: 'Dinamik Pilates & Fitness',
+    category: 'Hizmet & Randevu',
+    label: 'Fitness & Pilates',
+    subtitle: 'Pilates ve Kişisel Antrenman Stüdyosu',
     description:
-      "Collina için tasarlanan bu modern web sitesi, Bursa'daki tesisinde kendi markası ve dünya markaları için eşofman takımı, ceket ve kapüşonlu gibi spor giyim ürünleri üretiyor.",
-    href: 'https://collina-one.vercel.app/',
-    previewImage: '/projects/collina.jpg',
+      'Birebir reformer pilates, haftalık grup ders takvimi ve ücretsiz deneme seansı rezervasyonu içeren stüdyo sitesi.',
+    href: '/showcases/fitness/index.html',
+    previewImage: '/projects/fitness.jpg',
   },
   {
-    id: 'alsa-dental-studio',
-    name: 'Alsa Dental Studio',
-    category: 'Diş Hekimliği',
-    label: 'Diş Hekimliği',
-    subtitle: 'Estetik & Dijital Diş Hekimliği',
+    id: 'temizlik',
+    name: 'Pırıltı Profesyonel Temizlik',
+    category: 'Teknik Servis',
+    label: 'Temizlik',
+    subtitle: 'Kurumsal Temizlik ve Halı Yıkama Servisi',
     description:
-      "Alsa Dental Studio için tasarlanan bu modern web sitesi, Alsancak'ta dijital planlamalı diş hekimliği hizmetlerini ve online tedavi planlayıcısını zarifçe sunuyor.",
-    href: 'https://eraslan-landingler-ga4e.vercel.app/',
-    previewImage: '/projects/alsa-dental-studio.jpg',
+      'Ev/ofis temizliği, m² ve oda bazlı anlık fiyat teklif motoru ve hızlı servis talep akışı sunan temizlik sitesi.',
+    href: '/showcases/temizlik/index.html',
+    previewImage: '/projects/temizlik.jpg',
   },
   {
-    id: 'kraft-studio',
-    name: 'KRAFT Studio',
-    category: 'Diğer',
-    label: 'Mimarlık',
-    subtitle: 'Brütalist Mimarlık & Tasarım',
+    id: 'fotografci',
+    name: 'Vizyon Fotoğraf & Prodüksiyon',
+    category: 'Hizmet & Randevu',
+    label: 'Fotoğrafçılık',
+    subtitle: 'Fotoğraf Stüdyosu ve Video Prodüksiyon',
     description:
-      'KRAFT Studio için tasarlanan bu modern web sitesi, brütalist mimari ve iç mekan tasarım felsefesini dürüst malzemelerle sunuyor.',
-    href: 'https://eraslan-landingler-1ntf.vercel.app/',
-    previewImage: '/projects/kraft-studio.jpg',
-  },
-  {
-    id: 'projemax',
-    name: 'Projemax',
-    category: 'Diğer',
-    label: 'Kurumsal',
-    subtitle: 'Kurumsal Portal & SaaS',
-    description:
-      'Büyük ölçekli projeler için geliştirilmiş, kurumsal kimliği ve portfolyoyu sunan iş takipli kurumsal web portalı.',
-    href: 'https://www.projemax.net/',
-    previewImage: '/projects/projemax.jpg',
-  },
-  {
-    id: 'aura-clinic',
-    name: 'Aura Clinic & Medispa',
-    category: 'Diğer',
-    label: 'Estetik',
-    subtitle: 'Medispa & Estetik Cerrahi',
-    description:
-      'Aura Clinic & Medispa için tasarlanan bu lüks klinik portalı, estetik cerrahi ve medikal estetik hizmetlerini uluslararası standartlarda sunuyor.',
-    href: 'https://estetik-demo.vercel.app/',
-    previewImage: '/projects/aura-clinic.jpg',
-  },
-  {
-    id: 'fortis-film',
-    name: 'Fortis Film',
-    category: 'Diğer',
-    label: 'Prodüksiyon',
-    subtitle: 'Prodüksiyon Portfolyo',
-    description:
-      'Medya ve kreatif film stüdyoları için hazırlanmış, video-galeri öncelikli portfolyo sitesi.',
-    href: 'https://fortisfilm.com/',
-    previewImage: '/projects/fortis-film.jpg',
-  },
-  {
-    id: 'bi-dua',
-    name: 'Bi Dua',
-    category: 'Diğer',
-    label: 'Mobil Uygulama',
-    subtitle: 'Mobil Tanıtım & Landing',
-    description:
-      'Bi Dua mobil uygulaması için kurgulanan, market yönlendirmeli ve kullanıcı edinim odaklı modern tanıtım sitesi.',
-    href: 'https://bidualanding.vercel.app/',
-    previewImage: '/projects/bi-dua.jpg',
-  },
-  {
-    id: 'ck-cosmeticks',
-    name: 'CK Cosmeticks',
-    category: 'Diğer',
-    label: 'Kozmetik',
-    subtitle: 'Makyaj & Parfüm',
-    description:
-      'CK Cosmeticks için tasarlanan bu modern web sitesi, ithal makyaj ve parfüm setlerini Türkiye geneline indirimli fiyatlarla ve güvenli online ödeme seçenekleriyle sunar.',
-    href: 'https://ck-cosmeticks.vercel.app/',
-    previewImage: '/projects/ck-cosmeticks.jpg',
-  },
-  {
-    id: 'maison',
-    name: 'MAISON',
-    category: 'E Ticaret',
-    label: 'E Ticaret',
-    subtitle: 'Giyim & Stil',
-    description:
-      'MAISON için tasarlanan bu zarif butik web sitesi, zamansız parçalar ve zahmetsiz şıklık sunarak kadınların kendi stillerini keşfetmelerini sağlıyor.',
-    href: 'https://maison-butik.vercel.app/',
-    previewImage: '/projects/maison.jpg',
+      'Düğün, moda ve ürün çekimi, etkileşimli filtreli fotoğraf galerisi ve stüdyo rezervasyon formu sunan kreatif vitrin.',
+    href: '/showcases/fotografci/index.html',
+    previewImage: '/projects/fotografci.jpg',
   },
 ]
 
 export const FEATURED_PROJECT_IDS = [
-  'pres-dis',
-  'gustav',
-  'sakli-cave-house',
-  'diyetoloji',
-  'ceren-sude',
-  'zenn-studio',
+  'berber',
+  'emlak',
+  'qr-menu',
+  'otel',
+  'kuafor',
+  'market',
 ]
 
-export const DEMO_PROJECTS = [
-  {
-    id: 'dedeli-konak',
-    name: 'Dedeli Konak',
-    category: 'Otelcilik',
-    subtitle: 'Ürgüp Mağara Oteli',
-    description:
-      "Dedeli Konak için tasarlanan bu demo, Kapadokya'daki mağara oteli deneyimini ve interaktif paket oluşturma aracını sunar.",
-    href: 'https://dedelikonak.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F67a65274-5555-462c-a1ce-a4717542ae26%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'berfin-yavuz',
-    name: 'Berfin Yavuz',
-    category: 'İç Mimarlık',
-    subtitle: 'İç Mimarlık Stüdyosu',
-    description:
-      'Berfin Yavuz için tasarlanan bu demo, modern iç mimarlık projelerini tanıtır ve interaktif bir proje teklif sihirbazı sunar.',
-    href: 'https://berfin-yavuz.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F1ad3cff3-4121-4fd8-af55-526b2ab940b6%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'evante',
-    name: 'Evante',
-    category: 'İç Giyim',
-    subtitle: 'İç Giyim ve Pijama',
-    description:
-      'Evante için tasarlanan bu demo, iç giyim ve pijama koleksiyonlarını sergilerken, interaktif bir sütyen beden rehberi sunar.',
-    href: 'https://avante-umber.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F17a2e5cd-177b-4b6b-a129-297160a7ee63%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'ren-kuyumculuk',
-    name: 'Ren Kuyumculuk',
-    category: 'Kuyumculuk',
-    subtitle: 'Duisburg Kuyumcu Atölyesi',
-    description:
-      'Ren Kuyumculuk için tasarlanan bu demo, özel tasarım takıları sergiler ve interaktif bir isim kolye tasarlama aracı sunar.',
-    href: 'https://ren-henna.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2Fd439b88e-6db7-4e65-a502-f21a2378e9c6%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'defne-akin',
-    name: 'Defne Akın',
-    category: 'Sağlık',
-    subtitle: 'Diyetisyenlik & Beslenme',
-    description:
-      'Dyt. Defne Akın için tasarlanan bu demo, kişiye özel beslenme programlarını, mevsimsel tarifleri ve online randevu alma imkanını sunar.',
-    href: 'https://defne-diyetisyen.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F8b60c0ad-c322-45cd-ac7b-2ee64f32bd1f%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'zeynep-aksoy',
-    name: 'Dyt. Zeynep Aksoy',
-    category: 'Beslenme',
-    subtitle: 'Diyetisyenlik & Beslenme Takibi',
-    description:
-      'Dyt. Zeynep Aksoy için tasarlanan bu demo, kişiye özel diyet programlarını, günlük öğün takibini ve diyetisyenle anlık iletişimi interaktif bir mobil uygulama üzerinden sunar.',
-    href: 'https://diyetisyen-zeynep.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F2d71d92e-2da5-4804-b85c-7aa693173ac2%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'umutlu-kent-psikoloji',
-    name: 'Umutlu Kent Psikoloji',
-    category: 'Psikoloji',
-    subtitle: 'Psikolojik Danışmanlık & Terapi',
-    description:
-      'Umutlu Kent Psikolojik Danışmanlık için tasarlanan bu platform, yetişkin, çift, çocuk ve ergenlere uzman klinik psikologlarla yüz yüze ve online terapi imkanı sunar.',
-    href: 'https://umutlukentpsikoloji.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fumutlukentpsikoloji.vercel.app%2Fimg%2Fhero-yatay.jpg&w=256&q=75',
-  },
-  {
-    id: 'umutlu-psikoloji',
-    name: 'Umutlu Kent Psikoloji',
-    category: 'Psikoloji',
-    subtitle: 'Psikoloji & Online Terapi',
-    description:
-      'Umutlu Kent Psikoloji için tasarlanan bu platform, yetişkin, çift, çocuk ve ergen terapisi sunarak online randevu ve takip imkanı sağlar.',
-    href: 'https://umutlupsikoloji.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2F7f7de579-2ef3-445c-82c7-43cd8fc0abd1%2Fmobile.jpg&w=256&q=75',
-  },
-  {
-    id: 'nox',
-    name: 'NOX',
-    category: 'Nitelikli Kahve',
-    subtitle: 'Nitelikli Kahve Kavurucusu',
-    description:
-      'NOX için tasarlanan bu demo, mikrolot kahve çekirdeklerini detaylı sunar ve damak zevkine göre çekirdek seçimi ile demleme tercihlerini interaktif olarak yapılandırma imkanı sunar.',
-    href: 'https://nox-coffee-gold.vercel.app/',
-    previewImage:
-      'https://www.eraslansoftware.com/_next/image?url=https%3A%2F%2Fthyhjlexsbldbexmgmzs.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fportfolio-previews%2Fe547f38c-3c7f-40c3-9edc-fa899a6837d0%2Fmobile.jpg&w=256&q=75',
-  },
-]
+export const DEMO_PROJECTS = PORTFOLIO_PROJECTS.map((project) => ({
+  id: project.id,
+  name: project.name,
+  category: project.label,
+  subtitle: project.subtitle,
+  description: project.description,
+  href: project.href,
+  previewImage: `/projects/${project.id}-mobile.jpg`,
+}))
 
 export const SERVICES = [
   {
@@ -562,7 +349,7 @@ export const FAQS = [
   {
     question: 'Bir web sitesi ne kadar tutar?',
     answer:
-      'Başlangıç fiyatları: Kişisel / portfolyo sitesi 9.000 ₺, Kurumsal web sitesi 9.000 ₺, E-ticaret sitesi 40.000 ₺, Özel web yazılımı / panel 50.000 ₺, Mobil uygulama (iOS + Android) 50.000 ₺. Orta kapsam +5.000 ₺, geniş kapsam +10.000 ₺; yönetim paneli ve ileri düzey SEO +3.000 ₺. Çoklu dil ve yapay zekâ özellikleri dahildir. Sayfadaki hesaplayıcı tahmini toplamı gösterir; kesin teklif proje kapsamı netleştikten sonra yazılı olarak paylaşılır.',
+      'Başlangıç fiyatları: Kişisel / portfolyo sitesi 9.000 ₺, Kurumsal web sitesi 9.000 ₺, E-ticaret sitesi 40.000 ₺, Özel web yazılımı / panel 50.000 ₺, Mobil uygulama (iOS + Android) 50.000 ₺. Orta kapsam +5.000 ₺, geniş kapsam +10.000 ₺; yönetim paneli ve ileri düzey SEO +3.000 ₺. Çoklu dil desteği dahildir. Sayfadaki hesaplayıcı tahmini toplamı gösterir; kesin teklif proje kapsamı netleştikten sonra yazılı olarak paylaşılır.',
   },
   {
     question: 'Site ne kadar sürede hazır olur?',
@@ -623,6 +410,5 @@ export const PRICING_SIZES = [
 export const PRICING_ADDONS = [
   { id: 'management', title: 'Yönetim paneli', description: 'İçeriklerinizi kendiniz güncelleyin', price: 3000 },
   { id: 'multilingual', title: 'Çoklu dil desteği', description: 'Birden fazla dilde yayın', price: 0 },
-  { id: 'ai', title: 'Yapay zekâ özelliği', description: 'İhtiyaca uygun yapay zekâ entegrasyonu', price: 0 },
   { id: 'advanced-seo', title: 'İleri düzey SEO', description: 'Teknik SEO çalışmaları', price: 3000 },
 ] as const

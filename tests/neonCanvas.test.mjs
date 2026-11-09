@@ -1,5 +1,5 @@
 /**
- * terneon/tests/neonCanvas.test.mjs
+ * tests/neonCanvas.test.mjs
  *
  * NeonCanvas, DPR ölçekleme ve canlı WhatsApp teklif özeti testleri.
  */
@@ -113,7 +113,7 @@ describe("Hero — öne çıkan proje vitrini", () => {
 
   it("Proje seçkisi, erişilebilir önceki/sonraki kontrolleriyle işler", () => {
     expect(heroSource).toContain("featuredProjects.length");
-    expect(showcaseProjectsSource.match(/slug: '/g)?.length).toBe(27);
+    expect(showcaseProjectsSource.match(/slug: '/g)?.length).toBe(33);
     expect(heroSource).toContain("aria-label=\"Önceki proje\"");
     expect(heroSource).toContain("aria-label=\"Sonraki proje\"");
     expect(heroSource).toContain("showProject(currentIndex + 1)");

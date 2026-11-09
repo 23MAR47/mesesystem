@@ -1,5 +1,5 @@
 /**
- * Sıfır-bağımlılık test koşucusu ve `@/` takma ad çözümleyicisi — Terneon birim testleri.
+ * Sıfır-bağımlılık test koşucusu ve `@/` takma ad çözümleyicisi — MESE SYSTEM birim testleri.
  *
  * Kullanım:
  *   import { describe, it, expect, run } from "./harness.mjs";
@@ -20,7 +20,7 @@ import { existsSync } from "node:fs";
 import { dirname, resolve as resolvePath, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// ── `@/` takma adı: terneon köküne eşle (Next.js tsconfig paths karşılığı) ──
+// ── `@/` takma adı: proje köküne eşle (Next.js tsconfig paths karşılığı) ──
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP_ROOT = resolvePath(HERE, "..");
 const CANDIDATES = [".ts", ".tsx", "/index.ts", "/index.tsx", ".js", ".mjs", ""];

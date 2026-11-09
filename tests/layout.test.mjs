@@ -1,7 +1,7 @@
 /**
- * terneon/tests/layout.test.mjs
+ * tests/layout.test.mjs
  *
- * Terneon sayfa ve düzen (layout) semantik bütünlük testleri.
+ * MESE SYSTEM sayfa ve düzen (layout) semantik bütünlük testleri.
  * Duplicate Header / Footer ve iç içe <main> etiketlerinin olmadığını doğrular.
  */
 

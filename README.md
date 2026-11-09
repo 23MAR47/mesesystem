@@ -1,4 +1,4 @@
-# Terneon
+# MESE SYSTEM
 
 Özgün dijital deneyimler ve yazılım çözümleri sunan tasarım stüdyosu sitesi +
 **interaktif fiyat hesaplayıcı**. Tek sayfalık, tamamen Türkçe bir pazarlama sitesi.
@@ -11,7 +11,7 @@ Sunucu API'si yok — statik/istemci tarafı bir Next.js uygulamasıdır.
 ## Hızlı başlangıç
 
 ```bash
-cd terneon
+cd mesesystem
 npm install
 npm run dev          # → http://localhost:3003
 ```
@@ -27,14 +27,14 @@ Paket kökünden (dört uygulamayı birlikte):
 
 ```bash
 node scripts/dev-all.mjs                 # 3001–3004
-node scripts/dev-all.mjs --only terneon
-node scripts/build-all.mjs --only terneon
+node scripts/dev-all.mjs --only mesesystem
+node scripts/build-all.mjs --only mesesystem
 ```
 
 ## Dizin yapısı
 
 ```
-terneon/
+mesesystem/
 ├── app/
 │   ├── layout.tsx          # kök yerleşim, meta
 │   ├── page.tsx            # tek sayfa — tüm bölümler
@@ -68,7 +68,7 @@ bu dosyada tutulur. Görünen fiyat hesaplayıcısı, hizmetler ve SSS içerikle
 
 ```ts
 export const siteConfig = {
-  brand: { name: "Terneon", tagline: "…", logoText: "T" },
+  brand: { name: "MESE SYSTEM", tagline: "…", logoText: "M" },
   contact: {
     phone: "+90 553 977 16 47",
     whatsapp: "905539771647",   // + ve boşluksuz — wa.me için
@@ -91,7 +91,7 @@ export const siteConfig = {
 
 1. **Proje türü** — portfolyo, kurumsal, e-ticaret, özel yazılım veya mobil uygulama.
 2. **Proje kapsamı** — küçük, orta veya geniş.
-3. **Ek hizmetler** — yönetim paneli, çoklu dil, yapay zekâ ve ileri düzey SEO.
+3. **Ek hizmetler** — yönetim paneli, çoklu dil desteği ve ileri düzey SEO.
 
 Toplam; proje türü, kapsam ve seçilen ek hizmetlerden hesaplanır. Standart teslimat
 ek ücret oluşturmaz; tutar `Intl.NumberFormat` ile Türkçe biçimde gösterilir.
@@ -102,7 +102,7 @@ ek ücret oluşturmaz; tutar `Intl.NumberFormat` ile Türkçe biçimde gösteril
 
 ```ts
 buildWhatsAppLink(siteConfig.contact.whatsapp, selection)
-// → https://wa.me/905539771647?text=Merhaba%20Terneon%2C%20…
+// → https://wa.me/905539771647?text=Merhaba%20MESE%20SYSTEM%2C%20…
 ```
 
 Hero, hesaplayıcı ve footer'daki WhatsApp butonları bu linki `wa.me` üzerinden açar.
@@ -150,23 +150,23 @@ bir sunucunun public dosyaları yeniden taraması için sunucuyu yeniden başlat
 ## Docker
 
 ```bash
-docker build -t terneon .
-docker run --rm -p 3003:3003 terneon
+docker build -t mesesystem .
+docker run --rm -p 3003:3003 mesesystem
 ```
 
 Veya paket kökünden dört servislik compose:
 
 ```bash
-docker compose up terneon     # port 3003
+docker compose up mesesystem     # port 3003
 ```
 
 ## Test
 
-Terneon saf istemci/SSG uygulamasıdır; sunucu API gövdesi üretmediği için
+MESE SYSTEM saf istemci/SSG uygulamasıdır; sunucu API gövdesi üretmediği için
 `qa/contracts/` şemaları kapsamı dışındadır. Kontrol edilenler:
 
 ```bash
-node qa/run-all.mjs --only terneon     # paket/dosya/izolelik sözleşmesi
+node qa/run-all.mjs --only mesesystem     # paket/dosya/izolelik sözleşmesi
 node scripts/status.mjs                # derleme + README + tests durumu
 ```
 

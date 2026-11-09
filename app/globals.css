@@ -110,3 +110,25 @@ body {
   color: #e7e5e4;
   background-color: #070a12;
 }
+
+@keyframes autoScrollMockup {
+  0% {
+    object-position: 50% 0%;
+  }
+  16% {
+    object-position: 50% 0%;
+  }
+  74% {
+    object-position: 50% 100%;
+  }
+  90% {
+    object-position: 50% 100%;
+  }
+  100% {
+    object-position: 50% 100%;
+  }
+}
+
+.animate-mockup-scroll {
+  animation: autoScrollMockup 6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
